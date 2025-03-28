@@ -13,7 +13,7 @@
             <div  class="form" >
                 <center>Créez votre compte</center>
 
-                <form action="../control/controlInscription.php" method="POST">
+                <form action="../controller/inscription.php" method="POST">
                       
                 <p>Veuillez remplir ce formulaire pour créer un compte</p>
                 <hr> 
@@ -21,27 +21,25 @@
                 <label for="name"><b>Nom</b></label>
                 <input type="text" placeholder="Entez votre nom" name="nom" required><br>
                 
-                <label for="email"><b>gmail</b></label> 
-                <input type="text" placeholder="Entez votre gmail" name="login" required><br>
+                <label for="email"><b>Gmail</b></label> 
+                <input type="text" placeholder="Entez votre gmail" name="email" required><br>
         
                 <label for="pwd"><b>Mot de passe</b></label>
                 <input type="password" placeholder="Entez votre mot de passe" name="password" required><br>
-        
-                <label for="psw-repeat"><b>Confirmez le mot de passe </b></label>
-                <input type="password" placeholder="Confirmez le mot de passe" name="pswRepeat" required><br>
                 
-                <select name="user_type" >
-                    <option value="user">client</option>
-                    <option value="admin">administrateur</option>
-                </select>
+                <label for=""><b>Numéro de télèphone</b></label> 
+                <input type="text" placeholder="Entez votre " name="tel" required><br>
+                
+                <label for="name"><b>Adresse</b></label>
+                <input type="text" placeholder="Entez votre " name="adresse" required><br>
+                
                 <hr>
         
-                <input type="submit" name="créer" value="créer" class="registerbutton">
-                <p>Vous avez déjà un compte?<a href="infsquare.php" > Se connecter maintenant</a></p>
+                <input type="submit" name="enregistrer" value="Enregistrer" class="registerbutton">
+                <p>Vous avez déjà un compte?<a href="connexion.php" > Se connecter maintenant</a></p>
             </form>     
             </div>
         </aside>
-    </section>
-    
+    </section>   
 </body>
 </html>

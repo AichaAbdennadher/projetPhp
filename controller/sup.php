@@ -1,6 +1,6 @@
 <?php
 require_once('../model/produit.class.php');
-$prod=new produit();
-$prod-> supprimerProduit($_GET['code']);
+$prod=new product();
+$prod-> supprimerProduit($_GET['id']);
 header('location:../view/listeProduit.php');
 ?>

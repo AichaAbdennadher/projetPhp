@@ -8,39 +8,32 @@
 <body>
 <?php
 require_once('../model/produit.class.php');
-$prod=new produit();
-$res=$prod->getProduit($_GET['code']);
+$prod=new product();
+$res=$prod->getProduit($_GET['id']);
 $data=$res->fetchAll(PDO::FETCH_ASSOC); //fetch all trj3 tableau assocative w fetch trj3 kn val
-$nom=$data[0]["nom"] ;
-$code=$data[0]["code"] ;
+$name=$data[0]["name"] ;
+$id=$data[0]["id"] ;
 $image= $data[0]["image"];//0:awl lig
 $description=$data[0]["description"] ;
-$prix= $data[0]["prix"];
-$quantite_stock = $data[0]["quantite_stock"];
-$couleur=$data[0]["couleur"] ;
-$taille=$data[0]["taille"] ;
+$price= $data[0]["price"];
+$stock = $data[0]["stock"];
 ?>
 <form method='post' action='../controller/modification.php'>
 <table>
-<tr><td>Code </td>
-<td><input type ="text" name ="code" value ="<?php echo $code ?> " readonly/></td></tr>
+<tr><td>Id </td>
+<td><input type ="text" name ="id" value ="<?php echo $id ?> " readonly/></td></tr>
 <tr><td>Nom </td>
-<td><input type ="text" name ="nom" value ="<?php echo $nom ?>" /></td></tr>
-<tr><td>Image</td>
-<td><input type ="text" name = "image" value ="<?php echo $image ?>"/>
+<td><input type ="text" name ="name" value ="<?php echo $name ?>" /></td></tr>
 <tr><td>Description</td>
 <td><input type ="text" name = "description" value ="<?php echo $description ?>" />
 <tr><td>Prix</td>
-<td><input type ="text" name = "prix" value ="<?php echo $prix ?>" />
+<td><input type ="text" name = "price" value ="<?php echo $price ?>" />
 <tr><td>Quantite de stock</td>
-<td><input type ="number" name = "quantite_stock" value ="<?php echo $quantite_stock ?>" />
-<tr><td>Couleur</td>
-<td><input type ="text" name = "couleur" value ="<?php echo $couleur ?>" />
-<tr><td>Taille</td>
-<td><input type ="text" name = "taille" value ="<?php echo $taille ?>" />
-</td></tr>
+<td><input type ="number" name = "stock" value ="<?php echo $stock ?>" />
+<tr><td>Image</td>
+<td><input type ="text" name = "image" value ="<?php echo $image ?>"/>
+</tr>
 <tr><td><input type ="submit" value= "modifier" /> </td>
-
 <td></td> </tr> </table> </form> 
 </body>
 </html>
