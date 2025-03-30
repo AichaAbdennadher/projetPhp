@@ -1,21 +1,17 @@
 <script src="https://cdn.tailwindcss.com"></script>
-</aside>
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <?php
 require_once('../model/produit.class.php');
 $prod=new product();
 $res=$prod->listProduits();
 ?>
-
-<button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
-   <span class="sr-only">Open sidebar</span>
-   <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-   <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
-   </svg>
-</button>
-
 <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
    <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-      <ul class="space-y-2 font-medium">
+   <div class="flex items-center space-x-2 mb-4">
+   <img src="../images/mark.png" alt="" class="w-16 h-16">
+   <h2 class="text-pink-600 font-bold">Glow & Glam</h2>
+   </div>
+   <ul class="space-y-2 font-medium">
          <li>
             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
@@ -46,18 +42,17 @@ $res=$prod->listProduits();
                <svg class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                   <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"/>
                </svg>
-               <span class="flex-1 ms-3 whitespace-nowrap">Users</span>
+               <span class="flex-1 ms-3 whitespace-nowrap">Customers</span>
             </a>
          </li>
-
       </ul>
    </div>
 </aside>
-
 <div class="p-4 sm:ml-64">
    <div class="p-4 ">
-      <div class="">
+      <div>
       <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
+      <!-- <div>rgtrh</div> -->
         <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
             <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
             <div class="w-full md:w-1/2">
@@ -73,48 +68,29 @@ $res=$prod->listProduits();
         </div>
     </form>
 </div>
-
-
-                <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-                    <button type="button" class="flex items-center justify-center text-white bg-pink-500 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
-                        <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
+<a href="#" onclick="openModal()" class="flex items-center justify-center text-white bg-pink-600 hover:bg-pink-700 focus:ring-4 focus:ring-pink-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+<svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
-                        </svg>
-                        Add product
-                    </button>
-                    
-                    <div class="flex items-center space-x-3 w-full md:w-auto">
-                        <div id="actionsDropdown" class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
-                            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="actionsDropdownButton">
-                                <li>
-                                    <a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Mass Edit</a>
-                                </li>
-                            </ul>
-                            <div class="py-1">
-                                <a href="#" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete all</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        </svg>    Add product
+</a>
+</div>
             </div>
           <div class="overflow-x-auto">
-   
   </div> 
-
-      
       <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
     <tr>
         <th scope="col" class="px-4 py-3">ID</th>
-        <th scope="col" class="px-4 py-3">Image</th>
+        <th scope="col" class="px-4 py-3">images</th>
         <th scope="col" class="px-4 py-3">Name</th>
         <th scope="col" class="px-4 py-3">Description</th>
         <th scope="col" class="px-4 py-3">Price</th>
         <th scope="col" class="px-4 py-3">Stock Quantity</th>
         <th scope="col" class="px-4 py-3">Actions</th>
+        </th>
     </tr>
 </thead>
-
         <tbody>
             <?php
             foreach ($res as $row) {
@@ -123,134 +99,187 @@ $res=$prod->listProduits();
                 // ID du produit
                 echo '<td class="px-4 py-3">' . $row[0] . '</td>';
 
-                // Image 
-                echo '<td class="px-4 py-3"><img src="' .$row[5]. '" alt="Image" class="w-10 h-10 rounded"></td>';
+                // images 
+                echo '<td class="px-5 py-4"><img src="../images/'.$row[5]. '" alt="image" class="w-12 h-11 rounded"></td>';
                 // Nom du produit
-               echo '   <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">'.$row[1].'</td>';
+               echo '<td class="px-4 py-2 font-normal text-gray-900 whitespace-nowrap dark:text-white">'.$row[1].'</td>';
                 // descr
                 echo '<td class="px-4 py-3">' . $row[2] . '</td>';
-
                 // Prix
-                echo '<td class="px-4 py-3 text-gray-900 dark:text-white font-medium">$' . $row[3]. '</td>';
-
+                echo '<td class="px-4 py-2 font-normal text-gray-900 whitespace-nowrap dark:text-white">';
+                echo '<span class="text-sm">' . $row[3] . '</span><span class="text-sm"> DTN</span>';
+                echo '</td>';                
                 // Quantité de stock
-                echo '<td class="px-4 py-3 font-medium text-gray-900 dark:text-white flex items-center">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mr-2 text-gray-400">
-                              <path d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z"/>
-                          </svg>
-                          ' .$row[4] . '
-                      </td>';
-
-                // Actions : Modifier / Supprimer
+                echo ' <td class="px-14 py-2 font-normal text-gray-900 whitespace-nowrap dark:text-white">' .$row[4] . '</td>';
                 echo '<td class="px-4 py-3">
-                
-                          <a href="modifForm.php?id=' .$row[0] . '" class="text-blue-500 hover:underline">Modifier</a> |
-                          <a href="../controller/sup.php?id=' . $row[0] . '" class="text-red-500 hover:underline" onclick="return confirm(\'Êtes-vous sûr de vouloir supprimer ce produit ?\');">Supprimer</a>
-                     <!-- Bouton avec une icône de suppression -->
-
-
-                          </td>';
-
-                echo '</tr>';
+                <!-- Bouton Modifier -->
+                <a href="modifForm.php?id=' .$row[0] .'">
+                    <span class="relative px-1 py-0.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md">
+                        <box-icon name="edit" color="gray" size="s"></box-icon>
+                    </span>
+                </a
+                <!-- Bouton Supprimer -->
+                <a href="../controller/sup.php?id=' . $row[0] . '" onclick="return confirm(\'Êtes-vous sûr de vouloir supprimer ce produit ?\');">
+                    <span class="relative px-1 py-0.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md  ">
+                        <box-icon name="trash" type="solid" color="rgb(225 114 114)" size="s"></box-icon>
+                    </span>
+                </a>
+              </td>';
+        echo '</tr>';
             }
             ?>
         </tbody>
     </table>
 </div>
+<?php
+// Appel à la fonction getPaginatedResults pour récupérer les données paginées
+$pagination = getPaginatedResults('products');  // Remplace 'products' par ta table
+$data = $pagination['data'];
+$total_pages = $pagination['total_pages'];
+$current_page = $pagination['current_page'];
+$items_per_page = 6;  // Nombre d'éléments par page
+$start_item = ($current_page - 1) * $items_per_page + 1;
+$end_item = min($current_page * $items_per_page, $total_pages );
+?>
+<nav class="flex flex-col items-start justify-between p-4 space-y-3 md:flex-row md:items-center md:space-y-0" aria-label="Table navigation">
+    <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
+        Showing
+        <span class="font-semibold text-gray-900 dark:text-white"><?php echo $start_item;?></span>
+        of
+        <span class="font-semibold text-gray-900 dark:text-white"><?php echo $total_pages ; ?></span>
+    </span>
+    <ul class="inline-flex items-stretch -space-x-px">
+        <!-- Lien Précédent -->
+        <?php if ($current_page > 1): ?>
+            <li>
+                <a href="?page=<?php echo $current_page - 1; ?>" class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    <span class="sr-only">Previous</span>
+                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                </a>
+            </li>
+        <?php else: ?>
+            <li>
+                <span class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 text-gray-400">
+                    <span class="sr-only">Previous</span>
+                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                </span>
+            </li>
+        <?php endif; ?>
+        <!-- Liens vers les pages -->
+        <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+            <li>
+                <a href="?page=<?php echo $i; ?>" class="flex bg-rose-50 items-center justify-center px-3 py-2 text-sm leading-tight <?php echo ($i == $current_page) ? 'border text-primary-600 bg-primary-50 border-primary-300 hover:bg-primary-100 hover:text-primary-700' : 'text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'; ?> ">
+                    <?php echo $i; ?>
+                </a>
+            </li>
+        <?php endfor; ?>
+        <!-- Lien Suivant -->
+        <?php if ($current_page < $total_pages): ?>
+            <li>
+                <a href="?page=<?php echo $current_page + 1; ?>" class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    <span class="sr-only">Next</span>
+                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                    </svg>
+                </a>
+            </li>
+        <?php else: ?>
+            <li>
+                <span class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 text-gray-400">
+                    <span class="sr-only">Next</span>
+                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                    </svg>
+                </span>
+            </li>
+        <?php endif; ?>
+    </ul>
+</nav>
+<script>
+function openModal() {
+    document.getElementById('crud-modal').classList.remove('hidden');
+}
+function closeModal() {
+    document.getElementById('crud-modal').classList.add('hidden');
+}
+</script>
+<!-- Modal Add product -->
+<div id="crud-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed inset-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
+<div class="relative p-4 w-[80%] max-w-2xl max-h-[90vh] h-auto">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow-lg dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-4 md:border-b rounded-t dark:border-gray-600 border-gray-200">
+                <h3 class="text-lg font-semibold text-pink-600 dark:text-white">
+                    Create New Product
+                </h3>
+                <button type="button" onclick="closeModal()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-pink-600 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="crud-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <form class="p-4 md:p-5" method="post" action="../controller/ajouterProduit.php" enctype="multipart/form-data">
+                <div class="grid gap-4 mb-4 grid-cols-2">
+                <div class="col-span-2">
+                        <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" >Id</label>
+                        <input type="text" name="id" id="id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-pink-600 dark:border-pink-500 dark:placeholder-pink-400 dark:text-white  focus:ring-pink-500 focus:border-pink-500 focus:p-2 focus:outline-none transition duration-200">
+                   </div>
+                    <div class="col-span-2">
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                        <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 
+              dark:bg-pink-600 dark:border-pink-500 dark:placeholder-pink-400 dark:text-white 
+              focus:ring-pink-500 focus:border-pink-500 focus:p-2 focus:outline-none transition duration-200" placeholder="Product name" required="">
+                    </div>
+                    <div class="col-span-2">
+                        <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                        <textarea name="description" rows="4" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 
+              dark:bg-pink-600 dark:border-pink-500 dark:placeholder-pink-400 dark:text-white 
+              focus:ring-pink-500 focus:border-pink-500 focus:p-2 focus:outline-none transition duration-200" placeholder="Write product description here"></textarea>                    
+                    </div>
+                    <div class="col-span-2 sm:col-span-1">
+                        <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
+                        <input type="text" name="price" id="price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 
+              dark:bg-pink-600 dark:border-pink-500 dark:placeholder-pink-400 dark:text-white 
+              focus:ring-pink-500 focus:border-pink-500 focus:p-2 focus:outline-none transition duration-200" placeholder="Product price" required="">
+                    </div>
+                    <div class="col-span-2 sm:col-span-1">
+                        <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Stock quantity</label>
+                        <input type="number" name="stock" min="1"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 
+              dark:bg-pink-600 dark:border-pink-500 dark:placeholder-pink-400 dark:text-white 
+              focus:ring-pink-500 focus:border-pink-500 focus:p-2 focus:outline-none transition duration-200" placeholder="Stock Quantity" required="">
+                    </div>
+                    <div class="col-span-2">
+                    <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Image</label>
 
-          <nav class="flex flex-col items-start justify-between p-4 space-y-3 md:flex-row md:items-center md:space-y-0" aria-label="Table navigation">
-              <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                  Showing
-                  <span class="font-semibold text-gray-900 dark:text-white">1-10</span>
-                  of
-                  <span class="font-semibold text-gray-900 dark:text-white">1000</span>
-              </span>
-              <ul class="inline-flex items-stretch -space-x-px">
-                  <li>
-                      <a href="#" class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                          <span class="sr-only">Previous</span>
-                          <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                              <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                          </svg>
-                      </a>
-                  </li>
-                  <li>
-                      <a href="#" class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
-                  </li>
-                  <li>
-                      <a href="#" class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
-                  </li>
-                  <li>
-                      <a href="#" aria-current="page" class="z-10 flex items-center justify-center px-3 py-2 text-sm leading-tight border text-primary-600 bg-primary-50 border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
-                  </li>
-                  <li>
-                      <a href="#" class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">...</a>
-                  </li>
-                  <li>
-                      <a href="#" class="flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">100</a>
-                  </li>
-                  <li>
-                      <a href="#" class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                          <span class="sr-only">Next</span>
-                          <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                          </svg>
-                      </a>
-                  </li>
-              </ul>
-          </nav>
-      </div>
-  </div>
-      </div>
-   </div>
-</div>
-
-<!-- <div class="grid grid-flow-col grid-rows-2">
-    <div class=" row-span-2 ">
-    <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
-   <span class="sr-only">Open sidebar</span>
-   <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-      <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
-   </svg>
-</button>
-
-<aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidenav">
-  <div class="overflow-y-auto py-5 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-      <ul class="space-y-2">
-          <li>
-              <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                  <svg aria-hidden="true" class="w-6 h-6 text-gray-400 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path></svg>
-                  <span class="ml-3">Overview</span>
-              </a>
-          </li>
-          <li>
-              <button type="button" class="flex items-center p-2 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="dropdown-pages" data-collapse-toggle="dropdown-pages">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-gray-400">
-  <path d="M5 3a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 2h14v14H5V5zm2 3h10v2H7V8zm0 4h10v2H7v-2zm0 4h10v2H7v-2z"/>
-</svg>
-
-                  <span class="flex-1 ml-3 text-left whitespace-nowrap">Products</span>
-              </button>
-         
-          </li>
-          <li>
-              <button type="button" class="flex items-center p-2 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="dropdown-sales" data-collapse-toggle="dropdown-sales">
-                  <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-400 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"></path></svg>
-                  <span class="flex-1 ml-3 text-left whitespace-nowrap">Orders</span>
-              </button>
-          
-          </li>
-          <li>
-              <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group-hover:text-gray-900  dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-gray-400"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                  <span class="flex-1 ml-3 whitespace-nowrap">Customers</span>
-              </a>
-          </li>
-      </ul>
-  </div>
-
+                    <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-50 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+    <div class="flex flex-col items-center justify-center pt-2 pb-2">
+        <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+        </svg>
+        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> </p>
+        <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+        <p id="file-name" class="mt-2 text-sm text-gray-700 dark:text-gray-300"></p>
     </div>
+    <input id="dropzone-file" type="file" class="hidden" />
+</label>
 
-    <section class="bg-gray-50 dark:bg-gray-900 sm:p-5 row-span-2 bg-gray-300 ">
-        
-   
+<script>
+    document.getElementById('dropzone-file').addEventListener('change', function(event) {
+        const fileName = event.target.files[0] ? event.target.files[0].name : "Aucun fichier sélectionné";
+        document.getElementById('file-name').textContent = fileName;
+    });
+</script>        
+                <div class="flex items-center justify-end p-4 mt-4 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <button data-modal-hide="large-modal"type="button" onclick="closeModal()"  class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-gray-300 rounded-lg border border-gray-200 hover:bg-gray-200 hover:text-pink-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Cancel</button>
+                <button data-modal-hide="large-modal" type="submit" class="text-white bg-pink-600 hover:bg-pink-700 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800">Save</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>

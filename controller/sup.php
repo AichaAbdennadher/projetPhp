@@ -2,5 +2,5 @@
 require_once('../model/produit.class.php');
 $prod=new product();
 $prod-> supprimerProduit($_GET['id']);
-header('location:../view/listeProduit.php');
+header('location:../view/listProduit.php');
 ?>
