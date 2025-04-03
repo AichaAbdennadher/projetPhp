@@ -7,12 +7,13 @@
         public $price;
         public $stock;  
         public $image;
+        public $category;
         
      function insertProduit(){
             require_once('config.php');
             $cnx = new connexion();
             $pdo =$cnx ->CNXbase();
-            $req= "INSERT into products (id,name,description,price,stock,image) values ($this->id,'$this->name','$this->description',$this->price,$this->stock,'$this->image')";
+            $req= "INSERT into products (id,name,description,price,stock,image,category) values ($this->id,'$this->name','$this->description',$this->price,$this->stock,'$this->image','$this->category')";
             $pdo->exec($req) or print_r($pdo->errorInfo());
 
     }
@@ -36,12 +37,21 @@
     $res=$pdo->query($req) or print_r($pdo->errorInfo());
     return $res;
     }
+    function getProduitsByCategorie($category)//lzmtni lil modif
+    {
+    require_once('config.php');
+    $cnx=new connexion();
+    $pdo=$cnx->CNXbase();
+    $req="SELECT * FROM products where category=$category";
+    $res=$pdo->query($req) or print_r($pdo->errorInfo());
+    return $res;
+    }
     function modifier_produit($id)
     {
     require_once('config.php');
     $cnx=new connexion();
     $pdo=$cnx->CNXbase();
-    $req="UPDATE products SET name='$this->name',description='$this->description',price=$this->price,stock=$this->stock,image='$this->image' WHERE id=$id";
+    $req="UPDATE products SET name='$this->name',description='$this->description',price=$this->price,stock=$this->stock,image='$this->image',category='$this->category' WHERE id=$id";
     $pdo->exec($req) or print_r($pdo->errorInfo());
     }
 function supprimerProduit($id){

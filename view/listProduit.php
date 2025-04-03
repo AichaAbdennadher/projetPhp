@@ -82,7 +82,8 @@ $res=$prod->listProduits();
     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
     <tr>
         <th scope="col" class="px-4 py-3">ID</th>
-        <th scope="col" class="px-4 py-3">images</th>
+        <th scope="col" class="px-4 py-3">image</th>
+        <th scope="col" class="px-4 py-3">Category</th>
         <th scope="col" class="px-4 py-3">Name</th>
         <th scope="col" class="px-4 py-3">Description</th>
         <th scope="col" class="px-4 py-3">Price</th>
@@ -101,6 +102,8 @@ $res=$prod->listProduits();
 
                 // images 
                 echo '<td class="px-5 py-4"><img src="../images/'.$row[5]. '" alt="image" class="w-12 h-11 rounded"></td>';
+                // catégorie
+                echo '<td class="px-4 py-3">' . $row[6] . '</td>';
                 // Nom du produit
                echo '<td class="px-4 py-2 font-normal text-gray-900 whitespace-nowrap dark:text-white">'.$row[1].'</td>';
                 // descr
@@ -118,17 +121,31 @@ $res=$prod->listProduits();
                         <box-icon name="edit" color="gray" size="s"></box-icon>
                     </span>
                 </a
-                <!-- Bouton Supprimer -->
-                <a href="../controller/sup.php?id=' . $row[0] . '" onclick="return confirm(\'Êtes-vous sûr de vouloir supprimer ce produit ?\');">
-                    <span class="relative px-1 py-0.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md  ">
+              
+                <a href="../controller/sup.php?id=' . $row[0] . '" >
+                    <span class="relative px-1 py-2.5 transition-all ease-in duration-75 dark:bg-gray-900 rounded-md  ">
                         <box-icon name="trash" type="solid" color="rgb(225 114 114)" size="s"></box-icon>
                     </span>
                 </a>
+
               </td>';
         echo '</tr>';
             }
             ?>
         </tbody>
+                   <!-- Bouton Modifier -->
+                   <!-- <a href="modifForm.php?id=<' .$row[0].'" onclick="openModal(event, '.$row[0].');">
+    <span class="relative px-1 py-2.5 transition-all ease-in duration-75 dark:bg-gray-900 rounded-md">
+        <box-icon name="edit" color="gray" size="s"></box-icon>
+    </span>
+</a>  -->
+<!-- -->
+                       <!-- Bouton Supprimer -->
+              <!-- <a href="#" onclick="openModalSupp(event,' .$row[0].' )">
+<span class="relative px-1 py-0.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md">
+        <box-icon name="trash" type="solid" color="rgb(225 114 114)" size="s"></box-icon>
+ </span>
+</a> -->
     </table>
 </div>
 <?php
@@ -207,7 +224,43 @@ function closeModal() {
     document.getElementById('crud-modal').classList.add('hidden');
 }
 
- 
+// function openModalSupp(productId) {
+//     let modal = document.getElementById("popup-modal");
+//     modal.classList.remove("hidden");
+//     modal.classList.add("flex");
+    
+//     // Mettre à jour l'ID du produit dans le bouton de confirmation
+//     document.querySelector('[onclick="confirmDelete(this)"]').setAttribute('data-id', productId);
+// }
+
+// function closeModalSupp() {
+//     let modal = document.getElementById("popup-modal");
+//     modal.classList.add("hidden");
+//     modal.classList.remove("flex");
+// }
+// function confirmDelete(button) {
+//     let productId = button.getAttribute("data-id");
+
+//     fetch(`../controller/sup.php?id=${productId}`, {
+//         method: "GET",
+//     })
+//     .then(response => response.text())
+//     .then(data => {
+//         console.log("Produit supprimé:", data);
+
+//         // Ferme le modal
+//         closeModalSupp();
+
+//         // Trouver l'élément produit avec l'ID et le supprimer
+//         let productElement = document.getElementById(`product-${productId}`);
+//         if (productElement) {
+//             productElement.remove();
+//         } else {
+//             console.error(`L'élément avec l'ID product-${productId} n'a pas été trouvé.`);
+//         }
+//     })
+//     .catch(error => console.error("Erreur suppression :", error));
+// }
 </script>
 <!-- Modal Add product -->
 <div id="crud-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed inset-0 z-50 flex items-center justify-center w-full h-full bg-black bg-opacity-50">
@@ -244,6 +297,16 @@ function closeModal() {
   dark:bg-pink-600 dark:border-pink-500 dark:placeholder-pink-400 dark:text-white 
   focus:ring-pink-500 focus:border-pink-500 focus:p-2 focus:outline-none transition duration-200" placeholder="Write product description here"></textarea>                    
         </div>
+        <div class="col-span-2">
+            <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
+            <select name="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                            <option selected="">Select category</option>
+                            <option value="Body care">Body care</option>
+                            <option value="Hair Care">Hair Care</option>
+                            <option value="Face Care">Face Care</option>
+                            <option value="Fragrance">Fragrance</option>
+                        </select>                    
+        </div>
         <div class="col-span-2 sm:col-span-1">
             <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
             <input type="text" name="price" id="price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 
@@ -257,6 +320,8 @@ function closeModal() {
   focus:ring-pink-500 focus:border-pink-500 focus:p-2 focus:outline-none transition duration-200" placeholder="Stock Quantity" required="">
         </div>
         <div class="col-span-2">
+        <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Image</label>
+
         <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-50 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
     <div class="flex flex-col items-center justify-center pt-2 pb-2">
         <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
@@ -264,12 +329,12 @@ function closeModal() {
         </svg>
         <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> </p>
         <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+        
+<!-- Zone pour afficher le nom du fichier sélectionné -->
+<p id="file-name" class="mt-2 text-sm text-gray-700 dark:text-gray-300"></p>
     </div>
     <input id="dropzone-file" type="file" name="image" class="hidden" />
 </label>
-
-<!-- Zone pour afficher le nom du fichier sélectionné -->
-<p id="file-name" class="mt-2 text-sm text-gray-700 dark:text-gray-300">No file selected</p>
 
 <script>
     document.getElementById('dropzone-file').addEventListener('change', function(event) {
@@ -277,10 +342,8 @@ function closeModal() {
         document.getElementById('file-name').textContent = fileName;
     });
 </script>
-
         </div>
 </div>
-
     <!-- Form submission -->
     <div class="flex items-center justify-end p-4 mt-4 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
         <button data-modal-hide="large-modal" type="button" onclick="closeModal()" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-gray-300 rounded-lg border border-gray-200 hover:bg-gray-200 hover:text-pink-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Cancel</button>
@@ -288,14 +351,31 @@ function closeModal() {
     </div>
 </form>
 
-<script>
-    // JavaScript to display the file name when a file is selected
-    document.getElementById('dropzone-file').addEventListener('change', function(event) {
-        const fileName = event.target.files[0] ? event.target.files[0].name : "No file selected";
-        document.getElementById('file-name').textContent = fileName;
-    });
-</script>
-
         </div>
     </div>
 </div>
+<!-- Modal delete -->
+<!-- <div id="popup-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+            <button type="button"  onclick="closeModalSupp()" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="popup-modal">
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+            </button>
+            <div class="p-4 md:p-5 text-center">
+                <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                </svg>
+                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this product?</h3>
+                <button data-modal-hide="popup-modal" type="button" onclick="confirmDelete(this)" data-id="ID_PRODUIT" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+    Yes, I'm sure
+</button>
+
+                <button data-modal-hide="popup-modal" type="button" onclick="closeModalSupp()" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">No, cancel</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+<!-- Modal update product -->
+
