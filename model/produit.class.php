@@ -7,13 +7,13 @@
         public $price;
         public $stock;  
         public $image;
-        public $category;
+        public $category_id ;
         
      function insertProduit(){
             require_once('config.php');
             $cnx = new connexion();
             $pdo =$cnx ->CNXbase();
-            $req= "INSERT into products (id,name,description,price,stock,image,category) values ($this->id,'$this->name','$this->description',$this->price,$this->stock,'$this->image','$this->category')";
+            $req= "INSERT into products (id,name,description,price,stock,image,category_id ) values ($this->id,'$this->name','$this->description',$this->price,$this->stock,'$this->image',$this->category_id )";
             $pdo->exec($req) or print_r($pdo->errorInfo());
 
     }
@@ -28,6 +28,7 @@
     $res=$pdo->query($req) or print_r($pdo->errorInfo());
     return $res;
     }
+   
     function getProduit($id)//lzmtni lil modif
     {
     require_once('config.php');
@@ -37,12 +38,12 @@
     $res=$pdo->query($req) or print_r($pdo->errorInfo());
     return $res;
     }
-    function getProduitsByCategorie($category)//lzmtni lil modif
+    function getProduitsByCategorie($category_id)//lzmtni lil modif
     {
     require_once('config.php');
     $cnx=new connexion();
     $pdo=$cnx->CNXbase();
-    $req="SELECT * FROM products where category=$category";
+    $req="SELECT * FROM products where category_id =$category_id";
     $res=$pdo->query($req) or print_r($pdo->errorInfo());
     return $res;
     }
@@ -51,7 +52,7 @@
     require_once('config.php');
     $cnx=new connexion();
     $pdo=$cnx->CNXbase();
-    $req="UPDATE products SET name='$this->name',description='$this->description',price=$this->price,stock=$this->stock,image='$this->image',category='$this->category' WHERE id=$id";
+    $req="UPDATE products SET name='$this->name',description='$this->description',price=$this->price,stock=$this->stock,image='$this->image',category_id =$this->category_id  WHERE id=$id";
     $pdo->exec($req) or print_r($pdo->errorInfo());
     }
 function supprimerProduit($id){

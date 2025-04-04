@@ -7,10 +7,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="aff.css">
 </head>
+
 <?php
 require_once('../model/produit.class.php');
 $prod=new product();
-$res=$prod->getProduitsByCategorie($category);
+$res=$prod->getProduitsByCategorie(category_id: $_GET['category_id']);
+$data=$res->fetchAll(PDO::FETCH_ASSOC); //fetch all trj3 tableau assocative w fetch trj3 kn val
+$name=$data[0]["name"] ;
+$id=$data[0]["id"] ;
+$image= $data[0]["image"];//0:awl lig
+$description=$data[0]["description"] ;
+$price= $data[0]["price"];
+$stock = $data[0]["stock"];
+$category = $data[0]["category_id"];
 ?>
 <body>
     <header>
@@ -21,10 +30,10 @@ $res=$prod->getProduitsByCategorie($category);
             </div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="../view/acceuil.php">Accueil</a></li>
-                    <li><a href="#">Visage</a></li>
-                    <li><a href="#">Corps</a></li>
-                    <li><a href="#">Cheveux</a></li>
+                    <li><a href="acceuil.php">Accueil</a></li>
+                    <li><a href="categorie.php?category_id =<?php echo $category_id  ?>">Visage</a></li>
+                    <li><a href="categorie.php?category_id =<?php echo $category_id  ?>">Corps</a></li>
+                    <li><a href="categorie.php?category_id =<?php echo $category_id  ?>">Cheveux</a></li>
                     <li><a href="#">Promotions</a></li>
                     <li><a href="#">Histoire</a></li>
                 </ul>
@@ -43,17 +52,18 @@ $res=$prod->getProduitsByCategorie($category);
     <!-- Grille de produits -->
     <div class="product-grid">
         <!-- Produit 1 -->
-        <div class="product">
-            <div class="product-image-container">
-                <img src="../images/45.jpeg" alt="Eau Florale de Rose De Damas" class="product-image">
-            </div>
-            <a href="../view/prod1.php" class="product-name-link">
-                <h3>Eau Florale de Rose De Damas</h3>
-            </a>
-            <p class="price">18.000 TND</p>
-            <button class="add-to-cart">Ajouter au panier</button>
-</div>
+
+    <div class="product">
+    <div class="product-image-container">
+    <img src="../imges/<?php echo $image ?>" alt="Eau Florale de Rose De Damas" class="product-image">
     </div>
+    <a href="prod.php?id=<?php echo $id ?>"  class="product-name-link">
+    <h3 ><?php echo $name ?></h3>
+    </a>
+    <p class="price"><?php echo $price ?> TND</p>
+    <button class="add-to-cart">Add to cart</button>
+    </div>
+
     </main>
     <footer>
         <div class="footer-section">

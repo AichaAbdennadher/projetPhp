@@ -18,6 +18,11 @@ require_once('../model/produit.class.php');
 $prod=new product();
 $res=$prod->listProduits();
 ?>
+<?php
+require_once('../model/category.class.php');
+$cat=new category();
+$result=$cat->listCategories();
+?>
 <body>
   <header class="ecom-header">
     <div class="header-main">
@@ -84,59 +89,20 @@ $res=$prod->listProduits();
           </li>
 
           <li class="menu-category">
-            <a href="#" class="menu-title">Visage</a>
-            <ul class="dropdown-list">
-              <li class="dropdown-item">
-                <a href="#">Nettoyants</a>
-              </li>
-              <li class="dropdown-item">
-                <a href="#">Hydrolats</a>
-              </li>
-              <li class="dropdown-item">
-                <a href="#">Sérums</a>
-              </li>
-              <li class="dropdown-item">
-                <a href="#">Crèmes</a>
-              </li>
-              <li class="dropdown-item">
-                <a href="#">Masques</a>
-              </li>
-            </ul>
+            <a href="categorie.php" class="menu-title">Visage</a>
           </li>
           
           <li class="menu-category">
-            <a href="frag.html" class="menu-title">Corps</a>
-            <ul class="dropdown-list">
-              <li class="dropdown-item">
-                <a href="#">Huiles végétales</a>
-              </li>
-              <li class="dropdown-item">
-                <a href="#">Gels douche</a>
-              </li>
-              <li class="dropdown-item">
-                <a href="#">Lait corporel</a>
-              </li>
-            </ul>
+            <a href="categorie.php" class="menu-title">Corps</a>
           </li>
           
           <li class="menu-category">
-            <a href="cheveaux.html" class="menu-title">Cheveux</a>
-            <ul class="dropdown-list">
-              <li class="dropdown-item">
-                <a href="#">Shampoings</a>
-              </li>
-              <li class="dropdown-item">
-                <a href="#">Masques</a>
-              </li>
-              <li class="dropdown-item">
-                <a href="#">Huiles</a>
-              </li>
-            </ul>
+            <a href="categorie.php" class="menu-title">Cheveux</a>
           </li>
 
-          <li class="menu-category">
+          <!-- <li class="menu-category">
             <a href="#" class="menu-title">Promotions</a>
-          </li>
+          </li> -->
           
           
         </ul>
@@ -154,7 +120,7 @@ $res=$prod->listProduits();
 
           
           <div class="slider-item">
-            <img src="../images/22.jpeg" alt="Soins visage naturels" class="banner-img">
+            <img src="../images/bio-cosmetique-620x350.jpg" alt="Soins visage naturels" class="banner-img">
             <div class="banner-content">
               <p class="banner-subtitle">Routine complète</p>
               <h2 class="banner-title">Soins visage naturels</h2>
@@ -180,35 +146,20 @@ $res=$prod->listProduits();
   <h1 class="main-title">NOS GAMME</h1>
       
 </section>  
-<div class="ranges-container">
-  <div class="range-item">
-      <a href="../view/prod1.php" class="range-link" aria-label="Découvrir les soins visage">
-          <img src="../images/22.jpeg" alt="Soin Visage" loading="lazy">
-          <div class="range-name">Soin Visage</div>
-      </a>
-  </div>
-  
-  <div class="range-item">
-      <a href="../view/frag.html" class="range-link" aria-label="Découvrir les soins corps">
-          <img src="../images/33.jpeg" alt="Soin Corps" loading="lazy">
-          <div class="range-name">Soin Corps</div>
-      </a>
-  </div>
-  
-  <div class="range-item">
-      <a href="../view/cheveaux.html" class="range-link" aria-label="Découvrir les soins cheveux">
-          <img src="../images/6.jpeg" alt="Soin Cheveux" loading="lazy">
-          <div class="range-name">Soin Cheveux</div>
-      </a>
-  </div>
-  
-  <div class="range-item">
-      <a href="../view/pro.html" class="range-link" aria-label="Découvrir nos fragrances">
-          <img src="../images/00.jpeg" alt="Fragrance" loading="lazy">
-          <div class="range-name">Fragrance</div>
-      </a>
-  </div>
-</div>
+<?php
+foreach ($result as $cat) {
+    echo '<div class="ranges-container">';
+    
+    echo '<div class="range-item">';
+    echo '<a href="categorie.php?category=' . $cat[0] . '" class="range-link" aria-label="Découvrir les soins visage">';
+    echo '<img src="../images/'.$cat[2].'" alt="Soin Visage" loading="lazy">';
+    echo '<div class="range-name">'.$cat[1].'</div>';
+    echo '</a>';
+    echo '</div>';
+    echo '</div>'; 
+}
+?>
+
   </div> 
   <div class="show-all-container">
     <a href="coffre.php" class="show-all-btn">decouvres nos gamme</a>
@@ -233,7 +184,7 @@ foreach ($res as $row) {
     echo '<div class="product-image-container">';
     echo '<img src="../images/' . $row[5] . '" alt="Eau Florale de Rose De Damas" class="product-image">';
     echo '</div>';
-    echo '<a href="prodController.php?id=' . $row[0] . '"  class="product-name-link">';
+    echo '<a href="prod.php?id=' . $row[0] . '"  class="product-name-link">';
     echo '<h3 >' . $row[1] . '</h3>';
     echo '</a>';
     echo '<p class="price">'.$row[3].' TND</p>';

@@ -6,15 +6,24 @@
     <title>Eau Florale de Rose de Damas - Floraison</title>
     <meta name="description" content="Eau florale de rose de Damas 100% pure pour une peau rajeunie et éclatante. Produit naturel aux multiples bienfaits.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../view/acceuil.html">
+    <link rel="stylesheet" href="../view/acceuil.php">
     <link rel="stylesheet" href="prod1.css">
     
 </head>
 <?php
 require_once('../model/produit.class.php');
 $prod=new product();
-$res=$prod->listProduits();
+$res=$prod->getProduit($_GET['id']);
+$data=$res->fetchAll(PDO::FETCH_ASSOC); //fetch all trj3 tableau assocative w fetch trj3 kn val
+$name=$data[0]["name"] ;
+$id=$data[0]["id"] ;
+$image= $data[0]["image"];//0:awl lig
+$description=$data[0]["description"] ;
+$price= $data[0]["price"];
+$stock = $data[0]["stock"];
+$category = $data[0]["category"];
 ?>
+
 <body>
     <header>
         <div class="header-container">
@@ -39,31 +48,26 @@ $res=$prod->listProduits();
         <div class="container">
             <div class="product-grid">
                 <div class="product-image-container">
-                    <img class="product-image" src="../images/45.jpeg" alt="Eau Florale de Rose de Damas - Flacon en verre" loading="lazy">
+                    <img class="product-image" src="../images/<?php echo $image ?>" alt="Eau Florale de Rose de Damas - Flacon en verre" loading="lazy">
                 </div>
-                <?php
-foreach ($res as $row) {
-    echo '<div class="product-details">';
-    // echo '<div class="product-image-container">';
-    // echo '<img src="../images/' . $row[5] . '" alt="Eau Florale de Rose De Damas" class="product-image">';
-    // echo '</div>';
-    // echo '<a href="prod.php?id=' . $row[0] . '"  class="product-name-link">';
-    echo '<h1 class="product-title">' . $row[1] . '</h1>';
-    echo '<div class="price-rating">';
-    echo '<p class="price-rating">'.$row[3].' TND</p>';
-    echo '<div class="rating">';
-    echo '<div class="stars">';
-    echo '<i class="fas fa-star"></i>';
-    echo '<i class="fas fa-star"></i>';
-    echo '<i class="fas fa-star"></i>';
-    echo '<i class="fas fa-star"></i>';
-    echo '<i class="fas fa-star"></i>';
-    echo '</div>';
-}
-?>       
+               
+
+    <div class="product-details">
+<h1 class="product-title"><?php echo $name ?></h1>
+<div class="price-rating">
+                        <p class="product-price"><?php echo $price ?> TND</p>
+<div class="rating">
+    <!-- <div class="stars">
+    <i class="fas fa-star"></i>
+    <i class="fas fa-star"></i>
+    <i class="fas fa-star"></i>
+    <i class="fas fa-star"></i>
+    <i class="fas fa-star"></i>
+    </div> -->
+  
             
-                            <span class="rating-value">5.0</span>
-                            <a href="#reviews" class="review-link">345 Avis</a>
+                            <!-- <span class="rating-value">5.0</span>
+                            <a href="#reviews" class="review-link">345 Avis</a> -->
                         </div>
                     </div>
 
@@ -80,10 +84,8 @@ foreach ($res as $row) {
                     <hr class="divider">
 
                     <div class="product-description">
-                        <p>
-                            Notre Eau florale de Rose de Damas est un ingrédient incontournable pour prévenir et lutter contre les signes du vieillissement cutané. Utilisée dans vos préparations ou pure, elle purifie, rafraîchit et adoucit la peau, la laissant éclatante de santé.
-                        </p>
-                        
+                        <p><?php echo $description ?></p>
+<!--                         
                         <h3>Bienfaits :</h3>
                         <ul class="benefits-list">
                             <li>Action anti-âge : aide à prévenir et atténuer rides et ridules</li>
@@ -91,7 +93,7 @@ foreach ($res as $row) {
                             <li>Adoucit et apaise les peaux sensibles</li>
                             <li>Hydrate et tonifie pour une peau souple</li>
                             <li>100% naturel et bio, sans additifs</li>
-                        </ul>
+                        </ul> -->
                     </div>
                 </div>
             </div>

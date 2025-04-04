@@ -23,7 +23,7 @@ function rechercherCart(){
     $res=$pdo->query($req) or print_r($pdo->errorInfo());
     return $res;
 }
-}
+
 function listCart()
 {
 require_once('config.php');
@@ -33,5 +33,5 @@ $pdo=$cnx->CNXbase();
 $req="SELECT * FROM cart";
 $res=$pdo->query($req) or print_r($pdo->errorInfo());
 return $res;
-}
+}}
 ?>

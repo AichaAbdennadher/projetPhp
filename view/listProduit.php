@@ -5,6 +5,11 @@ require_once('../model/produit.class.php');
 $prod=new product();
 $res=$prod->listProduits();
 ?>
+<?php
+require_once('../model/category.class.php');
+$cat=new category();
+$result=$cat->listCategories();
+?>
 <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
    <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
    <div class="flex items-center space-x-2 mb-4">
@@ -299,13 +304,20 @@ function closeModal() {
         </div>
         <div class="col-span-2">
             <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-            <select name="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                            <option selected="">Select category</option>
-                            <option value="Body care">Body care</option>
-                            <option value="Hair Care">Hair Care</option>
-                            <option value="Face Care">Face Care</option>
-                            <option value="Fragrance">Fragrance</option>
-                        </select>                    
+            <?php
+// Ouvrir le tag <select> avant la boucle
+echo '<select name="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">';
+
+// Boucle pour ajouter des options
+foreach ($result as $cat) {
+    echo '<option value="' . $cat[0] . '">' . $cat[1]. '</option>';
+}
+
+// Fermer le tag </select> après la boucle
+echo '</select>';
+?>
+
+                 
         </div>
         <div class="col-span-2 sm:col-span-1">
             <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
