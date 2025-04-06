@@ -4,6 +4,7 @@
         public $id;
         public $name;
         public $image;
+        public $description;
       
         function listCategories()
         {

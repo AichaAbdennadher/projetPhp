@@ -10,9 +10,8 @@
             require_once('config.php');
             $cnx = new connexion();
             $pdo =$cnx ->CNXbase();
-            $req= "INSERT into users (id,email,idProduct,quantity) values ($this->id,'$this->email',$this->idProduct,$this->quantity)";
+            $req= "INSERT into cart (email,idProduct,quantity) values ('$this->email',$this->idProduct,$this->quantity)";
             $pdo->exec($req) or print_r($pdo->errorInfo());
-
     }
 
 function rechercherCart(){

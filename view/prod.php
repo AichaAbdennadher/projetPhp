@@ -21,7 +21,7 @@ $image= $data[0]["image"];//0:awl lig
 $description=$data[0]["description"] ;
 $price= $data[0]["price"];
 $stock = $data[0]["stock"];
-$category = $data[0]["category"];
+// $category = $data[0]["category"];
 ?>
 
 <body>
@@ -45,6 +45,8 @@ $category = $data[0]["category"];
     </header>
 <body>
     <section class="product-section">
+    <form action="../controller/AddCart.php" method="POST">
+
         <div class="container">
             <div class="product-grid">
                 <div class="product-image-container">
@@ -57,17 +59,6 @@ $category = $data[0]["category"];
 <div class="price-rating">
                         <p class="product-price"><?php echo $price ?> TND</p>
 <div class="rating">
-    <!-- <div class="stars">
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
-    </div> -->
-  
-            
-                            <!-- <span class="rating-value">5.0</span>
-                            <a href="#reviews" class="review-link">345 Avis</a> -->
                         </div>
                     </div>
 
@@ -75,9 +66,26 @@ $category = $data[0]["category"];
                         <button class="btn btn-secondary">
                             <i class="far fa-heart"></i> Favoris
                         </button>
-                        
-                        <button class="btn btn-primary">
+                        <div class="quantity-selector">
+                                <button class="quantity-btn decrement" aria-label="Réduire la quantité">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
+                                    </svg>
+                                </button>
+
+                                <input type="number" class="quantity-input" value="1" min="1" aria-label="Quantité" name="quantity">
+                                <button class="quantity-btn increment" aria-label="Augmenter la quantité">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                                    </svg>
+                                </button>
+                                <input type="hidden" name="idProduct" value="<?php echo $id; ?>">
+                                </div>
+                        <button class="btn btn-primary" type="submit" name="action" value="add">
                             <i class="fas fa-shopping-cart"></i> Add to cart
+                        </button>
+                        <button class="btn btn-primary" >
+                            <i class="fas fa-shopping-cart"></i>Buy now
                         </button>
                     </div>
 
@@ -85,19 +93,13 @@ $category = $data[0]["category"];
 
                     <div class="product-description">
                         <p><?php echo $description ?></p>
-<!--                         
-                        <h3>Bienfaits :</h3>
-                        <ul class="benefits-list">
-                            <li>Action anti-âge : aide à prévenir et atténuer rides et ridules</li>
-                            <li>Purifie et rafraîchit la peau en profondeur</li>
-                            <li>Adoucit et apaise les peaux sensibles</li>
-                            <li>Hydrate et tonifie pour une peau souple</li>
-                            <li>100% naturel et bio, sans additifs</li>
-                        </ul> -->
+
                     </div>
                 </div>
             </div>
         </div>
+</form >
+
     </section>
     <footer>
         <div class="footer-section">

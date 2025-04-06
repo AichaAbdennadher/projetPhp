@@ -11,7 +11,7 @@
 <?php
 require_once('../model/produit.class.php');
 $prod=new product();
-$res=$prod->getProduitsByCategorie(category_id: $_GET['category_id']);
+$res=$prod->getProduitsByCategorie(category_id: $_GET['category']);
 $data=$res->fetchAll(PDO::FETCH_ASSOC); //fetch all trj3 tableau assocative w fetch trj3 kn val
 $name=$data[0]["name"] ;
 $id=$data[0]["id"] ;
@@ -20,6 +20,14 @@ $description=$data[0]["description"] ;
 $price= $data[0]["price"];
 $stock = $data[0]["stock"];
 $category = $data[0]["category_id"];
+?>
+<?php
+require_once('../model/category.class.php');
+$cat=new category();
+$result=$cat->listCategories();
+$data=$result->fetchAll(PDO::FETCH_ASSOC); 
+$nameC=$data[0]["name"] ;
+$descriptionC=$data[0]["description"] ;
 ?>
 <body>
     <header>
@@ -31,21 +39,19 @@ $category = $data[0]["category_id"];
             <nav class="main-nav">
                 <ul>
                     <li><a href="acceuil.php">Accueil</a></li>
-                    <li><a href="categorie.php?category_id =<?php echo $category_id  ?>">Visage</a></li>
-                    <li><a href="categorie.php?category_id =<?php echo $category_id  ?>">Corps</a></li>
-                    <li><a href="categorie.php?category_id =<?php echo $category_id  ?>">Cheveux</a></li>
+                    <li><a href="categorie.php?category =<?php echo $category_id  ?>">Visage</a></li>
+                    <li><a href="categorie.php?category =<?php echo $category_id  ?>">Corps</a></li>
+                    <li><a href="categorie.php?category =<?php echo $category_id  ?>">Cheveux</a></li>
                     <li><a href="#">Promotions</a></li>
                     <li><a href="#">Histoire</a></li>
                 </ul>
             </nav>
         </div>
     </header>
-
     <main>
-        <section class="products-header">
-            <h2>Soin Corps</h2>
-            <p>Offrez-vous une expérience sensorielle unique avec nos soins corporels bio. Nos beurres corporels fondent sur la peau, libérant des parfums délicats qui vous transportent. Complétez votre rituel avec nos gels douche onctueux et nos toniques revitalisants.</p>
-            <!-- Les produits seront ajoutés ici dynamiquement -->
+ <section class="products-header">
+            <h2><?php echo $nameC ?></h2>
+            <p><?php echo $descriptionC ?></p>
         </section>
         <!-- Conteneur principal avec grille de produits -->
   <div class="products-container">

@@ -7,13 +7,13 @@
         public $price;
         public $stock;  
         public $image;
-        public $category_id ;
+        public $category_id;
         
      function insertProduit(){
             require_once('config.php');
             $cnx = new connexion();
             $pdo =$cnx ->CNXbase();
-            $req= "INSERT into products (id,name,description,price,stock,image,category_id ) values ($this->id,'$this->name','$this->description',$this->price,$this->stock,'$this->image',$this->category_id )";
+            $req= "INSERT into products (name,description,price,stock,image,category_id ) values ('$this->name','$this->description',$this->price,$this->stock,'$this->image',$this->category_id )";
             $pdo->exec($req) or print_r($pdo->errorInfo());
 
     }
@@ -38,6 +38,14 @@
     $res=$pdo->query($req) or print_r($pdo->errorInfo());
     return $res;
     }
+    function rechercherProduit(){ // lzmtni lil ajout
+        require_once('config.php');
+        $cnx = new connexion();
+        $pdo =$cnx ->CNXbase();
+        $req= "SELECT count(*) from products where id=$this->id";
+        $res=$pdo->query($req) or print_r($pdo->errorInfo());
+        return $res;
+    }
     function getProduitsByCategorie($category_id)//lzmtni lil modif
     {
     require_once('config.php');
@@ -47,6 +55,23 @@
     $res=$pdo->query($req) or print_r($pdo->errorInfo());
     return $res;
     }
+    function getProduitByNom() {
+        require_once('config.php');
+        $cnx = new connexion();
+        $pdo = $cnx->CNXbase();
+    
+        // Sanitize the input
+        $name = htmlspecialchars($this->name);
+        
+        // Prepared statement for safer SQL execution
+        $req = "SELECT * FROM products WHERE name LIKE :name";
+        $stmt = $pdo->prepare($req);
+        $stmt->bindValue(':name', '%' . $name . '%');
+        $stmt->execute();
+        
+        return $stmt;
+    }
+    
     function modifier_produit($id)
     {
     require_once('config.php');
@@ -61,15 +86,6 @@ function supprimerProduit($id){
     $pdo =$cnx ->CNXbase();
     $req= "DELETE from products where id=$id" ;
     $pdo->exec($req) or print_r($pdo->errorInfo());
-}
-function rechercherProduit(){ // lzmtni lil ajout
-    require_once('config.php');
-    $cnx = new connexion();
-    $pdo =$cnx ->CNXbase();
-    $req= "SELECT count(*) from products where id=$this->id" ;
-    $res=$pdo->query($req) or print_r($pdo->errorInfo());
-    return $res;
-}
 }
 function getPaginatedResults($table, $items_per_page = 10) {
     require_once('config.php');
@@ -101,7 +117,7 @@ function getPaginatedResults($table, $items_per_page = 10) {
         'total_pages' => $total_pages,
         'current_page' => $current_page
     ];
+
 }
-
-
+    }
 ?>

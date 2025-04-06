@@ -5,13 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Floraison - Cosmétiques Bio</title>
     <link rel="shortcut icon" href="./view/images/logo.jpeg" type="image/x-icon">
-    <link rel="stylesheet" href="admin1.css">
+    <link rel="stylesheet" href="../view/admin1.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Style spécifique pour l'icône favoris */
+        .heart-icon .fas {
+            color: #f78bca;
+            transition: all 0.3s ease;
+        }
+        
+        .heart-icon:hover .fas {
+            color: #d45d9a;
+            transform: scale(1.1);
+        }
+    </style>
+   <style>
+        .ranges-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 800px;
+            margin: 30px auto;
+        }
+        .range-item {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+        .range-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .range-item img {
+            max-width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .main-title {
+            text-align: center;
+            margin: 40px 0 20px;
+            font-size: 2.2em;
+            color: #2c3e50;
+        }
+    </style>
 </head>
 <?php
 require_once('../model/produit.class.php');
@@ -32,7 +74,7 @@ $result=$cat->listCategories();
           <img src="../images/666.jpeg" alt="Floraison Logo" width="90" height="50" loading="lazy" class="logo-img">
           <div class="logo-text">
             <span class="main-logo">Floraison</span>
-            <span class="sub-logo">Beauté Naturelle</span>
+            <span class="sub-logo">Natural Beauty</span>
           </div>
         </a>
 
@@ -52,155 +94,214 @@ $result=$cat->listCategories();
           </form>
         </div>
 
-        <!-- Navigation icônes avec dropdown -->
         <nav class="icon-nav">
-          <div class="nav-wrapper">
-            <a href="#" class="icon-link cart-icon" aria-label="Panier">
-              <i class="fas fa-shopping-cart icon-3d"></i>
-             
-            </a>
-            
-            <div class="account-dropdown">
-              <a href="#" class="icon-link account-icon" aria-label="Mon compte">
-                <i class="fas fa-user-circle icon-c"></i>
-              </a>
-              <div class="dropdown-menu">
-                <a href="#">Mon profil</a>
-                <a href="#">Mes commandes</a>
-                <a href="#">Se déconnecter</a>
-              </div>
-            </div>
-            
-            <button class="mobile-menu-btn" aria-label="Menu mobile">
-              <i class="fas fa-bars"></i>
-            </button>
-          </div>
-        </nav>
+  <div class="nav-wrapper">
+    <!-- Icône Favoris ajoutée ici -->
+    <a href="#" class="icon-link" aria-label="Favoris">
+      <i class="fas fa-heart"></i>
+    </a>
+    
+    <a href="#" class="icon-link cart-icon" aria-label="Panier">
+      <i class="fas fa-shopping-cart"></i>
+    </a>
+    
+    <div class="account-dropdown">
+      <a href="#" class="icon-link account-icon" aria-label="Mon compte">
+        <i class="fas fa-user-circle"></i>
+      </a>
+      <div class="dropdown-menu">
+        <a href="#">Mon profil</a>
+        <a href="#">Mes commandes</a>
+        <a href="#">Se déconnecter</a>
       </div>
     </div>
-  </header>
-
-
+    
+    <button class="mobile-menu-btn" aria-label="Menu mobile">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</nav>
+      </div>
+    </div>
     <nav class="desktop-navigation-menu">
       <div class="container">
         <ul class="desktop-menu-category-list">
           <li class="menu-category">
-            <a href="acceuil.php" class="menu-title">Accueil</a>
+            <a href="#" class="menu-title">Accueil</a>
           </li>
 
-           <?php
-foreach ($result as $cat) {
-    echo'      <li class="menu-category">';
-        echo'    <a href="categorie.php?category=' . $cat[0] . '" class="menu-title">'.$cat[1].'</a>';
-      echo'    </li>';
+          <li class="menu-category">
+            <a href="categorie.php" class="menu-title">Face</a>
+          </li>
           
-    
+          <li class="menu-category">
+            <a href="categorie.php" class="menu-title">Body</a>
+          </li>
+          
+          <li class="menu-category">
+            <a href="categorie.php" class="menu-title">Hair</a>
+          </li>
 
-}
-?> 
-    <li class="menu-category">
-            <a href="contac.php" class="menu-title">Contact</a>
-          </li>       
+          <!-- <li class="menu-category">
+            <a href="#" class="menu-title">Promotions</a>
+          </li> -->
+          
           
         </ul>
       </div>
-
-  </header>
   
-  <!-- MAIN -->
-  <main>
+  </header>
+    <!-- MAIN -->
+    <main>
     <!-- BANNER -->
     <div class="banner">
       <div class="container">
         <div class="slider-container has-scrollbar">
            
-
-          
           <div class="slider-item">
             <img src="../images/bio-cosmetique-620x350.jpg" alt="Soins visage naturels" class="banner-img">
             <div class="banner-content">
               <p class="banner-subtitle">Routine complète</p>
-              <h2 class="banner-title">Soins visage naturels</h2>
-              <a href="affiche.php" class="banner-btn">Voir les produits</a>
+              <h2 class="banner-title">Natural facial care</h2>
+              <a href="affiche.php" class="banner-btn">View products</a>
             </div>
           </div>
 
-        
+          <div class="slider-item">
+            <img src="../images/7.jpeg" alt="Promotions spéciales" class="banner-img">
+            <div class="banner-content">
+              <p class="banner-subtitle">Économisez jusqu'à 30 %</p>
+              <h2 class="banner-title">Special promotions</h2>
+              <a href="#" class="banner-btn">Take advantage of the offers</a>
+            </div>
+          </div>
         </div>
       </div>
        
     </div>
     </div>
-<!-- Section Nos Gammes -->
-<section class="products-header">
-  <h1 class="main-title">NOS GAMME</h1>
-      
-</section>  
-<?php
-foreach ($result as $cat) {
-    echo '<div class="ranges-container">';
     
-    echo '<div class="range-item">';
-    echo '<a href="categorie.php?category=' . $cat[0] . '" class="range-link" aria-label="Découvrir les soins visage">';
-    echo '<img src="../images/'.$cat[2].'" alt="Soin Visage" loading="lazy">';
-    echo '<div class="range-name">'.$cat[1].'</div>';
-    echo '</a>';
-    echo '</div>';
-    echo '</div>'; 
-}
-?>
-  </div> 
+    <style>
+        .ranges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .range-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        .range-item:hover {
+            transform: translateY(-5px);
+        }
+        .range-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        .range-name {
+            padding: 15px;
+            text-align: center;
+            background: #f8f9fa;
+            font-weight: bold;
+        }
+        .main-title {
+            text-align: center;
+            margin: 30px 0;
+            font-size: 2rem;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1 class="main-title">Nos Catégories</h1>
+        
+        <div class="ranges-grid">
+            <?php 
+            // Debug : vérifiez les données
+            // var_dump($categories);
+            
+            foreach($categories as $category): ?>
+            <div class="range-item">
+                <a href="categorie.php?category_id=<?php echo $category['id']; ?>">
+                    <img src="../images/<?php echo htmlspecialchars($category['image']); ?>" 
+                         alt="<?php echo htmlspecialchars($category['name']); ?>"
+                         onerror="this.src='../images/default.jpg'">
+                    <div class="range-name"><?php echo htmlspecialchars($category['name']); ?></div>
+                </a>
+            </div>
+            <?php endforeach; ?>
+        </div>
+    </main>
+
+  
+
+    
+
     <section class="products-header">
-      <h1 class="main-title">NOS PRODUITS</h1>
-      <p class="subtitle">Les Meilleurs Ventes</p>
-      
-    </section>
+    <h1 class="main-title">OUR PRODUCTS</h1>
+    <p class="subtitle">Best Sellers</p>
+</section>
 
-  <!-- Conteneur principal avec grille de produits -->
-  <div class="products-container">
-      <!-- Grille de produits -->
-      <div class="product-grid">
-          <!-- Produit 1 -->
-          <div class="product">
-          <?php
-foreach ($res as $row) {
-    echo '<div class="product">';
-    echo'<form action="../controller/AddCart.php" method="POST">';
-    echo '<div class="product-image-container">';
-    echo '<img src="../images/' . $row[5] . '" alt="Eau Florale de Rose De Damas" class="product-image">';
-    echo '</div>';
-    echo '<a href="prod.php?id=' . $row[0] . '"  class="product-name-link" name="idProduct">';
-    echo '<h3 >' . $row[1] . '</h3>';
-    echo '</a>';
-    echo '<p class="price">'.$row[3].' TND</p>';
+<!-- Conteneur principal avec grille de produits -->
+<div class="products-container">
+    <!-- Grille de produits -->
+    <div class="product-grid">
+        <?php
+        $counter = 0;
+        // On utilise fetchAll() pour convertir le PDOStatement en tableau
+        $products = $res->fetchAll(PDO::FETCH_ASSOC);
+        
+        foreach ($products as $row) {
+            if ($counter >= 8) break; // On limite à 8 produits
+            
+            echo '<div class="product">';
+            echo '<div class="product-image-container">';
+            echo '<img src="../images/' . htmlspecialchars($row['image']) . '" alt="' . htmlspecialchars($row['name']) . '" class="product-image">';
+            echo '</div>';
+            echo '<a href="prod.php?id=' . htmlspecialchars($row['id']) . '" class="product-name-link">';
+            
+            echo '<h3>' . htmlspecialchars($row['name']) . '</h3>';
+            echo '</a>';
+            echo '<p class="price">' . htmlspecialchars($row['price']) . ' TND</p>';
+            echo '<button class="add-to-cart">Add to cart</button>';
+            echo '</div>';
+            
+            $counter++;
+        }
+        ?>
+    </div> <!-- Fin de product-grid -->
 
-echo'<button type="submit" class="add-to-cart" name="add_to_cart">Add to cart</button></form> ';
-   echo '</div>'; // Fermeture de la div du produit
-}
-?>       
-      </div>
-
-      <!-- Bouton "Tout afficher" -->
-      <div class="show-all-container">
-        <a href="affiche.php" class="show-all-btn">Tout afficher</a>
+    <!-- Bouton "Tout afficher" seulement s'il y a plus de 8 produits -->
+    <?php if (count($products) > 8): ?>
+    <div class="show-all-container">
+        <a href="affiche.php" class="show-all-btn">Show all</a>
     </div>
-  </div>
+    <?php endif; ?>
+</div>
+
+
+
   <section class="products-header">
-    <h1 class="main-title">FABRICATION TUNISIENNE</h1>
+    <h1 class="main-title">TUNISIAN MANUFACTURE</h1>
     
   <div class="main-text">
-      C'est l'une de nos plus belles fiertés, tous nos produits sont conçus en Tunisie. Nous nous sommes accompagnés de savoir-faire locaux pour élaborer chacune de nos formulations.
+  It's one of our greatest prides: all our products are designed in Tunisia. We've drawn on local expertise to define each of our formulations.
   </div>
   
   <div class="certifications-container">
     <div class="certification">
         <img src="../images/0.webp" class="prod-image">
-        <div class="certification-title">AGRICULTURE BIOLOGIQUE</div>
+        <div class="certification-title">ORGANIC FARMING</div>
     </div>
     
     <div class="certification">
         <img src="../images/33.webp" class="prod-image">
-        <div class="certification-title">AB - Agriculture Biologique</div>
+        <div class="certification-title">AB - Organic Agriculture</div>
     </div>
     
     <div class="certification">
