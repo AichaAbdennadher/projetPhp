@@ -23,6 +23,11 @@ require_once('../model/category.class.php');
 $cat=new category();
 $result=$cat->listCategories();
 ?>
+<?php
+require_once('../model/category.class.php');
+$cate=new category();
+$resultCat=$cate->listCategories();
+?>
 <body>
   <header class="ecom-header">
     <div class="header-main">
@@ -94,12 +99,12 @@ foreach ($result as $cat) {
         echo'    <a href="categorie.php?category=' . $cat[0] . '" class="menu-title">'.$cat[1].'</a>';
       echo'    </li>';
           
-    
+  
 
 }
 ?> 
     <li class="menu-category">
-            <a href="contac.php" class="menu-title">Contact</a>
+            <a href="contact.php" class="menu-title">Contact</a>
           </li>       
           
         </ul>
@@ -137,13 +142,13 @@ foreach ($result as $cat) {
       
 </section>  
 <?php
-foreach ($result as $cat) {
+foreach ($resultCat as $cate) {
     echo '<div class="ranges-container">';
     
     echo '<div class="range-item">';
-    echo '<a href="categorie.php?category=' . $cat[0] . '" class="range-link" aria-label="Découvrir les soins visage">';
-    echo '<img src="../images/'.$cat[2].'" alt="Soin Visage" loading="lazy">';
-    echo '<div class="range-name">'.$cat[1].'</div>';
+    echo '<a href="categorie.php?category=' . $cate[0] . '" class="range-link" aria-label="Découvrir les soins visage">';
+    echo '<img src="../images/'.$cate[2].'" alt="Soin Visage" loading="lazy">';
+    echo '<div class="range-name">'.$cate[1].'</div>';
     echo '</a>';
     echo '</div>';
     echo '</div>'; 

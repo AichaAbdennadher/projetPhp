@@ -24,8 +24,8 @@ $category = $data[0]["category_id"];
 <?php
 require_once('../model/category.class.php');
 $cat=new category();
-$result=$cat->listCategories();
-$data=$result->fetchAll(PDO::FETCH_ASSOC); 
+$result=$cat->getCategory(id: $_GET['category']);
+$data=$result->fetchAll(PDO::FETCH_ASSOC); //fetch all trj3 tableau assocative w fetch trj3 kn val
 $nameC=$data[0]["name"] ;
 $descriptionC=$data[0]["description"] ;
 ?>
