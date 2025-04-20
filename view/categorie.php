@@ -12,14 +12,7 @@
 require_once('../model/produit.class.php');
 $prod=new product();
 $res=$prod->getProduitsByCategorie(category_id: $_GET['category']);
-$data=$res->fetchAll(PDO::FETCH_ASSOC); //fetch all trj3 tableau assocative w fetch trj3 kn val
-$name=$data[0]["name"] ;
-$id=$data[0]["id"] ;
-$image= $data[0]["image"];//0:awl lig
-$description=$data[0]["description"] ;
-$price= $data[0]["price"];
-$stock = $data[0]["stock"];
-$category = $data[0]["category_id"];
+
 ?>
 <?php
 require_once('../model/category.class.php');
@@ -57,18 +50,25 @@ $descriptionC=$data[0]["description"] ;
   <div class="products-container">
     <!-- Grille de produits -->
     <div class="product-grid">
-        <!-- Produit 1 -->
+    <!-- Produit 1 -->
+    <?php
+    foreach ($res as $c) {
+        ?>
+        <div class="product">
+            <div class="product-image-container">
+                <img src="../images/<?php echo $c[5]; ?>" class="product-image">
+            </div>
+            <a href="prod.php?id=<?php echo $c[0]; ?>" class="product-name-link">
+                <h3><?php echo $c[1]; ?></h3>
+            </a>
+            <p class="price"><?php echo $c[3]; ?> TND</p>
+            <button class="add-to-cart">Add to cart</button>
+        </div>
+        <?php
+    }
+    ?>
+</div>
 
-    <div class="product">
-    <div class="product-image-container">
-    <img src="../imges/<?php echo $image ?>" alt="Eau Florale de Rose De Damas" class="product-image">
-    </div>
-    <a href="prod.php?id=<?php echo $id ?>"  class="product-name-link">
-    <h3 ><?php echo $name ?></h3>
-    </a>
-    <p class="price"><?php echo $price ?> TND</p>
-    <button class="add-to-cart">Add to cart</button>
-    </div>
 
     </main>
     <footer>
