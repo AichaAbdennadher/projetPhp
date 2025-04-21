@@ -2,10 +2,21 @@
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <?php
 include("aside.php");
+// Pagination
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$items_per_page = 5;  // Nombre d'éléments par page
+$offset = ($page - 1) * $items_per_page;  ////Calcul de l’offset pour savoir à partir de quel produit commencer à afficher.
 require_once('../model/produit.class.php');
-$prod=new product();
-$res=$prod->listProduits();
-?>
+$prod = new product();
+$data = $prod->getPaginatedProducts($items_per_page, offset: $offset); // Récupère les produits paginés
+// Total des produits
+$total_items = $prod->getTotalProducts();
+$total_pages = ceil($total_items / $items_per_page);
+
+// Calcul de début et fin affichés
+$start_item = $offset + 1;
+$end_item = min($offset + $items_per_page, $total_items);
+?> 
 <div class="p-4 sm:ml-64">
    <div class="p-4 ">
       <div>
@@ -79,37 +90,80 @@ $res=$prod->listProduits();
                 echo '</tr>';
             }
         } else {
-            // Afficher les produits initiaux si aucune recherche
-            foreach ($res as $row) {
-                echo '<tr class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700" id="product-' . $row[0] . '">';
-                echo '<td class="px-4 py-3">' . $row[0] . '</td>';
-                echo '<td class="px-5 py-4"><img src="../images/'.$row[5]. '" alt="image" class="w-12 h-11 rounded"></td>';
-                echo '<td class="px-4 py-3">' . $row[6] . '</td>';
-                echo '<td class="px-4 py-2 font-normal text-gray-900 whitespace-nowrap dark:text-white">'.$row[1].'</td>';
-                echo '<td class="px-4 py-3">' . $row[2] . '</td>';
-                echo '<td class="px-4 py-2 font-normal text-gray-900 whitespace-nowrap dark:text-white">' . $row[3] . ' DTN</td>';
-                echo ' <td class="px-14 py-2 font-normal text-gray-900 whitespace-nowrap dark:text-white">' . $row[4] . '</td>';
-                echo '<td class="px-4 py-3"><a href="javascript:void(0);" onClick="openModalUpdate('. $row[0].')">
-                <span class="relative px-1 py-0.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md">
-                    <box-icon name="edit" color="gray" size="s"></box-icon>
-                </span>
-            </a>
+                    // Afficher les produits initiaux si aucune recherche
+                    foreach ($data as $row) {
 
-                     <a href="javascript:void(0);" onClick="openModalSupp('. $row[0].')">
-    <span class="relative px-1 py-2.5 transition-all ease-in duration-75 dark:bg-gray-900 rounded-md">
-        <box-icon name="trash" type="solid" color="rgb(225 114 114)" size="s"></box-icon>
-    </span>
-</a>
-                      </td>';
-                echo '</tr>';
-            }
-        }
-        ?>
-    </tbody>
-</table>
-
+                        echo '<tr class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700" id="product-' . $row["id"] . '">';
+                        echo '<td class="px-4 py-3">' . $row["id"] . '</td>';
+                        echo '<td class="px-5 py-4"><img src="../images/'.$row["image"]. '" alt="image" class="w-12 h-11 rounded"></td>';
+                        echo '<td class="px-4 py-3">' . $row["category_id"] . '</td>';
+                        echo '<td class="px-4 py-2 font-normal text-gray-900 whitespace-nowrap dark:text-white">'.$row["name"].'</td>';
+                        echo '<td class="px-4 py-3">' . $row["description"] . '</td>';
+                        echo '<td class="px-4 py-2 font-normal text-gray-900 whitespace-nowrap dark:text-white">' . $row["price"] . ' DTN</td>';
+                        echo ' <td class="px-14 py-2 font-normal text-gray-900 whitespace-nowrap dark:text-white">' . $row["stock"] . '</td>';
+                        echo '<td class="px-4 py-3"><a href="javascript:void(0);" onClick="openModalUpdate('. $row["id"].')">
+                        <span class="relative px-1 py-0.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md">
+                            <box-icon name="edit" color="gray" size="s"></box-icon>
+                        </span>
+                    </a>
+        
+                             <a href="javascript:void(0);" onClick="openModalSupp('. $row["id"].')">
+            <span class="relative px-1 py-2.5 transition-all ease-in duration-75 dark:bg-gray-900 rounded-md">
+                <box-icon name="trash" type="solid" color="rgb(225 114 114)" size="s"></box-icon>
+            </span>
+        </a>
+                              </td>';
+                        echo '</tr>';
+                    }
+                }
+                ?>
+            </tbody>       
+    </table>
 </div>
+<nav class="flex justify-end p-4" aria-label="Table navigation">
+    <ul class="inline-flex items-center space-x-2">
+        <!-- Flèche Précédent -->
+        <li>
+            <?php if ($page > 1): ?>
+                <a href="?page=<?php echo $page - 1; ?>" class="flex items-center justify-center w-8 h-8 text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M12.707 14.707a1 1 0 01-1.414 0L7.586 11l3.707-3.707a1 1 0 111.414 1.414L10.414 11l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"/>
+                    </svg>
+                </a>
+            <?php else: ?>
+                <span class="flex items-center justify-center w-8 h-8 text-gray-300 bg-gray-100 border border-gray-300 rounded cursor-not-allowed">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M12.707 14.707a1 1 0 01-1.414 0L7.586 11l3.707-3.707a1 1 0 111.414 1.414L10.414 11l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"/>
+                    </svg>
+                </span>
+            <?php endif; ?>
+        </li>
 
+        <!-- Page actuelle -->
+        <li>
+            <span class="px-4 py-2 text-sm font-medium text-gray-900 bg-gray-100 border border-gray-300 rounded">
+                 <?php echo $page; ?>
+            </span>
+        </li>
+
+        <!-- Flèche Suivant -->
+        <li>
+            <?php if ($page < $total_pages): ?>
+                <a href="?page=<?php echo $page + 1; ?>" class="flex items-center justify-center w-8 h-8 text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M7.293 5.293a1 1 0 011.414 0L12.414 9l-3.707 3.707a1 1 0 01-1.414-1.414L10.586 9 7.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                </a>
+            <?php else: ?>
+                <span class="flex items-center justify-center w-8 h-8 text-gray-300 bg-gray-100 border border-gray-300 rounded cursor-not-allowed">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M7.293 5.293a1 1 0 011.414 0L12.414 9l-3.707 3.707a1 1 0 01-1.414-1.414L10.586 9 7.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                </span>
+            <?php endif; ?>
+        </li>
+    </ul>
+</nav>
 <script>
 function openModal() {
     document.getElementById('crud-modal').classList.remove('hidden');
@@ -416,9 +470,6 @@ echo '</select>';
     </div>
 </div>
 <script>
-    
-
-
 function Update(button) {
   let productId = button.getAttribute("data-id");
 
@@ -444,6 +495,6 @@ function Update(button) {
     })
     .catch((error) => console.error("Erreur suppression :", error));
 }
-
 </script>
+
 

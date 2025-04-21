@@ -28,7 +28,25 @@
     $res=$pdo->query($req) or print_r($pdo->errorInfo());
     return $res;
     }
-   
+    public function getPaginatedProducts($limit, $offset) {
+        require_once('config.php');
+        $cnx = new connexion();
+        $pdo = $cnx->CNXbase();
+    
+        // Préparer la requête SQL avec des placeholders
+        $req = "SELECT * FROM products LIMIT :limit OFFSET :offset";
+        $stmt = $pdo->prepare($req);
+    
+        // Lier les paramètres avec bindValue
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+    
+        // Exécuter la requête préparée
+        $stmt->execute();
+    
+        // Retourner les résultats
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     function getProduit($id)//lzmtni lil modif
     {
     require_once('config.php');
@@ -87,17 +105,6 @@ function supprimerProduit($id){
     $req= "DELETE from products where id=$id" ;
     $pdo->exec($req) or print_r($pdo->errorInfo());
 }
-public function getPaginatedData($table, $limit, $offset)
-{  require_once('config.php');
-    $cnx = new connexion();
-    $pdo = $cnx->CNXbase();
-    $query = "SELECT * FROM products LIMIT :limit OFFSET :offset";
-    $stmt = $pdo->prepare($query);
-    $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
-    $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_OBJ);
-}
 public function getTotalProducts() {
     require_once('config.php');
     $cnx = new connexion();
@@ -105,19 +112,6 @@ public function getTotalProducts() {
     $stmt = $pdo->query("SELECT COUNT(*) AS total FROM products");//Ce code retourne l’objet PDOStatement ($stmt) directement.Mais ce n’est pas le nombre total de produits. Il faut encore faire le fetch du résultat pour obtenir le chiffre.
     $total = $stmt->fetch(PDO::FETCH_ASSOC);//$total = ['total' => 25];
     return $total['total'];
-}
-
-public function getPaginatedProducts($limit, $offset) {
-    require_once('config.php');
-    $cnx = new connexion();
-    $pdo = $cnx->CNXbase();
-
-    $stmt = $pdo->prepare("SELECT * FROM products LIMIT :limit OFFSET :offset");
-    $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
-    $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
-    $stmt->execute();
-
-    return $stmt->fetchAll(PDO::FETCH_OBJ);
 }
 
     }
