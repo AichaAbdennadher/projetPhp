@@ -1,11 +1,22 @@
 <?php
 require_once('../model/produit.class.php');
-$prod=new product();
-$prod->name=$_POST['name'];
-$prod->image=$_POST['image'];
-$prod->description=$_POST['description'];
-$prod->price=$_POST['price'];
-$prod->stock =$_POST['stock'];
-$prod-> modifier_produit($_POST['id']);
-header('location:../view/listProduit.php');
-?>
+
+header('Content-Type: application/json'); // Important pour dire que c’est du JSON
+
+if (isset($_GET['id']) && !empty($_GET['id'])) {
+    $prodM = new product();
+    $resM = $prodM->getProduit($_GET['id']);
+
+    if ($resM) {
+        $data = $resM->fetch(PDO::FETCH_ASSOC);
+        if ($data) {
+            echo json_encode($data);
+        } else {
+            echo json_encode(['error' => 'Produit introuvable']);
+        }
+    } else {
+        echo json_encode(['error' => 'Erreur requête produit']);
+    }
+} else {
+    echo json_encode(['error' => 'Paramètre id manquant']);
+}

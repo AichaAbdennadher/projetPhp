@@ -87,37 +87,38 @@ function supprimerProduit($id){
     $req= "DELETE from products where id=$id" ;
     $pdo->exec($req) or print_r($pdo->errorInfo());
 }
-function getPaginatedResults($table, $items_per_page = 10) {
+public function getPaginatedData($table, $limit, $offset)
+{  require_once('config.php');
+    $cnx = new connexion();
+    $pdo = $cnx->CNXbase();
+    $query = "SELECT * FROM products LIMIT :limit OFFSET :offset";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
+}
+public function getTotalProducts() {
     require_once('config.php');
     $cnx = new connexion();
-    $pdo = $cnx->CNXbase(); // Connexion à la base de données avec PDO
-
-    // Récupérer le nombre total d'enregistrements
-    $sql = "SELECT COUNT(*) AS total FROM $table";
-    $stmt = $pdo->query($sql);
-    $total_items = $stmt->fetch(PDO::FETCH_ASSOC)['total']; // Récupérer la valeur du total
-
-    // Calculer le nombre total de pages
-    $total_pages = ceil($total_items / $items_per_page);
-
-    // Récupérer la page actuelle
-    $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-    $current_page = max(1, min($current_page, $total_pages)); // S'assurer que la page est dans les limites
-
-    // Calculer l'offset pour la requête SQL
-    $offset = ($current_page - 1) * $items_per_page;
-
-    // Récupérer les données paginées
-    $sql = "SELECT * FROM $table LIMIT $items_per_page OFFSET $offset";
-    $stmt = $pdo->query($sql);
-
-    // Retourner les données sous forme de tableau associatif et les informations de pagination
-    return [
-        'data' => $stmt->fetchAll(PDO::FETCH_ASSOC), // Données sous forme de tableau associatif
-        'total_pages' => $total_pages,
-        'current_page' => $current_page
-    ];
-
+    $pdo = $cnx->CNXbase();
+    $stmt = $pdo->query("SELECT COUNT(*) AS total FROM products");//Ce code retourne l’objet PDOStatement ($stmt) directement.Mais ce n’est pas le nombre total de produits. Il faut encore faire le fetch du résultat pour obtenir le chiffre.
+    $total = $stmt->fetch(PDO::FETCH_ASSOC);//$total = ['total' => 25];
+    return $total['total'];
 }
+
+public function getPaginatedProducts($limit, $offset) {
+    require_once('config.php');
+    $cnx = new connexion();
+    $pdo = $cnx->CNXbase();
+
+    $stmt = $pdo->prepare("SELECT * FROM products LIMIT :limit OFFSET :offset");
+    $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
+}
+
     }
 ?>

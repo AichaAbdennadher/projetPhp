@@ -1,5 +1,7 @@
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
-   <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+<div class="h-full px-3 py-4 overflow-y-auto bg-gray-200 dark:bg-gray-800">
    <div class="flex items-center space-x-2 mb-4">
    <img src="../images/mark.png" alt="" class="w-16 h-16">
    <h2 class="text-pink-600 font-bold">Glow & Glam</h2>
