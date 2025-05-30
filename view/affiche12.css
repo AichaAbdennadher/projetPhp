@@ -1,0 +1,51 @@
+:root {
+    --primary: #f78bca;
+    --primary-hover: #e67eb9;
+    --secondary: #8e44ad;
+    --text: #2c3e50;
+    --text-light: #7f8c8d;
+    --bg: #fdf2f8;
+    --card-bg: #fff;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --radius: 16px;
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+body {
+    font-family: 'Poppins', 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.7;
+    color: var(--text);
+    background-color: var(--bg);
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Products Section */
+
+.products-header {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.products-header h2 {
+    font-size: 1.8rem;
+    text-align: center;
+    color: var(--secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.products-header h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+}

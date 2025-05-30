@@ -6,20 +6,22 @@
     <title>Floraison - Produits Visage</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../view/affiche12.css">
-    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .success { color: green; margin: 15px 0; text-align: center; }
+        .error { color: red; margin: 15px 0; text-align: center; }
+    </style>
 </head>
 
 <body>
+<?php include '../view/header2.php';
+require_once ('../controller/session.php');
+?>
 
-<?php include '../view/header.php'; ?>
-
-
-<script src="https://cdn.tailwindcss.com"></script>
 <section class="text-gray-600 body-font relative bg-gray-50">
   <div class="container px-5 py-16 mx-auto flex sm:flex-nowrap flex-wrap">
     <!-- Carte et informations de contact -->
     <div class="lg:w-2/3 md:w-1/2 bg-gray-300 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative min-h-[400px]">
-      <!-- Modification ici - Nouvelle iframe avec coordonnées -->
       <iframe 
         width="100%" 
         height="100%" 
@@ -54,13 +56,48 @@
       </div>
     </div>
 
-    
     <!-- Formulaire de contact -->
     <div class="lg:w-1/3 md:w-1/2 bg-white flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0 p-8 rounded-lg shadow-md">
       <h2 class="text-gray-900 text-2xl mb-1 font-bold title-font">Contact us</h2>
-   
       
-      <form action="/send-message" method="POST">
+      <?php
+      require_once('../model/config.php');
+
+      // Vérifie si le formulaire a été soumis
+      if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+          try {
+              // Initialise la connexion
+              $cnx = new Connexion();
+              $db = $cnx->CNXbase();
+
+              // Récupère et filtre les données
+              $data = [
+                  ':name' => htmlspecialchars($_POST['name'] ?? ''),
+                  ':email' => filter_var($_POST['email'] ?? '', FILTER_SANITIZE_EMAIL),
+                  ':mobile' => preg_replace('/[^0-9+]/', '', $_POST['mobile'] ?? ''),
+                  ':comment' => htmlspecialchars($_POST['message'] ?? ''), // Corrigé de 'cmessage' à 'message'
+                  ':added_on' => date('Y-m-d H:i:s')
+              ];
+
+              // Requête préparée
+              $sql = "INSERT INTO contact
+                      (name, email, mobile, comment, added_on) 
+                      VALUES 
+                      (:name, :email, :mobile, :comment, :added_on)";
+
+              $stmt = $db->prepare($sql);
+              $stmt->execute($data);
+
+              // Confirmation
+              echo "<p class='success'>Message envoyé avec succès!</p>";
+
+          } catch (PDOException $e) {
+              echo "<p class='error'>Erreur: " . htmlspecialchars($e->getMessage()) . "</p>";
+          }
+      }
+      ?>
+      
+      <form action="" method="POST">
         <div class="relative mb-4">
           <label for="name" class="leading-7 text-sm text-gray-600 font-medium">Full name</label>
           <input type="text" id="name" name="name" required
@@ -74,13 +111,9 @@
         </div>
         
         <div class="relative mb-4">
-          <label for="subject" class="leading-7 text-sm text-gray-600 font-medium">Subject</label>
-          <select id="subject" name="subject" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-2 px-3 leading-8 transition-colors duration-200 ease-in-out">
-            <option value="question">Question</option>
-            <option value="order">Commande</option>
-            <option value="partnership">Partenariat</option>
-            <option value="other">Autre</option>
-          </select>
+          <label for="mobile" class="leading-7 text-sm text-gray-600 font-medium">Mobile</label>
+          <input type="tel" id="mobile" name="mobile" required
+                 class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-2 px-3 leading-8 transition-colors duration-200 ease-in-out">
         </div>
         
         <div class="relative mb-4">
@@ -90,18 +123,17 @@
         </div>
         
         <button type="submit" class="text-white bg-indigo-600 border-0 py-3 px-6 focus:outline-none hover:bg-indigo-700 rounded text-lg font-medium transition duration-300 w-full">
-        Send message
+          Send message
         </button>
         
         <p class="text-xs text-gray-500 mt-3 text-center">
-        We usually respond within 24 hours.
+          We usually respond within 24 hours.
         </p>
       </form>
     </div>
   </div>
 </section>
 
-</main>
 <?php include '../view/footer.php'; ?>
 </body>
 </html>

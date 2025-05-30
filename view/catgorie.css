@@ -1,0 +1,95 @@
+/* Section de l'en-tête */
+
+.products-header {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.main-title {
+    font-size: 2.5rem;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+
+/* Conteneur de la grille des catégories */
+
+.ranges-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* 4 colonnes sur grands écrans */
+    gap: 20px;
+    padding: 20px;
+}
+
+@media screen and (max-width: 1024px) {
+    .ranges-grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 colonnes sur écrans moyens */
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .ranges-grid {
+        grid-template-columns: 1fr;
+        /* 1 colonne sur petits écrans */
+    }
+}
+
+
+/* Style des éléments de catégorie */
+
+.range-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.range-item:hover {
+    transform: translateY(-5px);
+    /* Effet de survol */
+}
+
+.range-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    /* Maintenir l'aspect ratio sans déformation */
+}
+
+.range-name {
+    padding: 15px;
+    text-align: center;
+    background-color: #f8f9fa;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    text-transform: uppercase;
+}
+
+
+/* Améliorer l'accessibilité des liens */
+
+.range-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.range-link:focus,
+.range-link:hover {
+    outline: none;
+    text-decoration: underline;
+}
+
+
+/* Message pour les catégories non disponibles */
+
+.ranges-grid p {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #777;
+}

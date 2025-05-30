@@ -34,7 +34,7 @@ $result=$cat->listCategories();
       <!-- Navigation Principale -->
       <nav class="main-nav">
         <ul class="nav-list">
-          <li><a href="../view/acceuil.php">Home</a></li>
+          <li><a href="../view/accueil.php">Home</a></li>
           </li>
 
 <?php

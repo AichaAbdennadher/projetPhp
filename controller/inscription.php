@@ -13,9 +13,5 @@ $us->insertUser();
 header('location:../view/connexion.php'); }
 else { header('location:../view/viewInscription.php');
 }
-// if ($us->email == "admin@gmail.com" && $us->password == "123456") {
-//     header('Location: ../view/listProduit.php');  
-// } elseif ($n != 0) {
-//     header('Location: ../view/acceuil.html');
-// }
+
 ?>

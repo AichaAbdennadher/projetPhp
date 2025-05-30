@@ -5,36 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Floraison - Produits Visage</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="aff.css">
+    
 </head>
 <?php
+require_once ('../controller/session.php');
 require_once('../model/produit.class.php');
 $prod=new product();
 $res=$prod->listProduits();
 ?>
 <body>
-    <header>
-        <div class="header-container">
-            <div class="logo-container">
-                <h1 class="logo">Floraison</h1>
-             
-            </div>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="../view/acceuil.html">Accueil</a></li>
-                    <li><a href="#">Visage</a></li>
-                    <li><a href="#">Corps</a></li>
-                    <li><a href="#">Cheveux</a></li>
-                    <li><a href="#">Promotions</a></li>
-                    <li><a href="#">Histoire</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+<?php include '../view/header2.php'; ?>
 
     <main>
         <section class="products-header">
-            <h2>TOUS LES PRODUITS</h2>
+            <h2>OUR PRODUCTS </h2>
             <!-- Les produits seront ajoutés ici dynamiquement -->
         </section>
         <!-- Conteneur principal avec grille de produits -->
@@ -56,50 +40,60 @@ foreach ($res as $row) {
 }
 ?>      
     </main>
-    <footer>
-        <div class="footer-section">
-            <div class="footer-title">menu de collections</div>
-            <ul class="footer-links">
-                <li><a href="#">À propos</a></li>
-                <li><a href="#">Collections</a></li>
-                <li><a href="#">Fragrance</a></li>
-            </ul>
-        </div>
-        <div class="footer-section">
-            <div class="footer-title">informations</div>
-            <ul class="footer-links">
-                <li><a href="#">Floraison natural beauty</a></li>
-                <li><a href="#">Contactez nous</a></li>
-                <li><a href="#">Terms and conditions</a></li>
-                <li><a href="#">Politique de confidentialité</a></li>
-                <li><a href="#">Politique de remboursement</a></li>
-                <li><a href="#">Ne vendez pas mes informations personnelles</a></li>
-            </ul>
-        </div>
-        <div class="footer-section">
-            <div class="footer-title">floraison</div>
-            <p class="about-text">
-                Chez Floraison, nous célébrons la beauté naturelle à travers des produits 100 % naturels, soigneusement conçus pour nourrir la peau, les cheveux et le corps. Inspirés par la richesse de la nature, nous proposons des solutions durables, saines et efficaces, tout en respectant l'environnement et en améliorant le bien-être de nos clients.
-            </p>
-        </div>
-        <div class="footer-section">
-            <div class="footer-title">abonnez-vous à nos e-mails</div>
-            <div class="newsletter">
-                <div class="newsletter-form">
-                    <input type="email" placeholder="E-mail" class="newsletter-input">
-                    <button type="submit" class="newsletter-button">→</button>
-                </div>
-            </div>
-            <div class="social-media">
-                <div class="footer-title">suivez-nous</div>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                    <a href="#"><i class="fab fa-pinterest-p"></i></a>
-                </div>
-            </div>
-        </div>
-       </footer>
+    <?php include '../view/footer.php'; ?>
 </body>
+
+
+<style>
+:root {
+    --primary: #f78bca;
+    --primary-hover: #e67eb9;
+    --secondary: #8e44ad;
+    --text: #2c3e50;
+    --text-light: #7f8c8d;
+    --bg: #fdf2f8;
+    --card-bg: #fff;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --radius: 16px;
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+body {
+    color: var(--text);
+    background-color: var(--bg);
+    margin: 0;
+    padding: 0;
+}
+
+
+.products-header {
+   
+    background-color: transparent; /* Supprime le fond blanc */
+    max-width: 1200px;
+    margin: 10px auto 5px; /* Espace réduit (auparavant 40px auto) */
+    padding: 0;
+}
+
+.products-header h2 {
+    font-size: 1.8rem;
+    text-align: center;
+    color: var(--secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.products-header h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+}
+
+</style>
 </html>

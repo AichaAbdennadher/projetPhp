@@ -11,5 +11,5 @@ if (isset($_POST['search'])) {
 } 
 // Inclure la vue qui affichera les résultats
 // On passe les résultats dans l'inclusion pour l'affichage
-include("../view/header.php");
+include("../view/header2.php");
 ?>

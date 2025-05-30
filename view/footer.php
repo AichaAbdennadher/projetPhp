@@ -15,21 +15,22 @@
 
 
 <style>
-  /* Footer */
+/* Footer - Version compacte (design original préservé) */
 footer {
   background-color: #f9f9f9;
-  padding: 60px 5% 40px;
+  padding: 35px 5% 20px; /* Padding réduit (origine: 60px 5% 40px) */
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 50px;
+  gap: 40px; /* Réduit de 50px */
   font-family: 'Poppins', 'Arial', sans-serif;
   color: #333;
-  line-height: 1.7;
+  line-height: 1.65; /* Ajusté de 1.7 */
   position: relative;
   overflow: hidden;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
+/* Fond dégradé préservé */
 footer::before {
   content: '';
   position: absolute;
@@ -41,8 +42,9 @@ footer::before {
   z-index: 0;
 }
 
+/* Sections du footer */
 .footer-section {
-  margin-bottom: 30px;
+  margin-bottom: 20px; /* Réduit de 30px */
   position: relative;
   z-index: 1;
   transition: transform 0.4s ease;
@@ -52,18 +54,20 @@ footer::before {
   transform: translateY(-5px);
 }
 
+/* Titres */
 .footer-title {
-  font-size: 16px;
+  font-size: 16px; /* Inchangé */
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1.2px;
-  margin-bottom: 25px;
+  margin-bottom: 20px; /* Réduit de 25px */
   color: #2c3e50;
   display: inline-block;
   position: relative;
-  padding-bottom: 8px;
+  padding-bottom: 8px; /* Inchangé */
 }
 
+/* Effet de soulignement */
 .footer-title::after {
   content: '';
   position: absolute;
@@ -79,6 +83,7 @@ footer::before {
   width: 60px;
 }
 
+/* Liste des liens */
 .footer-links {
   list-style: none;
   padding: 0;
@@ -86,11 +91,12 @@ footer::before {
 }
 
 .footer-links li {
-  margin-bottom: 12px;
+  margin-bottom: 10px; /* Réduit de 12px */
   position: relative;
-  padding-left: 15px;
+  padding-left: 15px; /* Inchangé */
 }
 
+/* Points indicateurs */
 .footer-links li::before {
   content: '';
   position: absolute;
@@ -109,10 +115,11 @@ footer::before {
   opacity: 1;
 }
 
+/* Styles des liens */
 .footer-links a {
   text-decoration: none;
   color: #555;
-  font-size: 15px;
+  font-size: 15px; /* Inchangé */
   font-weight: 400;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   display: inline-block;
@@ -124,6 +131,7 @@ footer::before {
   transform: translateX(8px);
 }
 
+/* Effet de soulignement des liens */
 .footer-links a::after {
   content: '';
   position: absolute;
@@ -139,12 +147,13 @@ footer::before {
   width: 100%;
 }
 
+/* Texte "À propos" */
 .about-text {
-  font-size: 14px;
+  font-size: 14px; /* Inchangé */
   color: #555;
-  line-height: 1.8;
+  line-height: 1.75; /* Ajusté de 1.8 */
   position: relative;
-  padding-left: 15px;
+  padding-left: 15px; /* Inchangé */
 }
 
 .about-text::before {
@@ -152,7 +161,7 @@ footer::before {
   position: absolute;
   left: -5px;
   top: -10px;
-  font-size: 24px;
+  font-size: 24px; /* Inchangé */
   color: rgba(247, 139, 202, 0.2);
 }
 
@@ -163,9 +172,9 @@ footer::before {
 
 .newsletter-form {
   display: flex;
-  margin-top: 20px;
+  margin-top: 15px; /* Réduit de 20px */
   width: 100%;
-  max-width: 320px;
+  max-width: 320px; /* Inchangé */
   position: relative;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
   border-radius: 30px;
@@ -174,9 +183,9 @@ footer::before {
 
 .newsletter-input {
   flex: 1;
-  padding: 14px 20px;
+  padding: 12px 20px; /* Légère réduction */
   border: 1px solid #eee;
-  font-size: 14px;
+  font-size: 14px; /* Inchangé */
   outline: none;
   transition: all 0.3s ease;
   background-color: #fff;
@@ -188,12 +197,12 @@ footer::before {
 }
 
 .newsletter-button {
-  padding: 0 25px;
+  padding: 0 22px; /* Légère réduction */
   background: linear-gradient(135deg, #f78bca, #8e44ad);
   color: white;
   border: none;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 16px; /* Inchangé */
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
@@ -205,23 +214,23 @@ footer::before {
   transform: scale(1.05);
 }
 
-/* Social Media */
+/* Réseaux sociaux */
 .social-media {
-  margin-top: 30px;
+  margin-top: 20px; /* Réduit de 30px */
 }
 
 .social-icons {
   display: flex;
-  gap: 12px;
-  margin-top: 15px;
+  gap: 10px; /* Réduit de 12px */
+  margin-top: 12px; /* Réduit de 15px */
 }
 
 .social-icons a {
   color: #555;
-  font-size: 16px;
+  font-size: 16px; /* Inchangé */
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  width: 38px;
-  height: 38px;
+  width: 36px; /* Légère réduction */
+  height: 36px; /* Légère réduction */
   border-radius: 50%;
   background: #fff;
   display: flex;
@@ -237,21 +246,15 @@ footer::before {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
-.social-icons a:nth-child(1):hover { background: #3b5998; } /* Facebook */
-.social-icons a:nth-child(2):hover { background: #e1306c; } /* Instagram */
-.social-icons a:nth-child(3):hover { background: #ff0000; } /* YouTube */
-.social-icons a:nth-child(4):hover { background: #e60023; } /* Pinterest */
+.social-icons a:nth-child(1):hover { background: #3b5998; }
+.social-icons a:nth-child(2):hover { background: #e1306c; }
+.social-icons a:nth-child(3):hover { background: #ff0000; }
+.social-icons a:nth-child(4):hover { background: #e60023; }
 
 /* Animations */
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .footer-section {
@@ -264,89 +267,34 @@ footer::before {
 .footer-section:nth-child(3) { animation-delay: 0.3s; }
 .footer-section:nth-child(4) { animation-delay: 0.4s; }
 
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 1024px) {
-  .ranges-container {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .product-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  footer { gap: 35px; }
 }
 
 @media (max-width: 768px) {
-  .header-main .container {
-    flex-wrap: wrap;
-    gap: 15px;
-  }
-  
-  .header-search-container {
-    order: 3;
-    width: 100%;
-    margin: 15px 0 0;
-  }
-  
-  .desktop-navigation-menu {
-    display: none;
-  }
-  
   footer {
+    padding: 25px 5% 15px;
     grid-template-columns: repeat(2, 1fr);
-    gap: 40px;
-    padding: 50px 5% 30px;
+    gap: 30px;
   }
-  
-  .footer-section {
-    margin-bottom: 20px;
-  }
-  
-  .newsletter-form {
-    max-width: 100%;
-  }
-  
-  .ranges-container {
-    grid-template-columns: 1fr;
-  }
-  
-  .product-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-  }
+  .footer-section { margin-bottom: 18px; }
+  .newsletter-form { max-width: 100%; }
 }
 
 @media (max-width: 480px) {
-  .header-logo span {
-    display: none;
-  }
-  
   footer {
+    padding: 20px 5% 10px;
     grid-template-columns: 1fr;
-    gap: 30px;
+    gap: 25px;
   }
-  
-  .footer-title {
-    font-size: 15px;
+  .footer-title { 
+    font-size: 15px; 
+    margin-bottom: 18px;
   }
-  
-  .social-icons a {
-    width: 36px;
-    height: 36px;
-    font-size: 15px;
-  }
-  
-  .product-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .certification {
-    min-width: 100%;
-    max-width: 250px;
-  }
-  
-  .show-all-btn {
-    padding: 10px 20px;
-    font-size: 14px;
+  .social-icons a { 
+    width: 34px; 
+    height: 34px;
   }
 }
 </style>
@@ -354,8 +302,8 @@ footer::before {
   <div class="footer-section">
       <div class="footer-title">collection menu</div>
       <ul class="footer-links">
-          <li><a href="#">Collections</a></li>
-          <li><a href="#">Fragrance</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Products</a></li>
       </ul>
   </div>
   <div class="footer-section">

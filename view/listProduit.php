@@ -2,6 +2,8 @@
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <?php
 include("aside.php");
+require_once ('../controller/session.php');
+
 // Pagination
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $items_per_page = 5;  // Nombre d'éléments par page
@@ -26,16 +28,16 @@ $end_item = min($offset + $items_per_page, $total_items);
             <div class="w-full md:w-1/2">
     <form class="flex items-center" method="post" action="../controller/searchProduct.php">
     <div class="relative w-full">
-        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"></div>
+    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                </svg>
+            </div>
         <input type="text" name="search" id="simple-search"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-pink-500 focus:border-pink-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-rose-500 dark:focus:border-rose-500"
             placeholder="Search product" >
     </div>
-    <button type="submit" class="px-4 py-2 bg-pink-500 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"> 
-        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-        </svg>
-    </button>
+  
 </form>
 
 </div>
@@ -49,6 +51,7 @@ $end_item = min($offset + $items_per_page, $total_items);
             </div>
           <div class="overflow-x-auto">
   </div> 
+
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
@@ -73,7 +76,7 @@ $end_item = min($offset + $items_per_page, $total_items);
                 echo '<td class="px-4 py-3">' . $row[6] . '</td>';
                 echo '<td class="px-4 py-2 font-normal text-gray-900 whitespace-nowrap dark:text-white">'.$row[1].'</td>';
                 echo '<td class="px-4 py-3">' . $row[2] . '</td>';
-                echo '<td class="px-4 py-2 font-normal text-gray-900 whitespace-nowrap dark:text-white">' . $row[3] . ' DTN</td>';
+                echo '<td class="px-4 py-2 font-normal text-gray-900 whitespace-nowrap dark:text-white">' . $row[3] . ' TND </td>';
                 echo ' <td class="px-14 py-2 font-normal text-gray-900 whitespace-nowrap dark:text-white">' . $row[4] . '</td>';
                 echo '<td class="px-4 py-3"><a href="javascript:void(0);" onClick="openModalUpdate('. $row[0].')">
                 <span class="relative px-1 py-0.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md">
@@ -95,12 +98,21 @@ $end_item = min($offset + $items_per_page, $total_items);
 
                         echo '<tr class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700" id="product-' . $row["id"] . '">';
                         echo '<td class="px-4 py-3">' . $row["id"] . '</td>';
-                        echo '<td class="px-5 py-4"><img src="../images/'.$row["image"]. '" alt="image" class="w-12 h-11 rounded"></td>';
-                        echo '<td class="px-4 py-3">' . $row["category_id"] . '</td>';
-                        echo '<td class="px-4 py-2 font-normal text-gray-900 whitespace-nowrap dark:text-white">'.$row["name"].'</td>';
-                        echo '<td class="px-4 py-3">' . $row["description"] . '</td>';
-                        echo '<td class="px-4 py-2 font-normal text-gray-900 whitespace-nowrap dark:text-white">' . $row["price"] . ' DTN</td>';
-                        echo ' <td class="px-14 py-2 font-normal text-gray-900 whitespace-nowrap dark:text-white">' . $row["stock"] . '</td>';
+                        echo '<td class="px-4 py-4 w-40 h-35">
+                        <div class="flex items-center justify-center h-full bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
+                          <img src="../images/'.$row["image"].'" 
+                               alt="Product image" 
+                               class="min-w-full min-h-full object-scale-up transform scale-110 rounded-lg border border-gray-200 dark:border-gray-600 shadow-sm">
+                        </div>
+                      </td>';
+                        echo '<td class="px-1.5 py-0.5 text-xs text-center text-gray-600 dark:text-gray-300">' . $row["category_id"] . '</td>';
+                        echo '<td class="px-3 py-2 text-sm font-medium text-gray-800 whitespace-nowrap dark:text-white truncate max-w-[200px]">'.$row["name"].'</td>';
+                        echo '<td class=""px-4 py-3 max-w-xs overflow-hidden text-ellipsis">' . $row["description"] . '</td>';
+// Prix - version compacte
+echo '<td class="px-2 py-1 text-sm text-gray-900 whitespace-nowrap dark:text-white">' . $row["price"] . ' DTN</td>';
+
+// Stock - version ultra compacte
+echo '<td class="px-2 py-1 text-xs text-center text-gray-900 dark:text-white">' . $row["stock"] . '</td>';
                         echo '<td class="px-4 py-3"><a href="javascript:void(0);" onClick="openModalUpdate('. $row["id"].')">
                         <span class="relative px-1 py-0.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md">
                             <box-icon name="edit" color="gray" size="s"></box-icon>

@@ -17,6 +17,14 @@
             $pdo->exec($req) or print_r($pdo->errorInfo());
 
     }
+    function rechercherProduit(){ // lzmtni lil ajout
+        require_once('config.php');
+        $cnx = new connexion();
+        $pdo =$cnx ->CNXbase();
+        $req= "SELECT count(*) from products where id=$this->id";
+        $res=$pdo->query($req) or print_r($pdo->errorInfo());
+        return $res;
+    }
     function listProduits()
     {
     require_once('config.php');
@@ -56,15 +64,8 @@
     $res=$pdo->query($req) or print_r($pdo->errorInfo());
     return $res;
     }
-    function rechercherProduit(){ // lzmtni lil ajout
-        require_once('config.php');
-        $cnx = new connexion();
-        $pdo =$cnx ->CNXbase();
-        $req= "SELECT count(*) from products where id=$this->id";
-        $res=$pdo->query($req) or print_r($pdo->errorInfo());
-        return $res;
-    }
-    function getProduitsByCategorie($category_id)//lzmtni lil modif
+ 
+    function getProduitsByCategorie($category_id)
     {
     require_once('config.php');
     $cnx=new connexion();

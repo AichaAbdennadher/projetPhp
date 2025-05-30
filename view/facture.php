@@ -1,122 +1,88 @@
-
-<script src="https://cdn.tailwindcss.com"></script>
-
-<?php
-// Simulation de données de produits (en pratique, viendrait d'une base de données)
-$products = [
-    [
-        'id' => 1,
-        'name' => 'Produit A',
-        'price' => 189.00,
-        'tva' => 20
-    ],
-    [
-        'id' => 2,
-        'name' => 'Service B',
-        'price' => 800.00,
-        'tva' => 20
-    ],
-    [
-        'id' => 3,
-        'name' => 'Service Premium',
-        'price' => 1200.00,
-        'tva' => 20
-    ]
-];
-
-// Produits sélectionnés (simulation - en pratique viendrait du panier)
-$selectedProducts = [
-    [
-        'product_id' => 1,
-        'quantity' => 3,
-        'discount' => 0
-    ],
-    [
-        'product_id' => 2,
-        'quantity' => 1,
-        'discount' => 0
-    ],
-    [
-        'product_id' => 2,
-        'quantity' => 1,
-        'discount' => 10 // 10% de remise
-    ]
-];
-
-// Calcul des lignes de facture
-$invoiceLines = [];
-$totalHT = 0;
-$totalTVA = 0;
-
-foreach ($selectedProducts as $selected) {
-    $product = $products[array_search($selected['product_id'], array_column($products, 'id'))];
-    
-    $unitPriceHT = $product['price'];
-    if ($selected['discount'] > 0) {
-        $unitPriceHT = $unitPriceHT * (1 - $selected['discount'] / 100);
-    }
-    
-    $lineHT = $unitPriceHT * $selected['quantity'];
-    $lineTVA = $lineHT * ($product['tva'] / 100);
-    
-    $invoiceLines[] = [
-        'name' => $product['name'] . ($selected['discount'] > 0 ? " (Remise {$selected['discount']}%)" : ""),
-        'quantity' => $selected['quantity'],
-        'unit_price' => $unitPriceHT,
-        'total_ht' => $lineHT,
-        'tva_rate' => $product['tva'],
-        'tva_amount' => $lineTVA
-    ];
-    
-    $totalHT += $lineHT;
-    $totalTVA += $lineTVA;
-}
-
-$totalTTC = $totalHT + $totalTVA;
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facture N°1407</title>
+    <title>Facture Floraison </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../view/affiche12.css">
+    
+
     <style>
         :root {
-            --primary-color: #e83e8c;
-            --primary-dark: #c2185b;
-            --primary-light: #f8bbd0;
-            --secondary-color: #6c757d;
-            --light-bg: #fff5f7;
-            --border-color: #fce4ec;
-            --text-color: #333333;
+            --primary: #9b59b6;
+            --primary-light: #e8d6f0;
+            --dark: #2c3e50;
+            --light: #f9f9f9;
+            --gray: #95a5a6;
+            --success: #2ecc71;
+            --border: #e0e0e0;
         }
 
         body {
-            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
             line-height: 1.6;
-            color: var(--text-color);
-            background-color: white;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 30px;
+            color: var(--dark);
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
         }
 
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 30px;
+            background: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+        }
+
+        /* En-tête de facture */
         .invoice-header {
             display: flex;
             justify-content: space-between;
+            align-items: flex-start;
             margin-bottom: 30px;
             padding-bottom: 20px;
-            border-bottom: 2px solid var(--primary-light);
+            border-bottom: 2px solid var(--primary);
         }
 
         .invoice-title {
-            color: var(--primary-dark);
             font-size: 28px;
             font-weight: 700;
-            margin-bottom: 5px;
+            color: var(--primary);
+            margin: 0 0 5px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
+        .invoice-number {
+            font-size: 16px;
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        .invoice-meta {
+            text-align: right;
+        }
+
+        .invoice-date {
+            margin: 5px 0;
+            color: var(--text);
+        }
+
+        .invoice-status {
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: var(--success);
+            color: white;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        /* Section adresse */
         .address-section {
             display: flex;
             justify-content: space-between;
@@ -124,162 +90,213 @@ $totalTTC = $totalHT + $totalTVA;
         }
 
         .address-box {
-            width: 48%;
+            flex: 0 0 48%;
             padding: 20px;
-            background-color: var(--light-bg);
-            border-radius: 8px;
-            border-left: 4px solid var(--primary-color);
+            background-color: var(--light);
+            border-radius: 6px;
+            border-left: 4px solid var(--primary);
         }
 
+        .address-title {
+            font-size: 16px;
+            color: var(--primary);
+            margin-top: 0;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .company-name {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        /* Tableau des produits */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 25px 0;
+            margin-bottom: 30px;
         }
 
         th {
-            background-color: var(--primary-color);
+            background-color: var(--primary);
             color: white;
-            padding: 12px 10px;
+            padding: 12px 15px;
             text-align: left;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
         }
 
         td {
-            padding: 10px;
-            border-bottom: 1px solid var(--border-color);
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
         }
 
-        tr:nth-child(even) {
-            background-color: var(--light-bg);
+        tr:last-child td {
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .text-center {
+            text-align: center;
         }
 
         .text-right {
             text-align: right;
         }
 
+        .discount-badge {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: white;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 8px;
+            font-weight: 500;
+        }
+
+        /* Totaux */
         .totals {
-            margin-top: 30px;
-            float: right;
             width: 300px;
+            margin-left: auto;
+            margin-bottom: 30px;
         }
 
         .total-line {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border-color);
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
         }
 
         .grand-total {
-            font-weight: bold;
-            font-size: 1.2em;
-            color: var(--primary-dark);
-            border-top: 2px solid var(--primary-color);
-            border-bottom: 2px solid var(--primary-color);
-            margin-top: 10px;
-        }
-
-        .footer {
-            margin-top: 50px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-color);
-            font-size: 0.9em;
-            color: var(--secondary-color);
-            text-align: center;
-        }
-
-        .highlight {
-            color: var(--primary-dark);
             font-weight: 600;
+            font-size: 18px;
+            color: var(--primary);
+            border-top: 2px solid var(--primary);
+            margin-top: 5px;
+            padding-top: 12px;
+        }
+
+        /* Conditions */
+        .terms {
+            padding: 20px;
+            background-color: var(--light);
+            border-radius: 6px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .terms strong {
+            color: var(--dark);
+        }
+
+        /* Effets au survol */
+        tr:hover td {
+            background-color: rgba(142, 68, 173, 0.05);
         }
     </style>
+    
 </head>
 <body>
-<div class="invoice-header">
-        <div>
-        <img src="../images/mark.png" alt="" class="w-16 h-16">
-            <h1 class="invoice-title">INVOICE</h1>
+<?php include '../view/header2.php'; ?>
 
+<body>
+    <div class="container">
+        <div class="invoice-header">
+            <div>
+                <h1 class="invoice-title">FACTURE</h1>
+                <p class="invoice-number">N° FL-2024-1407</p>
+            </div>
+            <div class="invoice-meta">
+                <p class="invoice-date"><strong>Date :</strong> 28/01/2024</p>
+                <p class="invoice-date"><strong>Échéance :</strong> 11/02/2024</p>
+                <span class="invoice-status">PAYÉ</span>
+            </div>
         </div>
-        <div>
-        <h2 class="text-pink-600 font-bold">Glow & Glam</h2>
-<h2 class="text-pink-600 font-bold"> Tunisia, Sfax, Route Skiet Ezzit</h2>
-<h2 class="text-pink-600 font-bold"> Phone:  20964601</h2>
-<br>
-           <?php
-function afficherDate() {
-    return date('d/m/Y'); // Format: jour/mois/année
-}
 
-// Utilisation de la fonction
-echo "<h3><span class='highlight'>Date de facture:</span> " . afficherDate() . "</h3>";
-?> 
+        <div class="address-section">
+            <div class="address-box">
+                <h3 class="address-title">CLIENT</h3>
+                <div>
+                    <p class="company-name">Client Entreprise</p>
+                    <p>123 Rue des Clients</p>
+                    <p>75001 Paris, France</p>
+                    <p><strong>Tél :</strong> +33 1 23 45 67 89</p>
+                    <p><strong>Email :</strong> contact@client.com</p>
+                </div>
+            </div>
+
+            <div class="address-box">
+                <h3 class="address-title">FLORAISON</h3>
+                <div>
+                    <p class="company-name">Floraison Natural Beauty</p>
+                    <p>456 Avenue des Fournisseurs</p>
+                    <p>69002 Lyon, France</p>
+                    <p><strong>Tél :</strong> +33 4 12 34 56 78</p>
+                    <p><strong>Email :</strong> facturation@floraison.com</p>
+                </div>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th class="text-center">Qté</th>
+                    <th class="text-right">Prix HT</th>
+                    <th class="text-right">Remise</th>
+                    <th class="text-right">Total HT</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        Crème hydratante bio
+                    </td>
+                    <td class="text-center">2</td>
+                    <td class="text-right">24,90 €</td>
+                    <td class="text-right">-</td>
+                    <td class="text-right">49,80 €</td>
+                </tr>
+                <tr>
+                    <td>
+                        Pack découverte <span class="discount-badge">REMISE</span>
+                    </td>
+                    <td class="text-center">1</td>
+                    <td class="text-right">59,90 €</td>
+                    <td class="text-right">10%</td>
+                    <td class="text-right">53,91 €</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="totals">
+            <div class="total-line">
+                <span>Total HT</span>
+                <span>103,71 €</span>
+            </div>
+            <div class="total-line">
+                <span>TVA (20%)</span>
+                <span>20,74 €</span>
+            </div>
+            <div class="total-line grand-total">
+                <span>Total TTC</span>
+                <span>124,45 €</span>
+            </div>
+        </div>
+
+        <div class="terms">
+            <p><strong>Conditions :</strong> Paiement à réception - TVA 20%</p>
+            <p>En cas de retard, pénalités conformes à l'article L. 441-6 du code de commerce.</p>
         </div>
     </div>
-        <div>
-             
-  
 
-          </div>
-    </div>
 
-    <div class="address-section">
-        <div class="address-box">
-            <p><strong>Customer : </strong></p>
-            <p>123 Rue des Clients</p>
-            <p>75001 Paris</p>
-            <p>SIRET: 12345678900012</p>
-            <p>No de TVA: FR00123456789</p>
-        </div>
-
-        <div >
-  
-       
-        </div>
-    </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th>DÉSIGNATION</th>
-                <th class="text-right">QUANTITÉ</th>
-                <th class="text-right">PRIX UNITAIRE HT</th>
-                <th class="text-right">TOTAL HT</th>
-                <th class="text-right">TVA</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($invoiceLines as $line): ?>
-            <tr>
-                <td><?= htmlspecialchars($line['name']) ?></td>
-                <td class="text-right"><?= $line['quantity'] ?></td>
-                <td class="text-right"><?= number_format($line['unit_price'], 2, ',', ' ') ?> €</td>
-                <td class="text-right"><?= number_format($line['total_ht'], 2, ',', ' ') ?> €</td>
-                <td class="text-right"><?= number_format($line['tva_amount'], 2, ',', ' ') ?> € (<?= $line['tva_rate'] ?>%)</td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-
-    <div class="totals">
-        <div class="total-line">
-            <span>TOTAL HT</span>
-            <span><?= number_format($totalHT, 2, ',', ' ') ?> €</span>
-        </div>
-        <div class="total-line">
-            <span>TVA</span>
-            <span><?= number_format($totalTVA, 2, ',', ' ') ?> €</span>
-        </div>
-        <div class="total-line grand-total">
-            <span>Total TTC</span>
-            <span><?= number_format($totalTTC, 2, ',', ' ') ?> €</span>
-        </div>
-    </div>
-    <div style="clear: both;"></div>
-
-    <div class="footer">
-        <p>Merci pour votre confiance - Paiement à effectuer avant le 11/02/2024</p>
-        <p>En cas de retard de paiement, des pénalités de 3 fois le taux d'intérêt légal seront appliquées</p>
-    </div>
+    <?php include '../view/footer.php'; ?>
 </body>
 </html>

@@ -12,8 +12,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <?php
-include("header.php");
+include("header2.php");
 require_once('../model/produit.class.php');
+require_once ('../controller/session.php');
 $prod=new product();
 $res=$prod->listProduits();
 ?>
@@ -23,89 +24,203 @@ $cate=new category();
 $resultCat=$cate->listCategories();
 ?>
 <body>
-  <main>
-    <div class="banner">
-      <div class="container">
-        <div class="slider-container has-scrollbar">
-          <div class="slider-item">
-            <img src="../images/bio-cosmetique-620x350.jpg" alt="Soins visage naturels" class="banner-img">
-            <div class="banner-content">
-              <p class="banner-subtitle">Routine complète</p>
-              <h2 class="banner-title">Soins visage naturels</h2>
-              <a href="affiche.php" class="banner-btn">Voir les produits</a>
-            </div>
-          </div>
+    <div class="banner-container">
+        <img src="../images/bio-cosmetique-620x350.jpg" alt="Soins visage naturels" class="banner-image">
+        <div class="banner-content">
+            <p class="banner-subtitle">Routine complète</p>
+            <h2 class="banner-title">Soins visage naturels</h2>
+            <a href="affiche.php" class="banner-button">Voir les produits</a>
         </div>
-      </div>
     </div>
-    </div>
+</body>
+</html>
+
 <!-- Section Nos Gammes -->
 <section class="products-header">
-  <h1 class="main-title">NOS GAMME</h1>   
+  <h1 class="main-title">NOS GAMME</h1> 
+ 
 </section>  
+
+<div class="ranges-container">
+
 <?php
 foreach ($resultCat as $cate) {
-    echo '<div class="ranges-container">';
     echo '<div class="range-item">';
     echo '<a href="categorie.php?category=' . $cate[0] . '" class="range-link" aria-label="Découvrir les soins visage">';
     echo '<img src="../images/'.$cate[2].'" alt="Soin Visage" loading="lazy">';
     echo '<div class="range-name">'.$cate[1].'</div>';
     echo '</a>';
     echo '</div>';
-    echo '</div>'; 
 }
 ?>
-  </div> 
-    <section class="products-header">
-      <h1 class="main-title">NOS PRODUITS</h1>
-      <p class="subtitle">Les Meilleurs Ventes</p>  
-    </section>
-  <!-- Conteneur principal avec grille de produits -->
-  <div class="products-container">
-      <!-- Grille de produits -->
-      <div class="product-grid">
-          <!-- Produit 1 -->
-          <div class="product">
-          <?php
-foreach ($res as $row) {
-    echo '<div class="product">';
-    echo'<form action="../controller/AddCart.php" method="POST">';
-    echo '<div class="product-image-container">';
-    echo '<img src="../images/' . $row[5] . '" alt="Eau Florale de Rose De Damas" class="product-image">';
-    echo '</div>';
-    echo '<a href="prod.php?id=' . $row[0] . '"  class="product-name-link" name="idProduct">';
-    echo '<h3 >' . $row[1] . '</h3>';
-    echo '</a>';
-    echo '<p class="price">'.$row[3].' TND</p>';
-
-echo'<button type="submit" class="add-to-cart" name="add_to_cart">Add to cart</button></form> ';
-   echo '</div>'; // Fermeture de la div du produit
-}
-?></div>
-      <!-- Bouton "Tout afficher" -->
-      <div class="show-all-container">
-        <a href="affiche.php" class="show-all-btn">Tout afficher</a>
-    </div>
-  </div>
-  <section class="products-header">
-    <h1 class="main-title">FABRICATION TUNISIENNE</h1>
-  <div class="main-text">
-      C'est l'une de nos plus belles fiertés, tous nos produits sont conçus en Tunisie. Nous nous sommes accompagnés de savoir-faire locaux pour élaborer chacune de nos formulations.
-  </div>
-  <div class="certifications-container">
-    <div class="certification">
-        <img src="../images/0.webp" class="prod-image">
-        <div class="certification-title">AGRICULTURE BIOLOGIQUE</div>
-    </div> 
-    <div class="certification">
-        <img src="../images/33.webp" class="prod-image">
-        <div class="certification-title">AB - Agriculture Biologique</div>
-    </div>
-    <div class="certification">
-        <img src="../images/10.webp" class="prod-image">
-        <div class="certification-title">Bureau Veritas - ISO 22716</div>
-    </div>
 </div>
-<?php include '../view/footer.php'; ?>
+
+
+   
+<section class="products-header">
+    <h1 class="main-title">OUR PRODUCTS</h1>
+    <p class="subtitle">Best Sellers</p>
+</section>
+
+<!-- Conteneur principal avec grille de produits -->
+<div class="products-container">
+    <div class="product-grid">
+        <?php
+        $counter = 0;
+        $products = $res->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($products as $row) {
+            if ($counter >= 8) break; // Limiter à 8 produits
+            echo '<div class="product">';
+            echo '<div class="product-image-container">';
+            echo '<img src="../images/' . $row['image'] . '" alt="' . $row['name'] . '" class="product-image">';
+            echo '</div>';
+            echo '<a href="prod.php?id=' . $row['id'] . '" class="product-name-link">';
+            echo '<h3>' . $row['name'] . '</h3>';
+            echo '</a>';
+            echo '<p class="price">' . $row['price'] . ' TND</p>';
+            echo'<form method="POST" action="../controller/AddCart.php" >';
+            echo'<input type="hidden" name="product_id" value="' . $row['id'] . '">';
+            echo '<button class="add-to-cart">Add to cart</button>';
+            echo '</div>';
+            $counter++;
+        }
+        ?>
+    </div>
+        <!-- Bouton "Tout afficher" seulement s'il y a plus de 8 produits -->
+        <?php if (count($products) > 8): ?>
+        <div class="show-all-container">
+            <a href="affiche.php" class="show-all-btn">Show all</a>
+        </div>
+        <?php endif; ?>
+    </div>
+
+    <section class="products-header">
+        <h1 class="main-title">TUNISIAN MANUFACTURE</h1>
+        <div class="main-text">
+            It's one of our greatest prides: all our products are designed in Tunisia. We've drawn on local expertise to define each of our formulations.
+        </div>
+
+        <div class="certifications-container">
+            <div class="certification">
+                <img src="../images/0.webp" class="prod-image">
+                <div class="certification-title">ORGANIC FARMING</div>
+            </div>
+
+            <div class="certification">
+                <img src="../images/33.webp" class="prod-image">
+                <div class="certification-title">AB - Organic Agriculture</div>
+            </div>
+
+            <div class="certification">
+                <img src="../images/10.webp" class="prod-image">
+                <div class="certification-title">Bureau Veritas - ISO 22716</div>
+            </div>
+        </div>
+    </section>
+
+    <?php include '../view/footer.php'; ?>
+
+
+
+    <style>
+
+
+
+
+/* BANNIÈRE */
+.banner-container {
+    position: relative;
+    width: 100%;
+    max-width: 1150px;
+    height: 300px; /* Hauteur réduite */
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: var(--radius);
+}
+
+.banner-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.banner-content {
+    position: absolute;
+    top: 50%;
+    left: 40px;
+    transform: translateY(-50%);
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    max-width: 80%;
+}
+
+.banner-subtitle {
+    font-size: 14px;
+    margin-bottom: 8px;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.banner-title {
+    font-size: 24px; /* Taille réduite */
+    margin-bottom: 15px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.banner-button {
+    display: inline-block;
+    padding: 8px 18px;
+    background-color: var(--white);
+    color: var(--primary);
+    text-decoration: none;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.banner-button:hover {
+    background-color: var(--primary);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+/* SECTION PRODUITS */
+.products-header {
+    text-align: center;
+    padding: 30px 20px;
+}
+
+.main-title {
+    font-size: 1.6rem;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--dark);
+    margin-bottom: 6px;
+    position: relative;
+    display: inline-block;
+}
+
+.main-title::after {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 2px;
+    background-color: var(--primary);
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+
+
+</style>
+
+
+
+
 </body>
 </html>
