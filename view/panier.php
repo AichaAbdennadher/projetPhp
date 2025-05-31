@@ -10,7 +10,7 @@ $cart_items = $prod->listCartClient($prod->email);
 if (!is_array($cart_items)) {
     $cart_items = iterator_to_array($cart_items);
 }
-// Fonction de calcul du total
+
 function getCartTotal($items) {
     $total = 0;
     foreach ($items as $item) {
@@ -68,7 +68,7 @@ if (isset($_POST['quantity']) && isset($_POST['product_id'])) {
                         </div>
 
                         <div class="quantity-price-container">
-                            <div class="item-price"><?= number_format($item['price'] * $item['quantity'], 2, ',', ' ') ?>€</div>
+                            <div class="item-price"><?= number_format($item['price'] * $item['quantity'], 2, ',', ' ') ?>TND</div>
                         </div>
                     </div>
                 </article>
