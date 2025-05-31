@@ -14,7 +14,38 @@
              // Récupérer l'id de la commande nouvellement insérée
         return $pdo->lastInsertId();
     }
+public function getTotalOrders() {
+    require_once('config.php');
+    $cnx = new connexion();
+    $pdo = $cnx->CNXbase();
+    $stmt = $pdo->query("SELECT COUNT(*) AS total FROM orders");//Ce code retourne l’objet PDOStatement ($stmt) directement.Mais ce n’est pas le nombre total de produits. Il faut encore faire le fetch du résultat pour obtenir le chiffre.
+    $total = $stmt->fetch(PDO::FETCH_ASSOC);//$total = ['total' => 25];
+    return $total['total'];
+}
+public function getPaginatedOrders($limit, $offset) {
+        require_once('config.php');
+        $cnx = new connexion();
+        $pdo = $cnx->CNXbase();
+    
+        // Préparer la requête SQL avec des placeholders
+        $sql = "SELECT o.id,o.total_amount,o.email, p.image AS product_image, oi.quantity, oi.price FROM orders o
+        JOIN order_items oi ON oi.order_id = o.id
+        JOIN products p ON p.id = oi.product_id
+        ORDER BY o.id DESC
+        LIMIT :limit OFFSET :offset";
 
+        $stmt = $pdo->prepare($sql);
+    
+        // Lier les paramètres avec bindValue
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+    
+        // Exécuter la requête préparée
+        $stmt->execute();
+    
+        // Retourner les résultats
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }
 ?>

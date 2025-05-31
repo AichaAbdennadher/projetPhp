@@ -75,5 +75,14 @@ function clearCartByEmail($email) {
         $req = "DELETE FROM cart WHERE email = '$email'";
         $pdo->exec($req) or print_r($pdo->errorInfo());
     }
+// function ajouterDepuisFavoris($email, $idProduct) {
+//     $this->email = $email;
+//     $this->idProduct = $idProduct;
+//     $this->insertCart();
+
+//     // Et suppression depuis favoris
+//     $fav = new Favorites();
+//     $fav->supprimerFavorite($idProduct);
+// }
 }
 ?>
