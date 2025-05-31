@@ -6,6 +6,6 @@ $f=new cart();
 $f->email=$_SESSION['user'];
 $f->idProduct= $_POST['product_id'];
 $f->insertCart();
-header(header: 'location:../view/viewCart.php'); 
+header(header: 'location:../view/panier.php'); 
 ?>
 

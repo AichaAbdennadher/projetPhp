@@ -1,27 +1,34 @@
 <?php
 session_start();
+require_once ('../controller/session.php');
+require_once('../model/cart.class.php');
 
+$prod = new cart();
+$prod->email = $_SESSION['user']; 
+$cart_items = $prod->listCartClient($prod->email);   
+// S'assurer que c'est un tableau
+if (!is_array($cart_items)) {
+    $cart_items = iterator_to_array($cart_items);
+}
+// Fonction de calcul du total
+function getCartTotal($items) {
+    $total = 0;
+    foreach ($items as $item) {
+        $total += $item['price'] * $item['quantity'];
+    }
+    return $total;
+}
 
-// // Mettre à jour la quantité
-// if (isset($_POST['update_qty'])) {
-//     $product_id = intval($_POST['product_id']);
-//     $quantity = max(1, intval($_POST['quantity']));
-//     $stmt = $dbc->prepare("UPDATE cart SET quantity = ? WHERE user_id = ? AND product_id = ?");
-//     $stmt->execute([$quantity, $user_id, $product_id]);
-//     header("Location: panier.php");
-//     exit();
-// }
+if (isset($_POST['quantity']) && isset($_POST['product_id'])) {
+    $product_id = intval($_POST['product_id']);
+    $quantity = max(1, intval($_POST['quantity']));
 
-// Calcul du total
-// function getCartTotal($items) {
-//     $total = 0;
-//     foreach ($items as $item) {
-//         $total += $item['price'] * $item['quantity'];
-//     }
-//     return $total;
-// }
+    $prod->updateQuantity($prod->email, $product_id, $quantity);
+
+    header("Location: panier.php");
+}
+
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -34,7 +41,6 @@ session_start();
     <header class="cart-header">
         <h1 class="cart-title">Votre Panier</h1>
     </header>
-
     <div class="cart-layout">
         <section class="cart-items">
             <?php if (!empty($cart_items)): ?>
@@ -42,12 +48,17 @@ session_start();
                 <article class="cart-item">
                     <div class="item-content">
                         <a href="#" class="item-image">
-                            <img src="images/<?= htmlspecialchars($item['image']) ?>" alt="<?= htmlspecialchars($item['name']) ?>" loading="lazy">
+                            <img src="../images/<?= $item['image'] ?>" alt="<?= $item['name'] ?>" loading="lazy">
                         </a>
 
-                        <div class="item-details">
-                            <a href="#" class="item-name"><?= htmlspecialchars($item['name']) ?></a>
 
+                        <div class="item-details">
+                            <a href="#" class="item-name"><?= $item['name'] ?></a>
+<form method="post" class="quantity-selector">
+    <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
+    <input type="number" name="quantity" value="<?= $item['quantity'] ?>" min="1" aria-label="Quantité" onchange="this.form.submit()">
+
+</form>
                             <div class="item-actions">
                                 <a href="panier.php?remove=<?= $item['id'] ?>" class="action-btn remove-btn">
                                     <svg width="16" height="16" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -57,16 +68,6 @@ session_start();
                         </div>
 
                         <div class="quantity-price-container">
-                            <form method="post" class="quantity-selector">
-                                <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
-                                <button type="submit" name="update_qty" value="-" class="quantity-btn decrement" aria-label="Réduire la quantité">
-                                    <svg width="12" height="12" viewBox="0 0 24 24"><path d="M20 12H4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                </button>
-                                <input type="number" name="quantity" class="quantity-input" value="<?= $item['quantity'] ?>" min="1" aria-label="Quantité">
-                                <button type="submit" name="update_qty" value="+" class="quantity-btn increment" aria-label="Augmenter la quantité">
-                                    <svg width="12" height="12" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                </button>
-                            </form>
                             <div class="item-price"><?= number_format($item['price'] * $item['quantity'], 2, ',', ' ') ?>€</div>
                         </div>
                     </div>
@@ -78,33 +79,28 @@ session_start();
         </section>
 
         <aside class="order-summary">
+            <?php reset($cart_items);
+           ?>
             <div class="summary-card">
                 <h2 class="summary-title">Récapitulatif</h2>
                 <div class="summary-details">
-                    <dl class="summary-row">
-                        <dt class="summary-label">Sous-total</dt>
-                        <dd class="summary-value"><?= number_format(getCartTotal($cart_items), 2, ',', ' ') ?>€</dd>
-                    </dl>
                     <dl class="summary-row">
                         <dt class="summary-label">Livraison</dt>
                         <dd class="summary-value">Gratuite</dd>
                     </dl>
                     <dl class="summary-row summary-total">
                         <dt>Total</dt>
-                        <dd><?= number_format(getCartTotal($cart_items), 2, ',', ' ') ?>€</dd>
+                        <dd><?= number_format(getCartTotal($cart_items), 2, ',', ' ') ?> DTN</dd>
                     </dl>
                 </div>
                 <a href="checkout.php" class="checkout-btn">
                     <svg width="20" height="20" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     Passer la commande
                 </a>
-                <p class="continue-shopping">ou <a href="products.php" class="continue-link">Continuer vos achats</a></p>
+                <p class="continue-shopping">ou <a href="acceuil.php" class="continue-link">Continuer vos achats</a></p>
             </div>
         </aside>
     </div>
 </main>
 </body>
 </html>
-
-
-

@@ -27,8 +27,6 @@
                 $pdo->exec($insert) or print_r($pdo->errorInfo());
             }
         }
-        
-
 function rechercherCart(){ //lzmtni lil ajout
     require_once('config.php');
     $cnx = new connexion();
@@ -47,14 +45,21 @@ $req="SELECT * FROM cart";
 $res=$pdo->query($req) or print_r($pdo->errorInfo());
 return $res;
 }
-function listCartClient()
+function listCartClient($email)
 {
     require_once('config.php');
     $cnx = new connexion();
     $pdo = $cnx->CNXbase();
-    $req = "SELECT * FROM cart WHERE email = '$this->email'";
+    $req = "SELECT * FROM cart c JOIN products p ON c.idProduct = p.id WHERE email = '$email'";
     $res = $pdo->query($req) or print_r($pdo->errorInfo());
     return $res;
+}
+public function updateQuantity($email, $product_id, $quantity) {
+    require_once('config.php');
+    $cnx = new connexion();
+    $pdo = $cnx->CNXbase();
+     $req = "UPDATE cart SET quantity = $quantity WHERE email = $email AND idProduct =$product_id ";
+    $pdo->exec($req) or print_r($pdo->errorInfo());
 }
 }
 ?>
