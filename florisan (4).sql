@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : dim. 06 avr. 2025 à 01:39
--- Version du serveur : 10.4.32-MariaDB
--- Version de PHP : 8.2.12
+-- Généré le : sam. 31 mai 2025 à 13:32
+-- Version du serveur : 10.4.28-MariaDB
+-- Version de PHP : 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `glow &glam`
+-- Base de données : `florisan`
 --
 
 -- --------------------------------------------------------
@@ -33,6 +33,16 @@ CREATE TABLE `cart` (
   `idProduct` int(11) NOT NULL,
   `quantity` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `cart`
+--
+
+INSERT INTO `cart` (`id`, `email`, `idProduct`, `quantity`) VALUES
+(1, 'yassine@gmail.com', 10, 2),
+(2, 'yassine@gmail.com', 3, 1),
+(3, 'yassine@gmail.com', 5, 2),
+(4, 'yassine@gmail.com', 7, 1);
 
 -- --------------------------------------------------------
 
@@ -67,6 +77,19 @@ CREATE TABLE `favorites` (
   `email` varchar(100) NOT NULL,
   `idProduct` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `favorites`
+--
+
+INSERT INTO `favorites` (`id`, `email`, `idProduct`) VALUES
+(2, 'yassine@gmail.com', 3),
+(13, 'yassine@gmail.com', 5),
+(10, 'yassine@gmail.com', 8),
+(1, 'yassine@gmail.com', 12),
+(4, 'yassine@gmail.com', 16),
+(9, 'yassine@gmail.com', 25),
+(8, 'yassine@gmail.com', 30);
 
 -- --------------------------------------------------------
 
@@ -121,15 +144,20 @@ CREATE TABLE `users` (
   `email` varchar(100) NOT NULL,
   `password` varchar(10) NOT NULL,
   `phone` varchar(15) NOT NULL,
-  `location` varchar(100) NOT NULL
+  `location` varchar(100) NOT NULL,
+  `role` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`name`, `email`, `password`, `phone`, `location`) VALUES
-('Aicha Abdennadher', 'abdennadheraicha19@gmail.com', 'aicha123', '20964601', 'sfax');
+INSERT INTO `users` (`name`, `email`, `password`, `phone`, `location`, `role`) VALUES
+('Aicha Abdennadher', 'abdennadheraicha19@gmail.com', 'aicha123', '20964601', 'sfax', 0),
+('yassine', 'yassine@gmail.com', 'aichay', '20964601', 'sfax', 1),
+('khalil', 'khalil@gmail.com', 'aichakhali', '66522522', 'sfax', 1),
+('khawla', 'khawlabenabdallah91@gmail.com', 'khawla123', '29416292', 'tunis', 1),
+('khawla', 'khawla@gmail.com', '123456', '25369258', 'tunis', 1);
 
 --
 -- Index pour les tables déchargées
@@ -139,7 +167,8 @@ INSERT INTO `users` (`name`, `email`, `password`, `phone`, `location`) VALUES
 -- Index pour la table `cart`
 --
 ALTER TABLE `cart`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`,`idProduct`);
 
 --
 -- Index pour la table `categories`
@@ -151,7 +180,9 @@ ALTER TABLE `categories`
 -- Index pour la table `favorites`
 --
 ALTER TABLE `favorites`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_favorite` (`email`,`idProduct`),
+  ADD KEY `fk_product` (`idProduct`);
 
 --
 -- Index pour la table `products`
@@ -168,7 +199,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT pour la table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `categories`
@@ -180,7 +211,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT pour la table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT pour la table `products`
@@ -191,6 +222,12 @@ ALTER TABLE `products`
 --
 -- Contraintes pour les tables déchargées
 --
+
+--
+-- Contraintes pour la table `favorites`
+--
+ALTER TABLE `favorites`
+  ADD CONSTRAINT `fk_product` FOREIGN KEY (`idProduct`) REFERENCES `products` (`id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `products`

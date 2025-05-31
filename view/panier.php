@@ -27,6 +27,15 @@ if (isset($_POST['quantity']) && isset($_POST['product_id'])) {
 
     header("Location: panier.php");
 }
+if (isset($_GET['remove'])) {
+    $product_id = intval($_GET['remove']);
+    $email = $_SESSION['user'];
+    
+    $prod->removeItemFromCart($email, $product_id);
+
+    header("Location: panier.php");
+
+}
 
 ?>
 <!DOCTYPE html>
@@ -45,7 +54,7 @@ if (isset($_POST['quantity']) && isset($_POST['product_id'])) {
         <section class="cart-items">
             <?php if (!empty($cart_items)): ?>
                 <?php foreach ($cart_items as $item): ?>
-                <article class="cart-item">
+                <article class="cart-item" id="product-<?= $item['id'] ?>"></article>
                     <div class="item-content">
                         <a href="#" class="item-image">
                             <img src="../images/<?= $item['image'] ?>" alt="<?= $item['name'] ?>" loading="lazy">
@@ -54,7 +63,7 @@ if (isset($_POST['quantity']) && isset($_POST['product_id'])) {
 
                         <div class="item-details">
                             <a href="#" class="item-name"><?= $item['name'] ?></a>
-<form method="post" class="quantity-selector">
+<form method="post" class="quantity-selector" action="../controller/modifQ.php">
     <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
     <input type="number" name="quantity" value="<?= $item['quantity'] ?>" min="1" aria-label="Quantité" onchange="this.form.submit()">
 

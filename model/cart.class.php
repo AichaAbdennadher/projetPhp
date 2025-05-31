@@ -58,8 +58,16 @@ public function updateQuantity($email, $product_id, $quantity) {
     require_once('config.php');
     $cnx = new connexion();
     $pdo = $cnx->CNXbase();
-     $req = "UPDATE cart SET quantity = $quantity WHERE email = $email AND idProduct =$product_id ";
+     $req = "UPDATE cart SET quantity = $quantity WHERE email = '$email' AND idProduct =$product_id ";
     $pdo->exec($req) or print_r($pdo->errorInfo());
 }
+public function removeItemFromCart($email, $product_id) {
+    require_once('config.php');
+    $cnx = new connexion();
+    $pdo = $cnx->CNXbase();
+    $req = "DELETE FROM cart WHERE email = '$email' AND idProduct =$product_id ";
+     $pdo->exec($req) or print_r($pdo->errorInfo());  
+}
+
 }
 ?>

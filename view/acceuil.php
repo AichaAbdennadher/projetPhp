@@ -81,6 +81,7 @@ foreach ($resultCat as $cate) {
             echo'<form method="POST" action="../controller/AddCart.php" >';
             echo'<input type="hidden" name="product_id" value="' . $row['id'] . '">';
             echo '<button class="add-to-cart">Add to cart</button>';
+            echo '</form>';
             echo '</div>';
             $counter++;
         }
