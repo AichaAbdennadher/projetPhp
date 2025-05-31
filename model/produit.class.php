@@ -15,7 +15,6 @@
             $pdo =$cnx ->CNXbase();
             $req= "INSERT into products (name,description,price,stock,image,category_id ) values ('$this->name','$this->description',$this->price,$this->stock,'$this->image',$this->category_id )";
             $pdo->exec($req) or print_r($pdo->errorInfo());
-
     }
     function rechercherProduit(){ // lzmtni lil ajout
         require_once('config.php');

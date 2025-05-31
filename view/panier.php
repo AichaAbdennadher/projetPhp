@@ -102,10 +102,14 @@ if (isset($_GET['remove'])) {
                         <dd><?= number_format(getCartTotal($cart_items), 2, ',', ' ') ?> DTN</dd>
                     </dl>
                 </div>
-                <a href="checkout.php" class="checkout-btn">
-                    <svg width="20" height="20" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <form action="../controller/checkout.php" method="POST">
+                    <input type="hidden" name="product_id" value="<?php echo $id; ?>">
+                     <button class="btn btn-primary" type="submit" name="commande">
+                        <svg width="20" height="20" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     Passer la commande
-                </a>
+                    </button>
+                  
+                </form>
                 <p class="continue-shopping">ou <a href="acceuil.php" class="continue-link">Continuer vos achats</a></p>
             </div>
         </aside>

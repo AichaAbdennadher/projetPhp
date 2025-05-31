@@ -51,7 +51,10 @@ $price = $data[0]["price"];
                     <button class="btn btn-primary" type="submit" >
                         <i class="fas fa-shopping-cart"></i> Add to cart
                     </button>
-                    </form>     
+                    </form> 
+                    
+                    <form action="../controller/BUYNOW.php" method="POST">
+                    <input type="hidden" name="product_id" value="<?php echo $id; ?>">
                     <button class="btn btn-primary" type="submit" name="buy_now">
                         <i class="fas fa-bolt"></i> Buy now
                     </button>

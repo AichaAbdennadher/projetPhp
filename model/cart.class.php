@@ -68,6 +68,12 @@ public function removeItemFromCart($email, $product_id) {
     $req = "DELETE FROM cart WHERE email = '$email' AND idProduct =$product_id ";
      $pdo->exec($req) or print_r($pdo->errorInfo());  
 }
-
+function clearCartByEmail($email) {
+        require_once('config.php');
+        $cnx = new connexion();
+        $pdo = $cnx->CNXbase();
+        $req = "DELETE FROM cart WHERE email = '$email'";
+        $pdo->exec($req) or print_r($pdo->errorInfo());
+    }
 }
 ?>
