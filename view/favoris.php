@@ -13,7 +13,7 @@ if(isset($_GET['supprimer'])) {
     header('Location: favoris.php'); // Recharge la page sans le produit supprimé
     exit();
 }
-
+//a
 $res = $F->listFavorites();
 $favorites = [];
 
