@@ -1,19 +1,17 @@
 <?php
-require_once('../model/user.class.php');
-$prod = new utilisateur();
+require_once('../model/orders.class.php');
+$prod = new orders();
 
 // Vérifier si un terme de recherche a été soumis
 if (isset($_POST['search'])) {
     // Récupérer les produits filtrés en fonction du terme de recherche
     $searchTerm = $_POST['search'];
-    $prod->email = $searchTerm;
-    $resu = $prod->rechercherUser();  // Résultats filtrés
+    $resu = $prod->getOrderByNameUser($searchTerm);  // Recherche par nom
 } else {
-    // Sinon, afficher tous les produits
-    $res = $prod->listCustomers();  // Produits initiaux
+    // Sinon, afficher tous les produits (pagination)
+    $res = $prod->getPaginatedOrdersClient($items_per_page, $offset);
 }
 
 // Inclure la vue qui affichera les résultats
-// On passe les résultats dans l'inclusion pour l'affichage
-include("../view/listProduit.php");
+include("../view/customers.php");
 ?>
