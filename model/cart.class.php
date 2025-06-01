@@ -14,7 +14,6 @@
             // Vérifier si le produit existe déjà dans le panier du client
             $check = "SELECT quantity FROM cart WHERE email = '$this->email' AND idProduct = $this->idProduct";
             $res = $pdo->query($check);
-        
             if ($res && $res->rowCount() > 0) {
                 // Produit déjà dans le panier → incrémenter la quantité
                 $row = $res->fetch(PDO::FETCH_ASSOC);
