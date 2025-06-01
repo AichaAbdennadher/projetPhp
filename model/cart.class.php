@@ -6,7 +6,7 @@
         public $idProduct;
         public $quantity;
       
-        function insertCart() {
+function insertCart() {
             require_once('config.php');
             $cnx = new connexion();
             $pdo = $cnx->CNXbase();

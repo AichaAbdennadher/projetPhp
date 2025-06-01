@@ -13,14 +13,6 @@
             $req= "INSERT into favorites (email,idProduct) values ('$this->email',$this->idProduct)";
             $pdo->exec($req) or print_r($pdo->errorInfo());
     }
-    function rechercherFavoris(){ 
-        require_once('config.php');
-        $cnx = new connexion();
-        $pdo =$cnx ->CNXbase();
-        $req= "SELECT count(*) from favorites where id=$this->id";
-        $res=$pdo->query($req) or print_r($pdo->errorInfo());
-        return $res;
-    }
 
     function listFavoritesClient($email)
     {
@@ -42,14 +34,6 @@
         $pdo->exec($req) or print_r($pdo->errorInfo());
     }
 
-    function getFavorite($id)//lzmtni lil supp
-    {
-    require_once('config.php');
-    $cnx=new connexion();
-    $pdo=$cnx->CNXbase();
-    $req="SELECT * FROM favorites where id=$id";
-    $res=$pdo->query($req) or print_r($pdo->errorInfo());
-    return $res;
-    }
+ 
 }
 ?>

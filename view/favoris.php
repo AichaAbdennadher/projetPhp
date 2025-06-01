@@ -6,12 +6,13 @@ session_start();
 $F = new Favorites();
 $prod = new product();
 $F->email = $_SESSION['user']; 
+
+
 // Ajoutez cette partie pour gérer la suppression
 if(isset($_GET['supprimer'])) {
-    $idProduct = (int)$_GET['supprimer']; // Sécurisation avec (int)
+    $idProduct = $_GET['supprimer']; 
     $F->supprimerFavorite($idProduct);
-    header('Location: favoris.php'); // Recharge la page sans le produit supprimé
-    exit();
+    header('Location: favoris.php');  
 }
 $res = $F->listFavoritesClient($F->email);
 $favorites = [];
@@ -60,7 +61,7 @@ foreach ($res as $favori) {
                     </form> 
 
 
-    <!-- Bouton de suppression classique (conservé) -->
+  
     <a href="favoris.php?supprimer=<?php echo $produit['id']; ?>" 
        class="btn btn-delete">
        <i class="fas fa-trash"></i>
