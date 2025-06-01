@@ -14,7 +14,7 @@ $offset = ($page - 1) * $items_per_page;
 
     $data = $prod->getPaginatedOrdersClient($items_per_page, $offset);
     
-    $total_items = $prod->getTotalOrdersClient();
+    $total_items = $prod->getTotalOrders();
     $total_pages = ceil($total_items / $items_per_page);
 // }
 ?>

@@ -13,13 +13,9 @@ $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $items_per_page = 10;
 $offset = ($page - 1) * $items_per_page;
 
-$resu = null;
-
-    $data = $prod->getPaginatedOrders($items_per_page, $offset);
-    
-    $total_items = $prod->getTotalOrders();
-    $total_pages = ceil($total_items / $items_per_page);
-// }
+$data = $prod->getPaginatedOrders($items_per_page, $offset);
+$total_items = $prod->getTotalOrders();
+$total_pages = ceil($total_items / $items_per_page);
 ?>
 
 <div class="p-4 sm:ml-64">
@@ -28,81 +24,66 @@ $resu = null;
         <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
             <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                 <div class="w-full md:w-1/2">
-                    <!-- <form class="flex items-center" method="post" action="../controller/searchOrders.php">
-                        <div class="relative w-full">
-                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <input type="text" name="search" id="simple-search"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-pink-500 focus:border-pink-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-rose-500 dark:focus:border-rose-500"
-                                placeholder="Search product" >
-                        </div>
-                    </form> -->
+                    <!-- Recherche désactivée, tu peux la réactiver ici -->
                 </div>
             </div>
 
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-        <tr>
-            <th scope="col" class="px-4 py-3">ID</th>
-            <th scope="col" class="px-4 py-3">Order Products</th>
-            <th scope="col" class="px-4 py-3">Customer</th>
-            <th scope="col" class="px-4 py-3">Total</th>
-            <th scope="col" class="px-4 py-3">Invoice</th>
-        </tr>
-    </thead>
-        <tbody>
-            <?php     
-        // Afficher les produits filtrés si la recherche est effectuée
-       
-        // Regrouper les produits par commande
-        $groupedOrders = [];
-        foreach ($data as $row) {
-            $orderId = $row['id'];
-            if (!isset($groupedOrders[$orderId])) {
-                $groupedOrders[$orderId] = [
-                    'images' => [],
-                    'email' => $row['email'],
-                    'total' => $row['total_amount'],
-                    'invoice_number' => $row['invoice_number'] ?? '',
-                ];
-            }
-            $groupedOrders[$orderId]['images'][] = $row['product_image'];
-        }
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-4 py-3">ID</th>
+                            <th scope="col" class="px-4 py-3">Order Products</th>
+                            <th scope="col" class="px-4 py-3">Customer</th>
+                            <th scope="col" class="px-4 py-3">Total</th>
+                            <th scope="col" class="px-4 py-3">Invoice</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        // Regrouper les produits par commande
+                        $groupedOrders = [];
+                        foreach ($data as $row) {
+                            $orderId = $row['id'];
+                            if (!isset($groupedOrders[$orderId])) {
+                                $groupedOrders[$orderId] = [
+                                    'images' => [],
+                                    'email' => $row['email'],
+                                    'total' => $row['total_amount'],
+                                    'invoice_number' => $row['invoice_number'] ?? '',
+                                ];
+                            }
+                            $groupedOrders[$orderId]['images'][] = $row['product_image'];
+                        }
 
-        // Affichage des lignes du tableau
-        foreach ($groupedOrders as $orderId => $info) {
-            echo '<tr class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">';
-            echo '<td class="px-4 py-3 font-semibold text-gray-800 dark:text-white">' . htmlspecialchars($orderId) . '</td>';
+                        // Affichage des commandes
+                        foreach ($groupedOrders as $orderId => $info) {
+                            echo '<tr class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">';
+                            echo '<td class="px-4 py-3 font-semibold text-gray-800 dark:text-white">' . htmlspecialchars($orderId) . '</td>';
 
-            // Toutes les images dans UNE seule cellule
-            echo '<td class="px-4 py-3">';
-            foreach ($info['images'] as $img) {
-                echo '<img src="../images/' . htmlspecialchars($img) . '" alt="Produit" class="w-12 h-12 inline-block mr-2 rounded shadow">';
-            }
-            echo '</td>';
+                            // Affiche toutes les images dans une cellule
+                            echo '<td class="px-4 py-3">';
+                            foreach ($info['images'] as $img) {
+                                echo '<img src="../images/' . htmlspecialchars($img) . '" alt="Produit" class="w-12 h-12 inline-block mr-2 rounded shadow">';
+                            }
+                            echo '</td>';
 
-            echo '<td class="px-4 py-3">' . htmlspecialchars($info['email']) . '</td>';
-            echo '<td class="px-4 py-3">' . htmlspecialchars($info['total']) . ' TND</td>';
-echo '<td class="px-4 py-3">
-    <a href="#" onclick="openpopupmodal()" title="Afficher la facture">
-        <box-icon name="file" type="solid" color="#f41c74"></box-icon>
-    </a>
-</td>';
+                            echo '<td class="px-4 py-3">' . htmlspecialchars($info['email']) . '</td>';
+                            echo '<td class="px-4 py-3">' . htmlspecialchars($info['total']) . ' TND</td>';
+                         echo '<td class="px-4 py-3">
+        <a href="#" onclick="openInvoicePopup(\'' . htmlspecialchars($orderId) . '\')" title="Afficher la facture" class="cursor-pointer">
+            <box-icon name="file" type="solid" color="#f41c74"></box-icon>
+        </a>
+      </td>';
 
-            echo '</tr>';
-          }
-            
-                ?>
-    </tbody>
-</table>
-
+                            echo '</tr>';
+                        }
+                        ?>
+                    </tbody>
+                </table>
             </div>
 
-            <?php if (!$resu): ?>
+            <!-- Pagination -->
             <nav class="flex justify-end p-4" aria-label="Table navigation">
                 <ul class="inline-flex items-center space-x-2">
                     <!-- Previous -->
@@ -147,318 +128,236 @@ echo '<td class="px-4 py-3">
                     </li>
                 </ul>
             </nav>
-            <?php endif; ?>
         </div>
       </div>
    </div>
 </div>
 
-<div id="popup-modal" tabindex="-1"  class="hidden fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50">
-<div class="relative p-6 w-full max-w-4xl max-h-[90vh] overflow-auto">
+<!-- Popup facture -->
+<div id="invoicePopup" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50">
+  <div class="flex items-center justify-center min-h-screen p-4 text-center sm:block sm:p-0">
+    <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+      <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+    </div>
 
-        <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
-            <button type="button"  onclick="closepopupmodal() " class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="popup-modal">
-                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                </svg>
-            </button>
-            <div class="container">
-        <div class="invoice-header">
-            <div>
-                <h1 class="invoice-title">FACTURE</h1>
-                <p class="invoice-number">N° FL-2024-1407</p>
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+      <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+        <div class="sm:flex sm:items-start">
+          <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+            <div class="flex justify-between items-center">
+              <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Facture</h3>
+              <button onclick="closeInvoicePopup()" class="text-gray-400 hover:text-gray-600 focus:outline-none">
+                <box-icon name='x' color='gray' animation='burst' ></box-icon>
+              </button>
             </div>
-            <div class="invoice-meta">
-                <p class="invoice-date"><strong>Date :</strong> 28/01/2024</p>
-                <p class="invoice-date"><strong>Échéance :</strong> 11/02/2024</p>
-                <span class="invoice-status">PAYÉ</span>
+            <div id="invoiceContent" class="mt-2 max-h-[600px] overflow-y-auto text-sm text-gray-700">
+    <div class="invoice-container bg-white p-6 rounded-lg">
+        <style>
+            .invoice-container {
+                font-family: Arial, sans-serif;
+                max-width: 800px;
+                margin: 0 auto;
+                color: #333;
+            }
+            .header {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 30px;
+            }
+            .company-info, .client-info {
+                flex: 1;
+            }
+            h1 {
+                text-align: center;
+                color: #2d3748;
+                margin-bottom: 30px;
+                font-size: 24px;
+            }
+            .invoice-info {
+                margin-bottom: 20px;
+                text-align: right;
+            }
+            .facture-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 30px;
+            }
+            .facture-table th, .facture-table td {
+                border: 1px solid #ddd;
+                padding: 10px;
+                text-align: left;
+            }
+            .facture-table th {
+                background-color: #f7fafc;
+                font-weight: bold;
+            }
+            .facture-table tfoot td {
+                font-weight: bold;
+                background-color: #f7fafc;
+            }
+            .facture-image {
+                width: 50px;
+                height: 50px;
+                object-fit: cover;
+                border-radius: 4px;
+            }
+            .signature {
+                margin-top: 50px;
+                text-align: right;
+            }
+            .footer {
+                margin-top: 50px;
+                text-align: center;
+                font-size: 12px;
+                color: #718096;
+            }
+        </style>
+        
+        <?php
+        // Récupérer les données de la commande
+        $orders = new orders();
+        $order_items = new order_items();
+        
+        $order_id = isset($_GET['invoice_id']) ? (int)$_GET['invoice_id'] : 0;
+        $order = $orders->getOrderById($order_id);
+        
+        if ($order):
+            $items = $order_items->getItemsByOrderId($order_id);
+            $total_ht = 0;
+            foreach ($items as $item) {
+                $total_ht += $item['price'] * $item['quantity'];
+            }
+            $tva_rate = 0.10;
+            $tva = $total_ht * $tva_rate;
+            $total_ttc = $total_ht + $tva;
+            
+            $company_info = [
+                'name' => 'FLORAISON',
+                'address' => 'Hadi Chaker Street, Sfax',
+                'city' => 'Sfax, Tunisia',
+                'phone' => '+216 12 345 678',
+                'email' => 'contact@floraison.com'
+            ];
+        ?>
+        
+        <div class="header">
+            <div class="company-info">
+                <h3><?= htmlspecialchars($company_info['name']) ?></h3>
+                <p><?= htmlspecialchars($company_info['address']) ?></p>
+                <p><?= htmlspecialchars($company_info['city']) ?></p>
+                <p>Tél: <?= htmlspecialchars($company_info['phone']) ?></p>
+                <p>Email: <?= htmlspecialchars($company_info['email']) ?></p>
+            </div>
+            
+            <div class="client-info">
+                <h3>Billed to</h3>
+                <p><?= htmlspecialchars($order['email']) ?></p>
             </div>
         </div>
 
-        <div class="address-section">
-            <div class="address-box">
-                <h3 class="address-title">CLIENT</h3>
-                <div>
-                    <p class="company-name">Client Entreprise</p>
-                    <p>123 Rue des Clients</p>
-                    <p>75001 Paris, France</p>
-                    <p><strong>Tél :</strong> +33 1 23 45 67 89</p>
-                    <p><strong>Email :</strong> contact@client.com</p>
-                </div>
-            </div>
-
-            <div class="address-box">
-                <h3 class="address-title">FLORAISON</h3>
-                <div>
-                    <p class="company-name">Floraison Natural Beauty</p>
-                    <p>456 Avenue des Fournisseurs</p>
-                    <p>69002 Lyon, France</p>
-                    <p><strong>Tél :</strong> +33 4 12 34 56 78</p>
-                    <p><strong>Email :</strong> facturation@floraison.com</p>
-                </div>
-            </div>
+        <h1>FACTURE N°<?= htmlspecialchars($order_id) ?></h1>
+        
+        <div class="invoice-info">
+            <p><strong>Invoice date:</strong> <?= date('d/m/Y H:i', strtotime($order['order_date'])) ?></p>
         </div>
-
-        <table>
+        
+        <table class="facture-table">
             <thead>
                 <tr>
-                    <th>Produit</th>
-                    <th class="text-center">Qté</th>
-                    <th class="text-right">Prix HT</th>
-                    <th class="text-right">Remise</th>
-                    <th class="text-right">Total HT</th>
+                    <th>Product</th>
+                    <th>Picture</th>
+                    <th>Unit price excluding VAT</th>
+                    <th>Quantity</th>
+                    <th>Total HT</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>
-                        Crème hydratante bio
-                    </td>
-                    <td class="text-center">2</td>
-                    <td class="text-right">24,90 €</td>
-                    <td class="text-right">-</td>
-                    <td class="text-right">49,80 €</td>
-                </tr>
-                <tr>
-                    <td>
-                        Pack découverte <span class="discount-badge">REMISE</span>
-                    </td>
-                    <td class="text-center">1</td>
-                    <td class="text-right">59,90 €</td>
-                    <td class="text-right">10%</td>
-                    <td class="text-right">53,91 €</td>
-                </tr>
+                <?php foreach ($items as $item): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($item['product_name']) ?></td>
+                        <td><img src="../images/<?= htmlspecialchars($item['product_image']) ?>" alt="<?= htmlspecialchars($item['product_name']) ?>" class="facture-image"></td>
+                        <td><?= number_format($item['price'], 2, ',', ' ') ?> TND</td>
+                        <td><?= htmlspecialchars($item['quantity']) ?></td>
+                        <td><?= number_format($item['price'] * $item['quantity'], 2, ',', ' ') ?> TND</td>
+                    </tr>
+                <?php endforeach; ?>
             </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" style="text-align:right;"><strong>Total HT:</strong></td>
+                    <td><strong><?= number_format($total_ht, 2, ',', ' ') ?> TND</strong></td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="text-align:right;"><strong>TVA (<?= ($tva_rate*100) ?>%):</strong></td>
+                    <td><strong><?= number_format($tva, 2, ',', ' ') ?> TND</strong></td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="text-align:right;"><strong>Total TTC:</strong></td>
+                    <td><strong><?= number_format($total_ttc, 2, ',', ' ') ?> TND</strong></td>
+                </tr>
+            </tfoot>
         </table>
-
-        <div class="totals">
-            <div class="total-line">
-                <span>Total HT</span>
-                <span>103,71 €</span>
-            </div>
-            <div class="total-line">
-                <span>TVA (20%)</span>
-                <span>20,74 €</span>
-            </div>
-            <div class="total-line grand-total">
-                <span>Total TTC</span>
-                <span>124,45 €</span>
-            </div>
+        
+        <div class="signature">
+            <p>Done at Sfax, on <?= date('d/m/Y', strtotime($order['order_date'])) ?></p>
+            <p>Signature</p>
         </div>
-
-        <div class="terms">
-            <p><strong>Conditions :</strong> Paiement à réception - TVA 20%</p>
-            <p>En cas de retard, pénalités conformes à l'article L. 441-6 du code de commerce.</p>
+        
+        <div class="footer">
+            <p>© <?= date('Y') ?> Floraison - All rights reserved</p>
         </div>
-    </div>
-
-
-      <style>
-        :root {
-            --primary: #9b59b6;
-            --primary-light: #e8d6f0;
-            --dark: #2c3e50;
-            --light: #f9f9f9;
-            --gray: #95a5a6;
-            --success: #2ecc71;
-            --border: #e0e0e0;
-        }
-
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            line-height: 1.6;
-            color: var(--dark);
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 30px auto;
-            padding: 30px;
-            background: white;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
-            border-radius: 8px;
-        }
-
-        /* En-tête de facture */
-        .invoice-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid var(--primary);
-        }
-
-        .invoice-title {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--primary);
-            margin: 0 0 5px 0;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .invoice-number {
-            font-size: 16px;
-            color: var(--text-light);
-            margin: 0;
-        }
-
-        .invoice-meta {
-            text-align: right;
-        }
-
-        .invoice-date {
-            margin: 5px 0;
-            color: var(--text);
-        }
-
-        .invoice-status {
-            display: inline-block;
-            padding: 5px 15px;
-            background-color: var(--success);
-            color: white;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-            margin-top: 10px;
-        }
-
-        /* Section adresse */
-        .address-section {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-        }
-
-        .address-box {
-            flex: 0 0 48%;
-            padding: 20px;
-            background-color: var(--light);
-            border-radius: 6px;
-            border-left: 4px solid var(--primary);
-        }
-
-        .address-title {
-            font-size: 16px;
-            color: var(--primary);
-            margin-top: 0;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .company-name {
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: var(--dark);
-        }
-
-        /* Tableau des produits */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 30px;
-        }
-
-        th {
-            background-color: var(--primary);
-            color: white;
-            padding: 12px 15px;
-            text-align: left;
-            font-weight: 500;
-            text-transform: uppercase;
-            font-size: 14px;
-            letter-spacing: 0.5px;
-        }
-
-        td {
-            padding: 12px 15px;
-            border-bottom: 1px solid var(--border);
-            vertical-align: top;
-        }
-
-        tr:last-child td {
-            border-bottom: 2px solid var(--primary);
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .text-right {
-            text-align: right;
-        }
-
-        .discount-badge {
-            display: inline-block;
-            background-color: var(--secondary);
-            color: white;
-            font-size: 12px;
-            padding: 2px 8px;
-            border-radius: 10px;
-            margin-left: 8px;
-            font-weight: 500;
-        }
-
-        /* Totaux */
-        .totals {
-            width: 300px;
-            margin-left: auto;
-            margin-bottom: 30px;
-        }
-
-        .total-line {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .grand-total {
-            font-weight: 600;
-            font-size: 18px;
-            color: var(--primary);
-            border-top: 2px solid var(--primary);
-            margin-top: 5px;
-            padding-top: 12px;
-        }
-
-        /* Conditions */
-        .terms {
-            padding: 20px;
-            background-color: var(--light);
-            border-radius: 6px;
-            font-size: 14px;
-            color: var(--text-light);
-        }
-
-        .terms strong {
-            color: var(--dark);
-        }
-
-        /* Effets au survol */
-        tr:hover td {
-            background-color: rgba(142, 68, 173, 0.05);
-        }
-    </style>
-    
-        </div>
+        
+        <?php else: ?>
+            <div class="text-center py-8 text-red-500">
+                <p>Invoice not found or invalid order ID</p>
+            </div>
+        <?php endif; ?>
     </div>
 </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+        <button onclick="printInvoice()" class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-pink-600 text-base font-medium text-white hover:bg-pink-700 sm:ml-3 sm:w-auto sm:text-sm">
+          Imprimer
+        </button>
+        <button onclick="closeInvoicePopup()" class="mt-3 inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
 <script>
-    function openpopupmodal() {
-        document.getElementById('popup-modal').style.display = 'block';
-    }
+function openInvoicePopup(orderId) {
+   document.getElementById('invoicePopup').classList.remove('hidden');
+   
+}
 
-    function closepopupmodal() {
-        document.getElementById('popup-modal').style.display = 'none';
-    }
+function closeInvoicePopup() {
+    document.getElementById('invoicePopup').classList.add('hidden');
+    document.getElementById('invoiceContent').innerHTML = '';
+}
+
+function printInvoice() {
+    let content = document.getElementById('invoiceContent').innerHTML;
+    let printWindow = window.open('', '', 'width=800,height=600');
+    printWindow.document.write('<html><head><title>Imprimer Facture</title>');
+    printWindow.document.write('<script src="https://cdn.tailwindcss.com"><\/script>');
+    printWindow.document.write('</head><body class="p-6 bg-white text-gray-800">');
+    printWindow.document.write(content);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+    printWindow.close();
+}
 </script>
-
-
-
-

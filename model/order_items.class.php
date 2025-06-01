@@ -15,6 +15,16 @@
 
             $pdo->exec($req) or print_r($pdo->errorInfo());
     }
-
+public function getItemsByOrderId($orderId) {
+     require_once('config.php');
+            $cnx = new connexion();
+            $pdo =$cnx ->CNXbase();
+        $check = " SELECT oi.*, p.name, p.image as product_image 
+        FROM order_items oi
+        JOIN products p ON oi.product_id = p.idProduct
+        WHERE oi.order_id = $orderId";
+  $res = $pdo->query($check);
+    return $res->fetchAll(PDO::FETCH_ASSOC);
+}
 }
 ?>

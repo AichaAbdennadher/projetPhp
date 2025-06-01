@@ -5,7 +5,7 @@
         public $email;
         public $total_amount;
 
-            function insertOrder(){
+        function insertOrder(){
             require_once('config.php');
             $cnx = new connexion();
             $pdo =$cnx ->CNXbase();
@@ -14,7 +14,7 @@
              // Récupérer l'id de la commande nouvellement insérée
         return $pdo->lastInsertId();
     }
-public function getTotalOrders() {
+public function getTotalOrders() {  //lil dashboard
     require_once('config.php');
     $cnx = new connexion();
     $pdo = $cnx->CNXbase();
@@ -22,48 +22,37 @@ public function getTotalOrders() {
     $total = $stmt->fetch(PDO::FETCH_ASSOC);//$total = ['total' => 25];
     return $total['total'];
 }
-public function getTotalOrdersClient() {
-    require_once('config.php');
-    $cnx = new connexion();
-    $pdo = $cnx->CNXbase();
-    $stmt = $pdo->query("SELECT COUNT(*) AS total FROM orders ");//Ce code retourne l’objet PDOStatement ($stmt) directement.Mais ce n’est pas le nombre total de produits. Il faut encore faire le fetch du résultat pour obtenir le chiffre.
-    $total = $stmt->fetch(PDO::FETCH_ASSOC);//$total = ['total' => 25];
-    return $total['total'];
-}
-public function getPaginatedOrders($limit, $offset) {
+
+public function getPaginatedOrders($limit, $offset) { //lil listOrders
         require_once('config.php');
         $cnx = new connexion();
         $pdo = $cnx->CNXbase();
-    
-        // Préparer la requête SQL avec des placeholders
         $sql = "SELECT o.id,o.total_amount,o.email, p.image AS product_image, oi.quantity, oi.price FROM orders o
         JOIN order_items oi ON oi.order_id = o.id
         JOIN products p ON p.id = oi.product_id
-        ORDER BY o.id DESC
         LIMIT :limit OFFSET :offset";
-
+//LIMIT :limit → combien de résultats tu veux récupérer.
+//OFFSET :offset → à partir de quelle position commencer.
         $stmt = $pdo->prepare($sql);
     
         // Lier les paramètres avec bindValue
-        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
-        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
     
-        // Exécuter la requête préparée
         $stmt->execute();
     
         // Retourner les résultats
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-public function getPaginatedOrdersClient($limit, $offset) {
+public function getPaginatedOrdersClient($limit, $offset) { //lil cutomers
     require_once('config.php');
     $cnx = new connexion();
     $pdo = $cnx->CNXbase();
 
     $sql = "
-        SELECT DISTINCT u.name, u.email, u.location, u.phone
+        SELECT DISTINCT u.email , u.name, u.location, u.phone
         FROM users u
         JOIN orders o ON u.email = o.email
-        ORDER BY o.id DESC
         LIMIT :limit OFFSET :offset
     ";
 
@@ -75,7 +64,7 @@ public function getPaginatedOrdersClient($limit, $offset) {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-    function nbreClientsAvecCommandes() {
+    function nbreClientsAvecCommandes() {  //lil daschboard
     require_once('config.php');
     $cnx = new connexion();
     $pdo = $cnx->CNXbase();
@@ -90,7 +79,7 @@ public function getPaginatedOrdersClient($limit, $offset) {
     return $count;
 }
 
-function getBestCustomers($limit = 10) {
+function getBestCustomers($limit = 6) {
        require_once('config.php');
     $cnx = new connexion();
     $pdo = $cnx->CNXbase();
@@ -111,7 +100,7 @@ function getBestCustomers($limit = 10) {
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-  function getOrderByNameUser($name) {
+  function getOrderByNameUser($name) {  //searchOrder
     require_once('config.php');
     $cnx = new connexion();
     $pdo = $cnx->CNXbase();
@@ -120,7 +109,6 @@ $sql = "
         FROM users u
         JOIN orders o ON u.email = o.email
         WHERE u.name LIKE :name
-        ORDER BY o.id DESC
     ";
 
     $stmt = $pdo->prepare($sql);
@@ -129,27 +117,18 @@ $sql = "
 
     return $stmt;
 }
+public function getOrderById($id) {
+    require_once('config.php');
+    $cnx = new connexion();
+    $pdo = $cnx->CNXbase();
 
-// function getOrderByTous($id) {
-//     require_once('config.php');
-//     $cnx = new connexion();
-//     $pdo = $cnx->CNXbase();
+    // Requête pour récupérer la commande selon son ID
+    $sql = "SELECT * FROM orders WHERE id = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':id' => $id]);
 
-//     $sql = "
-//         SELECT DISTINCT u.name, u.email, u.location, u.phone
-//         FROM users u
-//         JOIN orders o ON u.email = o.email
-//         WHERE u.name LIKE :name
-//         ORDER BY o.id DESC
-//     ";
-
-//     $stmt = $pdo->prepare($sql);
-//     $stmt->bindValue(':name', '%' . $id . '%'); // ✅ bon nom de paramètre
-//     $stmt->execute();
-
-//     return $stmt;
-// }
-
-
+    // Récupérer une seule ligne (la commande)
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
 }
 ?>

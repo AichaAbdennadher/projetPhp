@@ -20,15 +20,15 @@ function getCartTotal($items) {
 }
 
 if (isset($_POST['quantity']) && isset($_POST['product_id'])) {
-    $product_id = intval($_POST['product_id']);
-    $quantity = max(1, intval($_POST['quantity']));
+    $product_id = $_POST['product_id'];  ///
+    $quantity = $_POST['quantity'];   ////
 
     $prod->updateQuantity($prod->email, $product_id, $quantity);
 
     header("Location: panier.php");
 }
 if (isset($_GET['remove'])) {
-    $product_id = intval($_GET['remove']);
+    $product_id = $_GET['remove'];//
     $email = $_SESSION['user'];
     
     $prod->removeItemFromCart($email, $product_id);
