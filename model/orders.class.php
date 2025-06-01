@@ -47,5 +47,60 @@ public function getPaginatedOrders($limit, $offset) {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    function nbreClientsAvecCommandes() {
+    require_once('config.php');
+    $cnx = new connexion();
+    $pdo = $cnx->CNXbase();
+
+    $req = "SELECT COUNT(DISTINCT email) FROM orders";
+
+    $res = $pdo->query($req) or print_r($pdo->errorInfo());
+    
+    // Récupère le résultat (valeur numérique)
+    $count = $res->fetchColumn();
+
+    return $count;
+}
+function getClientsAvecCommandes() {
+    require_once('config.php');
+    $cnx = new connexion();
+    $pdo = $cnx->CNXbase();
+
+    $req = "
+        SELECT u.id, u.name, u.email
+        FROM users u
+        WHERE u.id IN (
+            SELECT DISTINCT user_id FROM orders
+        )
+    ";
+
+    $res = $pdo->query($req) or print_r($pdo->errorInfo());
+    $clients = $res->fetchAll(PDO::FETCH_ASSOC);
+
+    return $clients;
+}
+
+function getBestCustomers($limit = 10) {
+       require_once('config.php');
+    $cnx = new connexion();
+    $pdo = $cnx->CNXbase();
+    $sql = "
+        SELECT 
+            email,
+            COUNT(*) AS total_orders,
+            SUM(total_amount) AS total_spent
+        FROM orders
+        GROUP BY email
+        ORDER BY total_spent DESC
+        LIMIT :limit
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }
 ?>

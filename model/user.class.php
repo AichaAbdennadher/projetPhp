@@ -53,13 +53,5 @@ function rechercherRole(){
     $res = $pdo->query($req) or print_r($pdo->errorInfo());
     return $res;
 }
-function nbreUsers(){
-    require_once('config.php');
-    $cnx = new connexion();
-    $pdo =$cnx ->CNXbase();
-    $req= "SELECT count(*) from users" ;
-    $res=$pdo->query($req) or print_r($pdo->errorInfo());
-    return $res;
-} //nbre produit
 }
 ?>
