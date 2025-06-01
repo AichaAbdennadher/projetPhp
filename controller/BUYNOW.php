@@ -20,6 +20,7 @@ $price = $product['price'];
 $order = new orders();
 $order->email = $email;
 $order->total_amount = $price * $quantity;
+
 $order_id = $order->insertOrder(); // cette méthode retourne le lastInsertId
 
 // 2. Ajouter produit à la commande

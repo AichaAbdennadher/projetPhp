@@ -17,6 +17,11 @@ $offset = ($page - 1) * $items_per_page;
     $total_items = $prod->getTotalOrders();
     $total_pages = ceil($total_items / $items_per_page);
 // }
+if (isset($_POST['search'])) {
+    $searchTerm = $_POST['search'];
+    $resu = $prod->getOrderByNameUser($searchTerm);  // Recherche par nom
+}
+
 ?>
 <div class="p-4 sm:ml-64">
    <div class="p-4 ">
@@ -25,7 +30,7 @@ $offset = ($page - 1) * $items_per_page;
         <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
             <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
             <div class="w-full md:w-1/2">
-    <form class="flex items-center" method="post" action="../controller/searchCustomer.php">
+    <form class="flex items-center" method="post" action="Customers.php">
     <div class="relative w-full">
     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
