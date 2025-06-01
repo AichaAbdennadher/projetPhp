@@ -18,5 +18,18 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
         echo json_encode(['error' => 'Erreur requête produit']);
     }
 } else {
-    echo json_encode(['error' => 'Paramètre id manquant']);
+    if (!empty($_POST['id'])){
+$prod=new product();
+$prod->name=$_POST['name'];
+$prod->description=$_POST['description'];
+$prod->price=$_POST['price'];
+$prod->stock =$_POST['stock'];
+$prod->image=$_FILES['image']['name'];//nom de image aicha.jpg 
+$fichierTemp=$_FILES['image']['tmp_name'];// PHP le place d'abord dans un dossier temporaire 
+move_uploaded_file($fichierTemp, '../images/'.$prod->image);//l’image sera bien enregistrée dans projetphp/image/.
+$prod->category_id =$_POST['category_id'];
+$prod->modifier_produit($_POST['id']);
+header(header: 'location:../view/listProduit.php'); 
+    }else{
+    echo json_encode(['error' => 'Paramètre id manquant']);}
 }

@@ -399,7 +399,7 @@ function closeModalUpdate() {
             <!-- Modal body -->
             <form class="p-4 md:p-5" method='post' action='../controller/modification.php' enctype="multipart/form-data">
             <div class="grid gap-4 mb-4 grid-cols-2">
-            <input type="hidden" id="edit-product-id" />
+            <input type="hidden" name="id" id="edit-product-id" />
 
         <div class="col-span-2">
             <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
@@ -435,13 +435,13 @@ echo '</select>';
         </div>
         <div class="col-span-2 sm:col-span-1">
             <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
-            <input type="text" id="edit-price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 
+            <input type="text" name="price" id="edit-price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 
   dark:bg-pink-600 dark:border-pink-500 dark:placeholder-pink-400 dark:text-white 
   focus:ring-pink-500 focus:border-pink-500 focus:p-2 focus:outline-none transition duration-200" placeholder="Product price" required="">
         </div>
         <div class="col-span-2 sm:col-span-1">
             <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Stock quantity</label>
-            <input type="number"name = "image" id="edit-stock"  min="1"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 
+            <input type="number" name="stock" id="edit-stock"  min="1"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 
   dark:bg-pink-600 dark:border-pink-500 dark:placeholder-pink-400 dark:text-white 
   focus:ring-pink-500 focus:border-pink-500 focus:p-2 focus:outline-none transition duration-200" placeholder="Stock Quantity" required="">
         </div>
@@ -474,7 +474,7 @@ echo '</select>';
     <!-- Form submission -->
     <div class="flex items-center justify-end p-4 mt-4 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
         <button data-modal-hide="large-modal" type="button" onclick="closeModalUpdate()" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-gray-300 rounded-lg border border-gray-200 hover:bg-gray-200 hover:text-pink-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Cancel</button>
-        <button data-modal-hide="large-modal" onclick="Update(this)" data-id="ID_PRODUIT" type="submit" class="text-white bg-pink-600 hover:bg-pink-700 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800">Save</button>
+        <button data-modal-hide="large-modal"  data-id="ID_PRODUIT" type="submit" class="text-white bg-pink-600 hover:bg-pink-700 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800">Save</button>
     </div>
 </form>
 
@@ -484,11 +484,10 @@ echo '</select>';
 <script>
 function Update(button) {
   let productId = button.getAttribute("data-id");
-
   fetch(`../controller/modification.php?id=${productId}`, {
     method: "GET",
   })
-    .then((response) => response.text())
+    .then((response) => response.text() )
     .then((data) => {
       console.log("Produit modifié:", data);
 

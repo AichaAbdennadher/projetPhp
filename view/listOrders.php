@@ -10,7 +10,7 @@ $prod = new orders();
 
 // Pagination
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$items_per_page = 5;
+$items_per_page = 10;
 $offset = ($page - 1) * $items_per_page;
 
 // Gestion de la recherche (optionnel, ici juste pour l'exemple, tu peux adapter)
@@ -49,72 +49,58 @@ $resu = null;
 
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                     <tr>
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
             <th scope="col" class="px-4 py-3">ID</th>
             <th scope="col" class="px-4 py-3">Order Products</th>
             <th scope="col" class="px-4 py-3">Customer</th>
             <th scope="col" class="px-4 py-3">Total</th>
             <th scope="col" class="px-4 py-3">Invoice</th>
         </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        if ($resu) {
-                            // Résultats de la recherche
-                            foreach ($resu as $row) {
-                                echo '<tr class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">';
-                                echo '<td class="px-4 py-3">' . htmlspecialchars($row['id']) . '</td>';
-                                   // Regrouper les produits par commande
-            $groupedOrders = [];
-            foreach ($data as $row) {
-                $orderId = $row['id'];
-                if (!isset($groupedOrders[$orderId])) {
-                    $groupedOrders[$orderId] = [];
-                }
-                $groupedOrders[$orderId][] = $row['product_image'];
+    </thead>
+    <tbody>
+        <?php
+        // Regrouper les produits par commande
+        $groupedOrders = [];
+        foreach ($data as $row) {
+            $orderId = $row['id'];
+            if (!isset($groupedOrders[$orderId])) {
+                $groupedOrders[$orderId] = [
+                    'images' => [],
+                    'email' => $row['email'],
+                    'total' => $row['total_amount'],
+                    'invoice_number' => $row['invoice_number'] ?? '',
+                ];
             }
-foreach ($groupedOrders as $orderId => $images) {
-    echo '<tr>';
-    echo '<td class="px-5 py-4">' . htmlspecialchars($orderId) . '</td>';
-    echo '<td class="px-5 py-4">';
-    foreach ($images as $image) {
-        echo '<img src="../images/' . htmlspecialchars($image) . '" alt="image" class="w-12 h-11 rounded inline-block mr-2">';
-    }
-    echo '</td>';
-    echo '</tr>';
-}                                echo '<td class="px-4 py-3">' . htmlspecialchars($row['email']) . '</td>';
-                                echo '<td class="px-4 py-2 font-normal text-gray-900 whitespace-nowrap dark:text-white">' . htmlspecialchars($row['total']) . ' TND</td>';
-                                echo '<td class="px-4 py-3">' . htmlspecialchars($row['invoice_number']) . '</td>';
-                                echo '<td class="px-4 py-3">';
-                                echo '<a href="javascript:void(0);" onClick="openModalUpdate(' . (int)$row['id'] . ')">
-                                    <span class="relative px-1 py-0.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md">
-                                        <box-icon name="edit" color="gray" size="s"></box-icon>
-                                    </span>
-                                    </a> ';
+            $groupedOrders[$orderId]['images'][] = $row['product_image'];
+        }
 
-                                echo '</td>';
-                                echo '</tr>';
-                            }
-                        } else {
-                            // Affichage pagination
-                            foreach ($data as $row) {
-                                echo '<tr class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700" id="order-' . (int)$row["id"] . '">';
-                                echo '<td class="px-4 py-3">' . (int)$row["id"] . '</td>';
-                                echo '<td class="px-4 py-4 w-40 h-35">
-                                    <div class="flex items-center justify-center h-full bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
-                                        <img src="../images/' . htmlspecialchars($row["product_image"]) . '" alt="Product image" class="min-w-full min-h-full object-scale-up transform scale-110 rounded-lg border border-gray-200 dark:border-gray-600 shadow-sm">
-                                    </div>
-                                    </td>';
-                                echo '<td class="px-4 py-3">' . htmlspecialchars($row["email"]) . '</td>';
-                                echo '<td class="px-4 py-3 font-normal text-gray-900 whitespace-nowrap dark:text-white">' . htmlspecialchars($row["total_amount"]) . ' TND</td>';
- echo '<td class="px-4 py-3"> <box-icon name="file" type="solid" color="#f41c74"></box-icon> </td>';            
-                                echo '</tr>';
-                            }
-                        }
-                        ?>
-                    </tbody>       
-                </table>
+        // Affichage des lignes du tableau
+        foreach ($groupedOrders as $orderId => $info) {
+            echo '<tr class="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">';
+            echo '<td class="px-4 py-3 font-semibold text-gray-800 dark:text-white">' . htmlspecialchars($orderId) . '</td>';
+
+            // Toutes les images dans UNE seule cellule
+            echo '<td class="px-4 py-3">';
+            foreach ($info['images'] as $img) {
+                echo '<img src="../images/' . htmlspecialchars($img) . '" alt="Produit" class="w-12 h-12 inline-block mr-2 rounded shadow">';
+            }
+            echo '</td>';
+
+            echo '<td class="px-4 py-3">' . htmlspecialchars($info['email']) . '</td>';
+            echo '<td class="px-4 py-3">' . htmlspecialchars($info['total']) . ' TND</td>';
+echo '<td class="px-4 py-3">
+    <a href="#" onclick="openInvoicePopup(' . $orderId . ')" title="Afficher la facture">
+        <box-icon name="file" type="solid" color="#f41c74"></box-icon>
+    </a>
+</td>';
+
+            echo '</tr>';
+        }
+        ?>
+    </tbody>
+</table>
+
             </div>
 
             <?php if (!$resu): ?>
@@ -167,5 +153,119 @@ foreach ($groupedOrders as $orderId => $images) {
       </div>
    </div>
 </div>
+<div id="invoiceModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1000; overflow:auto;">
+    <div style="background:white; margin:5% auto; padding:20px; width:95%; max-width:1000px; border-radius:10px; position:relative;">
+        <button onclick="closeInvoiceModal()" style="position:absolute; top:10px; right:15px; background:red; color:white; border:none; border-radius:50%; width:30px; height:30px;">&times;</button>
+
+        <!-- 🌸 Ton contenu de facture ici (copié tel quel) -->
+        <div class="container">
+        <body>
+    <div class="container">
+        <div class="invoice-header">
+            <div>
+                <h1 class="invoice-title">FACTURE</h1>
+                <p class="invoice-number">N° FL-2024-1407</p>
+            </div>
+            <div class="invoice-meta">
+                <p class="invoice-date"><strong>Date :</strong> 28/01/2024</p>
+                <p class="invoice-date"><strong>Échéance :</strong> 11/02/2024</p>
+                <span class="invoice-status">PAYÉ</span>
+            </div>
+        </div>
+
+        <div class="address-section">
+            <div class="address-box">
+                <h3 class="address-title">CLIENT</h3>
+                <div>
+                    <p class="company-name">Client Entreprise</p>
+                    <p>123 Rue des Clients</p>
+                    <p>75001 Paris, France</p>
+                    <p><strong>Tél :</strong> +33 1 23 45 67 89</p>
+                    <p><strong>Email :</strong> contact@client.com</p>
+                </div>
+            </div>
+
+            <div class="address-box">
+                <h3 class="address-title">FLORAISON</h3>
+                <div>
+                    <p class="company-name">Floraison Natural Beauty</p>
+                    <p>456 Avenue des Fournisseurs</p>
+                    <p>69002 Lyon, France</p>
+                    <p><strong>Tél :</strong> +33 4 12 34 56 78</p>
+                    <p><strong>Email :</strong> facturation@floraison.com</p>
+                </div>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th class="text-center">Qté</th>
+                    <th class="text-right">Prix HT</th>
+                    <th class="text-right">Remise</th>
+                    <th class="text-right">Total HT</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        Crème hydratante bio
+                    </td>
+                    <td class="text-center">2</td>
+                    <td class="text-right">24,90 €</td>
+                    <td class="text-right">-</td>
+                    <td class="text-right">49,80 €</td>
+                </tr>
+                <tr>
+                    <td>
+                        Pack découverte <span class="discount-badge">REMISE</span>
+                    </td>
+                    <td class="text-center">1</td>
+                    <td class="text-right">59,90 €</td>
+                    <td class="text-right">10%</td>
+                    <td class="text-right">53,91 €</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="totals">
+            <div class="total-line">
+                <span>Total HT</span>
+                <span>103,71 €</span>
+            </div>
+            <div class="total-line">
+                <span>TVA (20%)</span>
+                <span>20,74 €</span>
+            </div>
+            <div class="total-line grand-total">
+                <span>Total TTC</span>
+                <span>124,45 €</span>
+            </div>
+        </div>
+
+        <div class="terms">
+            <p><strong>Conditions :</strong> Paiement à réception - TVA 20%</p>
+            <p>En cas de retard, pénalités conformes à l'article L. 441-6 du code de commerce.</p>
+        </div>
+    </div>
+
+
+    <?php include '../view/footer.php'; ?>
+</body>
+        </div>
+    </div>
+</div>
+<script>
+    function openInvoiceModal() {
+        document.getElementById('invoiceModal').style.display = 'block';
+    }
+
+    function closeInvoiceModal() {
+        document.getElementById('invoiceModal').style.display = 'none';
+    }
+</script>
+
+
 
 
