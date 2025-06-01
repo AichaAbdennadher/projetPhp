@@ -14,9 +14,10 @@
             // Vérifier si le produit existe déjà dans le panier du client
             $check = "SELECT quantity FROM cart WHERE email = '$this->email' AND idProduct = $this->idProduct";
             $res = $pdo->query($check);
+            //$res : c’est un objet PDOStatement, obtenu généralement après une requête SQL 
             if ($res && $res->rowCount() > 0) {
                 // Produit déjà dans le panier → incrémenter la quantité
-                $row = $res->fetch(PDO::FETCH_ASSOC);
+                $row = $res->fetch(PDO::FETCH_ASSOC);//récupère une seule ligne de résultats sous forme de tableau associatif.
                 $newQty = $row['quantity'] + 1;
                 $update = "UPDATE cart SET quantity = $newQty WHERE email = '$this->email' AND idProduct = $this->idProduct";
                 $pdo->exec($update) or print_r($pdo->errorInfo());
@@ -26,24 +27,6 @@
                 $pdo->exec($insert) or print_r($pdo->errorInfo());
             }
         }
-function rechercherCart(){ //lzmtni lil ajout
-    require_once('config.php');
-    $cnx = new connexion();
-    $pdo =$cnx ->CNXbase();
-    $req= "SELECT count(*) from cart where id= $this->id" ;
-    $res=$pdo->query($req) or print_r($pdo->errorInfo());
-    return $res;
-}
-
-function listCart()
-{
-require_once('config.php');
-$cnx=new connexion();
-$pdo=$cnx->CNXbase();
-$req="SELECT * FROM cart";
-$res=$pdo->query($req) or print_r($pdo->errorInfo());
-return $res;
-}
 function listCartClient($email)
 {
     require_once('config.php');
@@ -53,6 +36,7 @@ function listCartClient($email)
     $res = $pdo->query($req) or print_r($pdo->errorInfo());
     return $res;
 }
+//lorsque il change quantite d 'un produit dans le panier
 public function updateQuantity($email, $product_id, $quantity) {
     require_once('config.php');
     $cnx = new connexion();
@@ -74,14 +58,5 @@ function clearCartByEmail($email) {
         $req = "DELETE FROM cart WHERE email = '$email'";
         $pdo->exec($req) or print_r($pdo->errorInfo());
     }
-// function ajouterDepuisFavoris($email, $idProduct) {
-//     $this->email = $email;
-//     $this->idProduct = $idProduct;
-//     $this->insertCart();
-
-//     // Et suppression depuis favoris
-//     $fav = new Favorites();
-//     $fav->supprimerFavorite($idProduct);
-// }
 }
 ?>

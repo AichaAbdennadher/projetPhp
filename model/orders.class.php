@@ -130,6 +130,26 @@ $sql = "
     return $stmt;
 }
 
+// function getOrderByTous($id) {
+//     require_once('config.php');
+//     $cnx = new connexion();
+//     $pdo = $cnx->CNXbase();
+
+//     $sql = "
+//         SELECT DISTINCT u.name, u.email, u.location, u.phone
+//         FROM users u
+//         JOIN orders o ON u.email = o.email
+//         WHERE u.name LIKE :name
+//         ORDER BY o.id DESC
+//     ";
+
+//     $stmt = $pdo->prepare($sql);
+//     $stmt->bindValue(':name', '%' . $id . '%'); // ✅ bon nom de paramètre
+//     $stmt->execute();
+
+//     return $stmt;
+// }
+
 
 }
 ?>

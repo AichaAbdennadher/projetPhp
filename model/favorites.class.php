@@ -11,10 +11,7 @@
             $cnx = new connexion();
             $pdo =$cnx ->CNXbase();
             $req= "INSERT into favorites (email,idProduct) values ('$this->email',$this->idProduct)";
-            echo "Email : " . $this->email . "<br>";
-echo "Produit : " . $this->idProduct . "<br>";
             $pdo->exec($req) or print_r($pdo->errorInfo());
-
     }
     function rechercherFavoris(){ 
         require_once('config.php');
@@ -25,13 +22,13 @@ echo "Produit : " . $this->idProduct . "<br>";
         return $res;
     }
 
-    function listFavorites()
+    function listFavoritesClient($email)
     {
     require_once('config.php');
     $cnx=new connexion();
     $pdo=$cnx->CNXbase();
     
-    $req="SELECT * FROM favorites";
+    $req="SELECT * FROM favorites WHERE email = '$email'";
     
     $res=$pdo->query($req) or print_r($pdo->errorInfo());
     return $res;

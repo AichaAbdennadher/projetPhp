@@ -25,7 +25,7 @@ $resultCat=$cate->listCategories();
 ?>
 <body>
     <div class="banner-container">
-        <img src="../images/bio-cosmetique-620x350.jpg" alt="Soins visage naturels" class="banner-image">
+        <img src="../images/floraison_natural_beauty_cover.jpg" alt="Soins visage naturels" class="banner-image">
         <div class="banner-content">
             <p class="banner-subtitle">Routine complète</p>
             <h2 class="banner-title">Soins visage naturels</h2>

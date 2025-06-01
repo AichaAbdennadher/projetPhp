@@ -46,13 +46,13 @@ body {
 }
 
 .hero-text h1 {
-  font-size: 35px;
+  font-size: 38px;
 }
 
 .hero-text p {
-  font-size: 18px;
+  font-size: 80px;
   margin: 10px 0;
-  color: #333;
+  color: #4b4a4a;
 }
 
 .btn {

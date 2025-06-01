@@ -2,10 +2,10 @@
 require_once('../controller/session.php');
 require_once('../model/favorites.class.php');
 require_once('../model/produit.class.php');
-
+session_start();
 $F = new Favorites();
 $prod = new product();
-
+$F->email = $_SESSION['user']; 
 // Ajoutez cette partie pour gérer la suppression
 if(isset($_GET['supprimer'])) {
     $idProduct = (int)$_GET['supprimer']; // Sécurisation avec (int)
@@ -13,8 +13,7 @@ if(isset($_GET['supprimer'])) {
     header('Location: favoris.php'); // Recharge la page sans le produit supprimé
     exit();
 }
-//a
-$res = $F->listFavorites();
+$res = $F->listFavoritesClient($F->email);
 $favorites = [];
 
 foreach ($res as $favori) {

@@ -13,12 +13,8 @@ $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $items_per_page = 10;
 $offset = ($page - 1) * $items_per_page;
 
-// Gestion de la recherche (optionnel, ici juste pour l'exemple, tu peux adapter)
 $resu = null;
-// if (isset($_POST['search']) && !empty(trim($_POST['search']))) {
-//     $searchTerm = trim($_POST['search']);
-//     $resu = $prod->searchOrders($searchTerm);
-// } else {
+
     $data = $prod->getPaginatedOrders($items_per_page, $offset);
     
     $total_items = $prod->getTotalOrders();
@@ -32,7 +28,7 @@ $resu = null;
         <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
             <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                 <div class="w-full md:w-1/2">
-                    <form class="flex items-center" method="post" action="">
+                    <!-- <form class="flex items-center" method="post" action="../controller/searchOrders.php">
                         <div class="relative w-full">
                             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                 <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -43,7 +39,7 @@ $resu = null;
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-1 focus:ring-pink-500 focus:border-pink-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-rose-500 dark:focus:border-rose-500"
                                 placeholder="Search product" >
                         </div>
-                    </form>
+                    </form> -->
                 </div>
             </div>
 
@@ -58,8 +54,10 @@ $resu = null;
             <th scope="col" class="px-4 py-3">Invoice</th>
         </tr>
     </thead>
-    <tbody>
-        <?php
+        <tbody>
+            <?php     
+        // Afficher les produits filtrés si la recherche est effectuée
+       
         // Regrouper les produits par commande
         $groupedOrders = [];
         foreach ($data as $row) {
@@ -90,14 +88,15 @@ $resu = null;
             echo '<td class="px-4 py-3">' . htmlspecialchars($info['email']) . '</td>';
             echo '<td class="px-4 py-3">' . htmlspecialchars($info['total']) . ' TND</td>';
 echo '<td class="px-4 py-3">
-    <a href="#" onclick="openInvoicePopup(' . $orderId . ')" title="Afficher la facture">
+    <a href="#" onclick="openpopupmodal()" title="Afficher la facture">
         <box-icon name="file" type="solid" color="#f41c74"></box-icon>
     </a>
 </td>';
 
             echo '</tr>';
-        }
-        ?>
+          }
+            
+                ?>
     </tbody>
 </table>
 
@@ -153,14 +152,17 @@ echo '<td class="px-4 py-3">
       </div>
    </div>
 </div>
-<div id="invoiceModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1000; overflow:auto;">
-    <div style="background:white; margin:5% auto; padding:20px; width:95%; max-width:1000px; border-radius:10px; position:relative;">
-        <button onclick="closeInvoiceModal()" style="position:absolute; top:10px; right:15px; background:red; color:white; border:none; border-radius:50%; width:30px; height:30px;">&times;</button>
 
-        <!-- 🌸 Ton contenu de facture ici (copié tel quel) -->
-        <div class="container">
-        <body>
-    <div class="container">
+<div id="popup-modal" tabindex="-1"  class="hidden fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50">
+<div class="relative p-6 w-full max-w-4xl max-h-[90vh] overflow-auto">
+
+        <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+            <button type="button"  onclick="closepopupmodal() " class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="popup-modal">
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+            </button>
+            <div class="container">
         <div class="invoice-header">
             <div>
                 <h1 class="invoice-title">FACTURE</h1>
@@ -251,18 +253,209 @@ echo '<td class="px-4 py-3">
     </div>
 
 
-    <?php include '../view/footer.php'; ?>
-</body>
+      <style>
+        :root {
+            --primary: #9b59b6;
+            --primary-light: #e8d6f0;
+            --dark: #2c3e50;
+            --light: #f9f9f9;
+            --gray: #95a5a6;
+            --success: #2ecc71;
+            --border: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 30px;
+            background: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+        }
+
+        /* En-tête de facture */
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .invoice-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0 0 5px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .invoice-number {
+            font-size: 16px;
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        .invoice-meta {
+            text-align: right;
+        }
+
+        .invoice-date {
+            margin: 5px 0;
+            color: var(--text);
+        }
+
+        .invoice-status {
+            display: inline-block;
+            padding: 5px 15px;
+            background-color: var(--success);
+            color: white;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        /* Section adresse */
+        .address-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .address-box {
+            flex: 0 0 48%;
+            padding: 20px;
+            background-color: var(--light);
+            border-radius: 6px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .address-title {
+            font-size: 16px;
+            color: var(--primary);
+            margin-top: 0;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .company-name {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        /* Tableau des produits */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        tr:last-child td {
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .discount-badge {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: white;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 8px;
+            font-weight: 500;
+        }
+
+        /* Totaux */
+        .totals {
+            width: 300px;
+            margin-left: auto;
+            margin-bottom: 30px;
+        }
+
+        .total-line {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .grand-total {
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--primary);
+            border-top: 2px solid var(--primary);
+            margin-top: 5px;
+            padding-top: 12px;
+        }
+
+        /* Conditions */
+        .terms {
+            padding: 20px;
+            background-color: var(--light);
+            border-radius: 6px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .terms strong {
+            color: var(--dark);
+        }
+
+        /* Effets au survol */
+        tr:hover td {
+            background-color: rgba(142, 68, 173, 0.05);
+        }
+    </style>
+    
         </div>
     </div>
 </div>
 <script>
-    function openInvoiceModal() {
-        document.getElementById('invoiceModal').style.display = 'block';
+    function openpopupmodal() {
+        document.getElementById('popup-modal').style.display = 'block';
     }
 
-    function closeInvoiceModal() {
-        document.getElementById('invoiceModal').style.display = 'none';
+    function closepopupmodal() {
+        document.getElementById('popup-modal').style.display = 'none';
     }
 </script>
 
