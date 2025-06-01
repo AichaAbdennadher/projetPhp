@@ -22,6 +22,14 @@ public function getTotalOrders() {
     $total = $stmt->fetch(PDO::FETCH_ASSOC);//$total = ['total' => 25];
     return $total['total'];
 }
+public function getTotalOrdersClient() {
+    require_once('config.php');
+    $cnx = new connexion();
+    $pdo = $cnx->CNXbase();
+    $stmt = $pdo->query("SELECT COUNT(*) AS total FROM orders ");//Ce code retourne l’objet PDOStatement ($stmt) directement.Mais ce n’est pas le nombre total de produits. Il faut encore faire le fetch du résultat pour obtenir le chiffre.
+    $total = $stmt->fetch(PDO::FETCH_ASSOC);//$total = ['total' => 25];
+    return $total['total'];
+}
 public function getPaginatedOrders($limit, $offset) {
         require_once('config.php');
         $cnx = new connexion();
@@ -46,6 +54,26 @@ public function getPaginatedOrders($limit, $offset) {
         // Retourner les résultats
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+public function getPaginatedOrdersClient($limit, $offset) {
+    require_once('config.php');
+    $cnx = new connexion();
+    $pdo = $cnx->CNXbase();
+
+    $sql = "
+        SELECT DISTINCT u.name, u.email, u.location, u.phone
+        FROM users u
+        JOIN orders o ON u.email = o.email
+        ORDER BY o.id DESC
+        LIMIT :limit OFFSET :offset
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
     function nbreClientsAvecCommandes() {
     require_once('config.php');
@@ -60,24 +88,6 @@ public function getPaginatedOrders($limit, $offset) {
     $count = $res->fetchColumn();
 
     return $count;
-}
-function getClientsAvecCommandes() {
-    require_once('config.php');
-    $cnx = new connexion();
-    $pdo = $cnx->CNXbase();
-
-    $req = "
-        SELECT u.id, u.name, u.email
-        FROM users u
-        WHERE u.id IN (
-            SELECT DISTINCT user_id FROM orders
-        )
-    ";
-
-    $res = $pdo->query($req) or print_r($pdo->errorInfo());
-    $clients = $res->fetchAll(PDO::FETCH_ASSOC);
-
-    return $clients;
 }
 
 function getBestCustomers($limit = 10) {
@@ -101,6 +111,7 @@ function getBestCustomers($limit = 10) {
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
 
 }
 ?>

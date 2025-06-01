@@ -99,7 +99,7 @@ $total_items = $prod->getTotalProducts();
   </div>
 </section>
       <div class="mt-4 bg-white p-3 rounded shadow-sm">
-        <h5><i class="bi bi-people-fill me-2"></i>Recent Users</h5>
+        <h5><i class="bi bi-people-fill me-2"></i>Best sellers</h5>
         <table class="table table-hover mt-3">
           <thead>
             <tr>
