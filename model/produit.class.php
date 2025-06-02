@@ -98,6 +98,7 @@
     $req="UPDATE products SET name='$this->name',description='$this->description',price=$this->price,stock=$this->stock,image='$this->image',category_id =$this->category_id  WHERE id=$id";
     $pdo->exec($req) or print_r($pdo->errorInfo());
     }
+    
 function supprimerProduit($id){
     require_once('config.php');
     $cnx = new connexion();

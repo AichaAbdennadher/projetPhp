@@ -455,7 +455,7 @@ echo '</select>';
         <div class="col-span-2">
         <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Image</label>
 
-        <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-50 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+        <label for="dropzone-file-2" class="flex flex-col items-center justify-center w-full h-50 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
     <div class="flex flex-col items-center justify-center pt-2 pb-2">
         <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
@@ -466,13 +466,13 @@ echo '</select>';
 <!-- Zone pour afficher le nom du fichier sélectionné -->
 <p id="image-name" class="mt-2 text-sm text-gray-700 dark:text-gray-300"></p>
     </div>
-    <input  type="file" name="image" id="image-name" class="hidden" />
+    <input  type="file" name="image" id="dropzone-file-2" class="hidden" />
 </label>
 
 <script>
-    document.getElementById('preview-image').addEventListener('change', function(event) {
+    document.getElementById('dropzone-file-2').addEventListener('change', function(event) {
         const fileName = event.target.files[0] ? event.target.files[0].name : "No file selected";
-        document.getElementById('file-name').textContent = fileName;
+        document.getElementById('image-name').textContent = fileName;
     });
 </script>
         </div>

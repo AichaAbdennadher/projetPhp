@@ -20,13 +20,19 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 } else {
     if (!empty($_POST['id'])){
 $prod=new product();
+$resM = $prod->getProduit($_POST['id']);
+$data = $resM->fetch(PDO::FETCH_ASSOC);
 $prod->name=$_POST['name'];
 $prod->description=$_POST['description'];
 $prod->price=$_POST['price'];
 $prod->stock =$_POST['stock'];
+if($_FILES['image']['name']!=""){
 $prod->image=$_FILES['image']['name'];//nom de image aicha.jpg 
 $fichierTemp=$_FILES['image']['tmp_name'];// PHP le place d'abord dans un dossier temporaire 
 move_uploaded_file($fichierTemp, '../images/'.$prod->image);//l’image sera bien enregistrée dans projetphp/image/.
+}else{
+   $prod->image=$data['image'];//nom de image aicha.jpg  
+}
 $prod->category_id =$_POST['category_id'];
 $prod->modifier_produit($_POST['id']);
 header(header: 'location:../view/listProduit.php'); 
